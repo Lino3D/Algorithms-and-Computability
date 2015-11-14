@@ -27,7 +27,7 @@ namespace AC_Project
 
         private void LoadAutomata_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show("Hello");
         }
     }
 }

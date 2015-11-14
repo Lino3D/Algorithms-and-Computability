@@ -17,3 +17,6 @@ C:\Users\Lino\Documents\Visual Studio 2013\Projects\AC Project\AC Project\bin\De
 C:\Users\Lino\Documents\Visual Studio 2013\Projects\AC Project\AC Project\bin\Debug\System.Windows.Interactivity.dll
 C:\Users\Lino\Documents\Visual Studio 2013\Projects\AC Project\AC Project\bin\Debug\MahApps.Metro.xml
 C:\Users\Lino\Documents\Visual Studio 2013\Projects\AC Project\AC Project\obj\Debug\App.baml
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\bin\Debug\AC Project.exe.config
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project.exe
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project.pdb
