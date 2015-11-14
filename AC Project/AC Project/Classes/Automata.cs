@@ -49,7 +49,7 @@ namespace AC_Project.Classes
         {
             return TransitionTables.ElementAt(i);
         }
-        public Automata GenerateParticle(int s, int[] alphabet)
+        public static Automata GenerateParticle(int s, int[] alphabet)
         {
             TransitionTable tmp;
             List<TransitionTable> ListOfTransitionTables = new List<TransitionTable>();
