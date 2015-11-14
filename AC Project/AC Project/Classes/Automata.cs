@@ -49,7 +49,7 @@ namespace AC_Project.Classes
         {
             int Count = 0;
             int[] Word;
-            int[][] Table;
+            double[][] Table;
             int NextState = 0;
             int CurrentState = 0;
             for (int i = 0; i < words.GetWordsNum(); i++ )
