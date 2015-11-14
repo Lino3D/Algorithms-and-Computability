@@ -41,16 +41,28 @@ namespace AC_Project.Classes
             }
             this.Position = _position;
         }
-
+        
 
         
         //The function takes the alphabet letter expressed by
         //an integer, to get the proper transition table
-        TransitionTable GetTransitionTable( int i )
+       public TransitionTable GetTransitionTable( int i )
         {
             return TransitionTables.ElementAt(i);
         }
-        public Automata GenerateParticle(int s, int[] alphabet)
+       public int getStates()
+        { 
+            return States;
+        }
+       public int getAlphabetSize()
+       {
+           return Alphabet;
+       }
+        public int[] getPosition()
+       {
+           return Position;
+       }
+        public static Automata GenerateParticle(int s, int[] alphabet)
         {
             TransitionTable tmp;
             List<TransitionTable> ListOfTransitionTables = new List<TransitionTable>();

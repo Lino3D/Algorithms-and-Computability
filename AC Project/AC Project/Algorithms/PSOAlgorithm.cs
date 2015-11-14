@@ -40,6 +40,16 @@ namespace AC_Project.Algorithms
             }
 
         }
+        int CalculateDistance(Automata a, Automata b)
+    {
+        int distance = 0;
+        int dimensions = a.getStates() * a.getAlphabetSize() * a.getAlphabetSize();
+       
+
+
+
+            return distance;
+    }
 
     /*    int ChooseLocalBest()
         {
