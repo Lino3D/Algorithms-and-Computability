@@ -9,7 +9,7 @@ namespace AC_Project.Classes
 {
     public class WordGenerator
     {
-        public static int[][] GenerateWords(int[] alphabet, int lettercount)
+        public static Words GenerateWords(int[] alphabet, int lettercount)
         {
             int[][] Words = new int[100][];
             Random rand = new Random();
@@ -29,8 +29,8 @@ namespace AC_Project.Classes
                 if (i % 10 == 0 && i != 0)
                     MaxLetters += StepSize;
             }
-
-            return Words;
+            Words tmp = new Words(Words, 100);
+            return tmp;
         }
     }
 }
