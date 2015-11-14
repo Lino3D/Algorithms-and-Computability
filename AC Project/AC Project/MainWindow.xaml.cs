@@ -1,8 +1,5 @@
-﻿using AC_Project.Classes;
-using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AC_Project.Classes;
+using AC_Project.Properties;
 
 namespace AC_Project
 {
@@ -23,7 +22,6 @@ namespace AC_Project
     /// </summary>
     public partial class MainWindow 
     {
-        Automata Tool;
         public MainWindow()
         {
             InitializeComponent();
@@ -31,28 +29,10 @@ namespace AC_Project
 
         private void LoadAutomata_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
-            {
-                string file = openFileDialog.FileName;
-                try
-                {   
-                    using (StreamReader sr = new StreamReader(file))
-                    {
-                        String line;
-                        int i = 0;
-                        while ((line = sr.ReadLine()) != null)
-                        {
-
-                        }
-                    }
-                }
-                catch (Exception x)
-                {
-                    MessageBox.Show("File couldn't be streamed");
-                }
-            }
-         
+            int [] a = {1, 2, 3};
+            int[][] Words;
+            Words = WordGenerator.GenerateWords(a, 3);
+            MessageBox.Show("Hello");
         }
     }
 }
