@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AC_Project.Classes;
+using AC_Project.Properties;
 
 namespace AC_Project
 {
@@ -27,6 +29,9 @@ namespace AC_Project
 
         private void LoadAutomata_Click(object sender, RoutedEventArgs e)
         {
+            int [] a = {1, 2, 3};
+            int[][] Words;
+            Words = WordGenerator.GenerateWords(a, 3);
             MessageBox.Show("Hello");
         }
     }
