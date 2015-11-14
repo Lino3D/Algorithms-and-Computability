@@ -22,6 +22,8 @@ namespace AC_Project
     /// </summary>
     public partial class MainWindow 
     {
+        Automata tool;
+        double[,] table;
         public MainWindow()
         {
             InitializeComponent();
@@ -29,10 +31,59 @@ namespace AC_Project
 
         private void LoadAutomata_Click(object sender, RoutedEventArgs e)
         {
-            int [] a = {1, 2, 3};
-            int[][] Words;
-            Words = WordGenerator.GenerateWords(a, 3);
-            MessageBox.Show("Hello");
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.DefaultExt = ".txt";
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+            {
+                // Open document 
+                string filename = dlg.FileName;
+                string line;
+                int states=0;
+                int[] alphabet= new int[0];
+                List<TransitionTable> transitiontables;
+                int counter = 0 ;
+                System.IO.StreamReader file = new System.IO.StreamReader(filename);
+
+                while ((line = file.ReadLine()) != null)
+                {
+                    if (counter == 0)
+                    {
+                        states = Int32.Parse(line);
+                    }
+           
+                    if(counter==1)
+                    {
+                        alphabet = new int[line.Length];
+                        for (int i=0; i<line.Length; i++)
+                        {
+                            alphabet[i] = (int)Char.GetNumericValue(line[i]);
+                        }
+                    }
+                    if(counter==2)
+                    {
+                        table = new double[states, states];
+
+                        for (int z = 0; z < alphabet.Length; z++)
+                        {
+                            for (int i = 0; i < states; i++)
+                            {
+                                for (int j = 0; j < states; j++)
+                                {
+                                    table[j, i] = (int)Char.GetNumericValue(line[i * j + j]);
+                                }
+                            }
+                          
+                        }
+
+                    }
+                    counter++;
+                }
+
+
+                file.Close();
+
+            }
         }
     }
 }

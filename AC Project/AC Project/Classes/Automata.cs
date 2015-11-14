@@ -12,7 +12,7 @@ namespace AC_Project.Classes
         int[] Alphabet;
         List<TransitionTable> TransitionTables;
 
-       void CreateAutomata(int s, int[] alphabet, List<TransitionTable> _transitiontables)
+       Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables)
         {
             States=s;
             Alphabet = alphabet;

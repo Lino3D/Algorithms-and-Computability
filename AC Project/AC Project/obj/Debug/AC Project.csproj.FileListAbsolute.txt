@@ -39,3 +39,19 @@ C:\Users\Grabek\Source\Repos\a-c2\AC Project\AC Project\obj\Debug\AC Project_Mar
 C:\Users\Grabek\Source\Repos\a-c2\AC Project\AC Project\obj\Debug\AC Project.g.resources
 C:\Users\Grabek\Source\Repos\a-c2\AC Project\AC Project\obj\Debug\AC_Project.Properties.Resources.resources
 C:\Users\Grabek\Source\Repos\a-c2\AC Project\AC Project\obj\Debug\AC Project.csproj.GenerateResource.Cache
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\bin\Debug\AC Project.exe
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\bin\Debug\AC Project.pdb
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\bin\Debug\MahApps.Metro.dll
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\bin\Debug\MahApps.Metro.xml
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project.csprojResolveAssemblyReference.cache
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\MainWindow.baml
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\Resources\Icons.baml
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\App.baml
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\MainWindow.g.cs
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\Resources\Icons.g.cs
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\App.g.cs
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project_MarkupCompile.cache
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project.g.resources
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC_Project.Properties.Resources.resources
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project.csproj.GenerateResource.Cache
