@@ -11,12 +11,35 @@ namespace AC_Project.Classes
         int States {get; set;}
         int[] Alphabet;
         List<TransitionTable> TransitionTables;
+        int[] Position;
+
+
+
 
        public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables)
         {
             States = s;
             Alphabet = alphabet;
             TransitionTables = _transitiontables;
+            
+        }
+        public void calculateposition(List<TransitionTable>_transitiontables)
+        {
+            int size = States * States * Alphabet.Length;
+            int[] _position = new int[size];
+            for (int z = 0; z < Alphabet.Length; z++ )
+            {
+                double[,] tmp = _transitiontables[z].GetTransitionMatrix(); //get matrix
+                for (int i = 0; i < tmp.Length; i++)
+                {
+                    for (int j = 0; j < tmp.Length; j++)
+                    {
+                        //tmp[j, i] = (int)Char.GetNumericValue(line[i * states + j + states * states * z]);
+                        _position[i * States + j + size] = (int)tmp[j, i];
+                    }
+                }
+            }
+            this.Position = _position;
         }
 
         
@@ -49,7 +72,7 @@ namespace AC_Project.Classes
         {
             int Count = 0;
             int[] Word;
-            int[][] Table;
+            double[,] Table;
             int NextState = 0;
             int CurrentState = 0;
             for (int i = 0; i < words.GetWordsNum(); i++ )
@@ -58,9 +81,9 @@ namespace AC_Project.Classes
 
                 foreach (int WordLoop in Word)
                 {
-                    Table = automata.GetTransitionTable(Word[WordLoop]);
+                    Table = automata.GetTransitionTable(Word[WordLoop]).GetTransitionMatrix();
                     for (int j = 0; j < automata.States; j++)
-                        if (Table[CurrentState][j] != 0)
+                        if (Table[CurrentState,j] != 0)
                         {
                             NextState = j;
                             break;
@@ -71,5 +94,6 @@ namespace AC_Project.Classes
 
                 return Count;
         }
+
     }
 }
