@@ -24,6 +24,7 @@ namespace AC_Project
     {
         Automata tool;
         double[,] table;
+        List<TransitionTable> transitiontables = new List<TransitionTable>();
         public MainWindow()
         {
             InitializeComponent();
@@ -41,7 +42,7 @@ namespace AC_Project
                 string line;
                 int states=0;
                 int[] alphabet= new int[0];
-                List<TransitionTable> transitiontables;
+
                 int counter = 0 ;
                 System.IO.StreamReader file = new System.IO.StreamReader(filename);
 
@@ -50,9 +51,7 @@ namespace AC_Project
                     if (counter == 0)
                     {
                         states = Int32.Parse(line);
-                    }
-           
-                    if(counter==1)
+                    }                    if(counter==1)
                     {
                         alphabet = new int[line.Length];
                         for (int i=0; i<line.Length; i++)
@@ -70,19 +69,18 @@ namespace AC_Project
                             {
                                 for (int j = 0; j < states; j++)
                                 {
-                                    table[j, i] = (int)Char.GetNumericValue(line[i * j + j]);
+                                    table[j, i] = (int)Char.GetNumericValue(line[i * states + j + states*states*z]);
                                 }
                             }
-                          
+                            TransitionTable t = new TransitionTable(states, table);
+                            transitiontables.Add(t);
                         }
-
+                      
                     }
                     counter++;
                 }
-
-
-                file.Close();
-
+                tool = new Automata(states, alphabet, transitiontables);
+                MessageBox.Show("hello world");
             }
         }
     }

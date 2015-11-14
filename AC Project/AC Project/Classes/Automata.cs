@@ -12,12 +12,24 @@ namespace AC_Project.Classes
         int[] Alphabet;
         List<TransitionTable> TransitionTables;
 
-       Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables)
+       public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables)
         {
-            States=s;
+            States = s;
             Alphabet = alphabet;
             TransitionTables = _transitiontables;
         }
 
+        public Automata GenerateParticle(int s, int[] alphabet)
+        {
+            TransitionTable tmp;
+            List<TransitionTable> ListOfTransitionTables = new List<TransitionTable>();
+            for (int i = 0; i < alphabet.Count(); i++)
+            {
+                tmp = new TransitionTable(s);
+                ListOfTransitionTables.Add(tmp);
+            }
+            Automata automata = new Automata(s, alphabet, ListOfTransitionTables);
+            return automata;
+        }
     }
 }
