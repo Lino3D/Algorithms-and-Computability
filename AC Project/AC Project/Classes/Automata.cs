@@ -42,6 +42,7 @@ namespace AC_Project.Classes
             this.Position = _position;
         }
 
+
         
         //The function takes the alphabet letter expressed by
         //an integer, to get the proper transition table
