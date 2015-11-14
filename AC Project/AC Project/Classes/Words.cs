@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace AC_Project.Classes
 {
-    class Words
+    public class Words
     {
-        int[][] Words;
+        public int[][] _Words;
         int NumWords;
         int NumAccepted;
         int NumRejected;
@@ -16,7 +16,7 @@ namespace AC_Project.Classes
         {
             NumWords = numwords;
             for( int i = 0; i < NumWords; i++)
-                Array.Copy(words[i], Words[i], words[i].Count());
+                Array.Copy(words[i], _Words[i], words[i].Count());
         }
 
         public int GetWordsNum()
@@ -26,7 +26,7 @@ namespace AC_Project.Classes
 
         public int[] GetWord(int i)
         {
-            return Words[i];
+            return _Words[i];
         }
     }
 }

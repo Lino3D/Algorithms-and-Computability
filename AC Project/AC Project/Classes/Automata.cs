@@ -49,7 +49,7 @@ namespace AC_Project.Classes
         {
             int Count = 0;
             int[] Word;
-            double[][] Table;
+            double[,] Table;
             int NextState = 0;
             int CurrentState = 0;
             for (int i = 0; i < words.GetWordsNum(); i++ )
@@ -58,9 +58,9 @@ namespace AC_Project.Classes
 
                 foreach (int WordLoop in Word)
                 {
-                    Table = automata.GetTransitionTable(Word[WordLoop]);
+                    Table = automata.GetTransitionTable(Word[WordLoop]).GetTransitionMatrix();
                     for (int j = 0; j < automata.States; j++)
-                        if (Table[CurrentState][j] != 0)
+                        if (Table[CurrentState,j] != 0)
                         {
                             NextState = j;
                             break;

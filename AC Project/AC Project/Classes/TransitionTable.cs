@@ -48,5 +48,10 @@ namespace AC_Project.Classes
            Table = _table;
        }
 
+       public double[,] GetTransitionMatrix()
+        {
+            return Table;
+        }
+
     }
 }
