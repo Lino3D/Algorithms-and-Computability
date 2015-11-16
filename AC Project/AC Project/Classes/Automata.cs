@@ -24,6 +24,14 @@ namespace AC_Project.Classes
             TransitionTables = _transitiontables;
             
         }
+
+        public void AddState()
+        {
+            States++;
+            foreach (TransitionTable t in TransitionTables)
+                t.IncreaseSize();
+
+        }
         public void calculateposition()
         {
             List<TransitionTable>_transitiontables = TransitionTables;
@@ -33,9 +41,9 @@ namespace AC_Project.Classes
             {
                 double[,] tmp = _transitiontables[z].GetTransitionMatrix(); //get matrix
                // for (int i = 0; i < tmp.Length; i++)
-                for (int i = 0; i < tmp.Length/2 ; i++)
+                for (int i = 0; i < tmp.Length/States ; i++)
                 {
-                    for (int j = 0; j < tmp.Length/2; j++)
+                    for (int j = 0; j < tmp.Length/States; j++)
                     {
                         //tmp[j, i] = (int)Char.GetNumericValue(line[i * states + j + states * states * z]);
                      //   _position[i * States + j + size] = (int)tmp[j, i];

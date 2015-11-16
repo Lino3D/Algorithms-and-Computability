@@ -30,7 +30,7 @@ namespace AC_Project.Algorithms
             /* 1. Generate Particles, Velocity
              * 2. Compute Error and Choose Local Bests
              * 3. Choose Global Best
-             * 
+             * 4. Aplly velocity with previous step
              * 
              */
             n = _n;
@@ -39,6 +39,9 @@ namespace AC_Project.Algorithms
                 //Generate 2-states random Automatons
                 automatas.Add(Automata.GenerateParticle(2, alphabet));
             }
+            ChooseLocalBests();
+            for (int j = 0; j < n; j++ )
+                automatas[j].AddState();
             ChooseLocalBests();
             int iterations = 0;
             Words words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
