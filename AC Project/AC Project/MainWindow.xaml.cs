@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AC_Project.Classes;
 using AC_Project.Properties;
+using AC_Project.Algorithms;
 
 namespace AC_Project
 {
@@ -82,6 +83,15 @@ namespace AC_Project
                 tool = new Automata(states, alphabet, transitiontables);
                 MessageBox.Show("hello world");
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            int[] alphabet = { 0, 1 };
+            
+            Automata ideal = new Automata(4,alphabet,transitiontables);
+            PSOAlgorithm a = new PSOAlgorithm();
+            a.ComputePSO(ideal, alphabet, 100);
         }
     }
 }

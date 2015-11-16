@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace AC_Project.Classes
 {
-    class TransitionTable
+    public class TransitionTable
     {
+        Random rand = new Random();
         int size
         {
             get;
@@ -28,7 +29,6 @@ namespace AC_Project.Classes
       //      TransitionTable trans = new TransitionTable();
        //     trans.size = size;
             size = Size;
-            Random rand = new Random();
             Table = new double[size, size];
             for( int i = 0; i < size; i++)
             {
@@ -40,6 +40,7 @@ namespace AC_Project.Classes
                         Table[i, j] = 1;
             }
       //      trans.Table = Table;
+            int a = 1;
            // return trans;
         }
         public TransitionTable(int _size, double[,] _table)

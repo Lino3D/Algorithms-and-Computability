@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace AC_Project.Classes
 {
-    class Automata
+    public class Automata
     {
         int States {get; set;}
         int[] Alphabet;
         List<TransitionTable> TransitionTables;
         int[] Position;
+        double Error;
 
 
 
@@ -23,32 +24,48 @@ namespace AC_Project.Classes
             TransitionTables = _transitiontables;
             
         }
-        public void calculateposition(List<TransitionTable>_transitiontables)
+        public void calculateposition()
         {
+            List<TransitionTable>_transitiontables = TransitionTables;
             int size = States * States * Alphabet.Length;
             int[] _position = new int[size];
             for (int z = 0; z < Alphabet.Length; z++ )
             {
                 double[,] tmp = _transitiontables[z].GetTransitionMatrix(); //get matrix
-                for (int i = 0; i < tmp.Length; i++)
+               // for (int i = 0; i < tmp.Length; i++)
+                for (int i = 0; i < tmp.Length/2 ; i++)
                 {
-                    for (int j = 0; j < tmp.Length; j++)
+                    for (int j = 0; j < tmp.Length/2; j++)
                     {
                         //tmp[j, i] = (int)Char.GetNumericValue(line[i * states + j + states * states * z]);
-                        _position[i * States + j + size] = (int)tmp[j, i];
+                     //   _position[i * States + j + size] = (int)tmp[j, i];
+                        _position[i * States + j ] = (int)tmp[j, i];
                     }
                 }
             }
             this.Position = _position;
         }
+        
 
         
         //The function takes the alphabet letter expressed by
         //an integer, to get the proper transition table
-        TransitionTable GetTransitionTable( int i )
+       public TransitionTable GetTransitionTable( int i )
         {
             return TransitionTables.ElementAt(i);
         }
+       public int getStates()
+        { 
+            return States;
+        }
+       public int getAlphabetSize()
+       {
+           return Alphabet.Count();
+       }
+        public int[] getPosition()
+       {
+           return Position;
+       }
         public static Automata GenerateParticle(int s, int[] alphabet)
         {
             TransitionTable tmp;
@@ -72,6 +89,7 @@ namespace AC_Project.Classes
         {
             int Count = 0;
             int[] Word;
+            int[] FinalState = new int[words.GetWordsNum()];
             double[,] Table;
             int NextState = 0;
             int CurrentState = 0;
@@ -90,6 +108,7 @@ namespace AC_Project.Classes
                         }
                     CurrentState = NextState;
                 }
+                FinalState[i] = CurrentState;
             }
 
                 return Count;
