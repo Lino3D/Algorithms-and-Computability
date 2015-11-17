@@ -9,9 +9,11 @@ namespace AC_Project.Classes
 {
     public class WordGenerator
     {
-        public static Words GenerateWords(int[] alphabet, int lettercount)
+        public static Word[] GenerateWords(int[] alphabet, int lettercount)
         {
-            int[][] Words = new int[100][];
+         // int[][] Words = new int[100][];
+            Word[] words = new Word[100];
+
             Random rand = new Random();
             int StepSize = 10;
             int [] tmpWord;
@@ -25,12 +27,14 @@ namespace AC_Project.Classes
                     c = rand.Next(lettercount);
                     tmpWord[j] = alphabet[c];
                 }
-                Words[i] = tmpWord;
+             //   Words[i] = tmpWord;
+                words[i] = new Word(i, MaxLetters, tmpWord);
                 if (i % 10 == 0 && i != 0)
                     MaxLetters += StepSize;
             }
-            Words tmp = new Words(Words, 100);
-            return tmp;
+            return words;
+          //  Words tmp = new Words(Words, 100);
+         //   return tmp;
         }
     }
 }

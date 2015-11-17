@@ -7,11 +7,11 @@ using AC_Project.Classes;
 
 namespace AC_Project.Algorithms
 {
-    class PSOAlgorithm
+   public static class PSOAlgorithm
     {
-        List<Automata> automatas = new List<Automata>();
-        int n;
-        List<LocalBest> LocalBests = new List<LocalBest>();
+      //  List<Automata> automatas = new List<Automata>();
+      //  int n;
+    //    List<LocalBest> LocalBests = new List<LocalBest>();
 
         /* The idea behind local bests is that we look
          * for the closes to each other automatas and group
@@ -25,7 +25,7 @@ namespace AC_Project.Algorithms
          * alphabet - alphabet of the automaton
          * n - number of particles
          * */
-        public void ComputePSO( Automata ideal, int[] alphabet, int _n )
+        public static void ComputePSO( Automata ideal, int[] alphabet, int _n )
         {
             /* 1. Generate Particles, Velocity
              * 2. Compute Error and Choose Local Bests
@@ -33,6 +33,8 @@ namespace AC_Project.Algorithms
              * 4. Aplly velocity with previous step
              * 
              */
+            int n;
+            List<Automata> automatas = new List<Automata>();
             n = _n;
             for( int i = 0 ; i < n; i++)
             {
@@ -44,14 +46,14 @@ namespace AC_Project.Algorithms
                 automatas[j].AddState();
             ChooseLocalBests();
             int iterations = 0;
-            Words words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
+          //  Words words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
+            Word[] words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
             while( iterations < 500 )// && Error > MinError)
             {
                 iterations++;
             }
-
         }
-        int CalculateDistance(Automata a, Automata b)
+        public static int CalculateDistance(Automata a, Automata b)
         {
             int distance = 0;
             int dimensions = a.getStates() * a.getAlphabetSize() * a.getAlphabetSize();
@@ -71,8 +73,12 @@ namespace AC_Project.Algorithms
                 return distance;
         }
 
-        void ChooseLocalBests()
+        public static void ChooseLocalBests()
         {
+            int n=0;
+            List<Automata> automatas = new List<Automata>();
+            List<LocalBest> LocalBests = new List<LocalBest>();
+
             int MinDistance = Int32.MaxValue;
             int x = -1;
             int y = -1;
@@ -111,6 +117,87 @@ namespace AC_Project.Algorithms
             }
 
             }
+        public static List<wordRelation> Relations(int[] EndingStates, Word[] words)
+        {
+            //
+
+            List<int> clusters = new List<int>(); // Holds information about number of possible relations between words.
+            List<List<Word>> clustered = new List<List<Word>>();
+            List<wordRelation> clustered2 = new List<wordRelation>();
+
+            for (int i = 0; i < EndingStates.Length; i++)
+            {
+                if (clusters.Contains(EndingStates[i]) == false)
+                { clusters.Add(EndingStates[i]); }
+            }
+            for (int i = 0; i < clusters.Count(); i++)
+            {
+                clustered.Add(new List<Word>());
+                for (int j = 0; j < EndingStates.Count(); j++)
+                {
+                    if (EndingStates[j] == clusters[i])
+                    {
+                        clustered[i].Add(words[j]);
+                        //  clustered2.Set
+                    }
+                   
+                }
+                clustered2.Add(new wordRelation(clusters[i], clustered[i]));
+            
+            }
+            return clustered2;
+        }
+       public static List<int> FindErrors(List<wordRelation> ToolRelated, List<wordRelation> ParticleRelated, int n )
+        {
+          //int[] errors = new int [n];
+
+           List<int> Correct= new List<int>();
+           List<Word> wrongwords = new List<Word>();
+           List<Word> Correctwords = new List<Word>();
+           for (int i = 0; i < ToolRelated.Count; i++ )
+           {
+               int EndingState = ToolRelated[i].getEndingState();
+               List<Word> toolRelated = ToolRelated[i].getRelatedWords();
+
+               for(int j=0; j<ParticleRelated.Count; j++)
+               {
+                   if (EndingState == ParticleRelated[j].getEndingState())
+                   {
+                       List<Word> particleRelated = ParticleRelated[j].getRelatedWords();
+                 
+                       for (int z = 0; z < toolRelated.Count; z++)
+                       {
+                           if (particleRelated.Contains(toolRelated[z]) == true)
+                           {
+                               Correct.Add(toolRelated[z].getId());
+                               Correctwords.Add(toolRelated[z]);
+
+                           }
+                           else
+                               wrongwords.Add(toolRelated[z]);
+                       }
+                   }
+                  
+
+               }
+             
+           }
+           if (wrongwords.Count + Correctwords.Count < n)
+           {
+               for (int i = 0; i < ToolRelated.Count; i++)
+               {
+                   List<Word> toolRelated = ToolRelated[i].getRelatedWords();
+
+                   for (int j = 0; j < toolRelated.Count; j++)
+                       if (Correctwords.Contains(toolRelated[j]) == false)
+                           wrongwords.Add(toolRelated[j]);
+
+               }
+           }
+
+               return Correct;
+        }
+
 
     /*    int ChooseLocalBest()
         {

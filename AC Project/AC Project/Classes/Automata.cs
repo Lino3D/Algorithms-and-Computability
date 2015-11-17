@@ -93,23 +93,26 @@ namespace AC_Project.Classes
          * 
          * BASIC SKETCH OF THE FUNCTION
          */
-        public int ComputeAutomata(Automata automata, Words words)
+        public int[] ComputeAutomata( Word[] words)
         {
-            int Count = 0;
+           // int Count = 0;
             int[] Word;
-            int[] FinalState = new int[words.GetWordsNum()];
+            int[] FinalState = new int[words.Length];
             double[,] Table;
             int NextState = 0;
             int CurrentState = 0;
-            for (int i = 0; i < words.GetWordsNum(); i++ )
+            for (int i = 0; i < words.Length; i++ )
             {
-                Word = words.GetWord(i);
+                Word = words[i].getWord();
+                CurrentState = 0;
 
-                foreach (int WordLoop in Word)
+                foreach (int Letter in Word)
                 {
-                    Table = automata.GetTransitionTable(Word[WordLoop]).GetTransitionMatrix();
-                    for (int j = 0; j < automata.States; j++)
-                        if (Table[CurrentState,j] != 0)
+                    
+
+                    Table = this.GetTransitionTable(Letter).GetTransitionMatrix();
+                    for (int j = 0; j < this.States; j++)
+                        if (Table[j,CurrentState] != 0)
                         {
                             NextState = j;
                             break;
@@ -119,7 +122,7 @@ namespace AC_Project.Classes
                 FinalState[i] = CurrentState;
             }
 
-                return Count;
+                return FinalState;
         }
 
     }

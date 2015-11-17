@@ -80,17 +80,40 @@ namespace AC_Project
                     counter++;
                 }
                 tool = new Automata(states, alphabet, transitiontables);
-                MessageBox.Show("hello world");
+           //     MessageBox.Show("hello world");
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             int[] alphabet = { 0, 1 };
-            
-            Automata ideal = new Automata(4,alphabet,transitiontables);
-            PSOAlgorithm a = new PSOAlgorithm();
-            a.ComputePSO(ideal, alphabet, 100);
+            //Hardcoded for easy testing, a sample from first AC classes 
+            List<TransitionTable> SampleTable = new List<TransitionTable>();
+            double[,] tmp1 = new double[4, 4] { { 0, 0,0,0 }, { 1, 0, 0, 0 }, { 0,0,1,0 }, { 0, 1, 0,1 } };
+            double[,] tmp2 = new double[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 1, 0, 1, 0 }, { 0, 1, 0, 1 } };
+
+            SampleTable.Add(new TransitionTable(4, tmp1));
+            SampleTable.Add(new TransitionTable(4, tmp2));
+
+            Automata ideal = new Automata(4,alphabet,SampleTable);
+            Automata Particle = Automata.GenerateParticle(4, alphabet);
+
+            Word[] words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
+
+            int[] EndingStates = ideal.ComputeAutomata( words);
+            int[] ParticleEndingStates = Particle.ComputeAutomata(words);
+
+
+            List<wordRelation> ToolRelated = PSOAlgorithm.Relations(EndingStates, words);
+            List<wordRelation> ParticleRelated = PSOAlgorithm.Relations(ParticleEndingStates, words);
+
+          //  int[] errors = PSOAlgorithm.FindErrors(ToolRelated, ToolRelated, 100).ToArray();
+         int[] errors = PSOAlgorithm.FindErrors(ToolRelated, ParticleRelated, 100).ToArray();
+
+         // MessageBox.Show("Computation complete") ;
+
+            //PSOAlgorithm a = new PSOAlgorithm();
+       //     a.ComputePSO(ideal, alphabet, 100);
         }
     }
 }

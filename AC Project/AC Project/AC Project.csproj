@@ -71,7 +71,9 @@
     <Compile Include="Classes\Automata.cs" />
     <Compile Include="Classes\LocalBest.cs" />
     <Compile Include="Classes\TransitionTable.cs" />
+    <Compile Include="Classes\Word.cs" />
     <Compile Include="Classes\WordGenerator.cs" />
+    <Compile Include="Classes\wordRelation.cs" />
     <Compile Include="Classes\Words.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
