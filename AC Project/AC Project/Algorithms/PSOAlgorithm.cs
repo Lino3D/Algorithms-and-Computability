@@ -47,8 +47,6 @@ namespace AC_Project.Algorithms
             Words words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
             while( iterations < 500 )// && Error > MinError)
             {
-
-
                 iterations++;
             }
 

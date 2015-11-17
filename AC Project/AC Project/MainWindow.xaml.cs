@@ -76,7 +76,6 @@ namespace AC_Project
                             TransitionTable t = new TransitionTable(states, table);
                             transitiontables.Add(t);
                         }
-                      
                     }
                     counter++;
                 }
