@@ -107,9 +107,7 @@ namespace AC_Project
             List<wordRelation> ToolRelated = PSOAlgorithm.Relations(EndingStates, words);
             List<wordRelation> ParticleRelated = PSOAlgorithm.Relations(ParticleEndingStates, words);
 
-          //  int[] errors = PSOAlgorithm.FindErrors(ToolRelated, ToolRelated, 100).ToArray();
-         int[] errors = PSOAlgorithm.FindErrors(ToolRelated, ParticleRelated, 100).ToArray();
-
+            double Error = PSOAlgorithm.CalculateError(ToolRelated, ParticleRelated, 100) ;
          // MessageBox.Show("Computation complete") ;
 
             //PSOAlgorithm a = new PSOAlgorithm();
