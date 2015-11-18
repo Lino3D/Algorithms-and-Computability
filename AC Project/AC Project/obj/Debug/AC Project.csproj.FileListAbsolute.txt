@@ -74,3 +74,22 @@ C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project.g.resources
 C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC_Project.Properties.Resources.resources
 C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project.csproj.GenerateResource.Cache
 C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project.csprojResolveAssemblyReference.cache
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\bin\Debug\AC Project.exe.config
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\AC Project.exe
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\AC Project.pdb
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\bin\Debug\AC Project.exe
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\bin\Debug\AC Project.pdb
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\bin\Debug\MahApps.Metro.dll
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\bin\Debug\MahApps.Metro.xml
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\AC Project.csprojResolveAssemblyReference.cache
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\MainWindow.baml
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\Resources\Icons.baml
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\App.baml
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\MainWindow.g.cs
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\Resources\Icons.g.cs
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\App.g.cs
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\AC Project_MarkupCompile.cache
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\AC Project.g.resources
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\AC_Project.Properties.Resources.resources
+C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\AC Project.csproj.GenerateResource.Cache
