@@ -32,11 +32,11 @@ namespace AC_Project.Classes
         {
             return Relations;
         }
-        public void AddState()
+        public void AddState(Random rand)
         {
             States++;
             foreach (TransitionTable t in TransitionTables)
-                t.IncreaseSize();
+                t.IncreaseSize(rand);
 
         }
         public void SetError(double _error)
@@ -85,13 +85,13 @@ namespace AC_Project.Classes
        {
            return Position;
        }
-        public static Automata GenerateParticle(int s, int[] alphabet, int _id)
+        public static Automata GenerateParticle(int s, int[] alphabet, int _id, Random rand)
         {
             TransitionTable tmp;
             List<TransitionTable> ListOfTransitionTables = new List<TransitionTable>();
             for (int i = 0; i < alphabet.Count(); i++)
             {
-                tmp = new TransitionTable(s);
+                tmp = new TransitionTable(s, rand);
                 ListOfTransitionTables.Add(tmp);
             }
             Automata automata = new Automata(s, alphabet, ListOfTransitionTables, _id);
@@ -112,18 +112,16 @@ namespace AC_Project.Classes
             double[,] Table;
             int NextState = 0;
             int CurrentState = 0;
-            for (int i = 0; i < words.Length; i++ )
+            for (int i = 0; i < words.Length; i++)
             {
                 Word = words[i].getWord();
                 CurrentState = 0;
 
                 foreach (int Letter in Word)
                 {
-                    
-
                     Table = this.GetTransitionTable(Letter).GetTransitionMatrix();
                     for (int j = 0; j < this.States; j++)
-                        if (Table[j,CurrentState] != 0)
+                        if (Table[j, CurrentState] != 0)
                         {
                             NextState = j;
                             break;
@@ -132,7 +130,6 @@ namespace AC_Project.Classes
                 }
                 FinalState[i] = CurrentState;
             }
-
             CalculateRelations(FinalState);
             return FinalState;
         }

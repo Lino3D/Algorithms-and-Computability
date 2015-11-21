@@ -260,9 +260,21 @@ namespace AC_Project.Algorithms
            int[] RelIdeal = ideal.GetRelations();
            int[] RelPart = particle.GetRelations();
            for (int i = 0; i < 4950; i++)
-               if (RelIdeal[i] == RelPart[i])
+               if (RelIdeal[i] != RelPart[i])
                    error++;
+           error = 4950 - error;
            return error;
+       }
+
+       public static void CalculateError(Automata ideal, List<Automata> automatas)
+       {
+           int error;
+           foreach( var tmp in automatas)
+           {
+               error = CalculateRelations(ideal, tmp);
+               tmp.SetError(error);
+           }
+
        }
     /*    int ChooseLocalBest()
         {
