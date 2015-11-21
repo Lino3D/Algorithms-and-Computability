@@ -34,6 +34,10 @@ namespace AC_Project.Classes
                 t.IncreaseSize();
 
         }
+        public void SetError(double _error)
+        {
+            this.Error = _error;
+        }
         public void calculateposition()
         {
             List<TransitionTable>_transitiontables = TransitionTables;

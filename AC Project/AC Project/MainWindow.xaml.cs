@@ -27,7 +27,7 @@ namespace AC_Project
         double[,] table;
         List<TransitionTable> transitiontables = new List<TransitionTable>();
         List<Automata> automatas = new List<Automata>();
-        int n;
+        int n=101;
         List<LocalBest> LocalBests = new List<LocalBest>();
         int[] alphabet;
 
@@ -118,17 +118,22 @@ namespace AC_Project
             Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count());
 
             int[] EndingStates = ideal.ComputeAutomata( words);
-            int[] ParticleEndingStates = Particle.ComputeAutomata(words);
+           
 
 
             List<wordRelation> ToolRelated = PSOAlgorithm.Relations(EndingStates, words);
-            List<wordRelation> ParticleRelated = PSOAlgorithm.Relations(ParticleEndingStates, words);
 
-           double Error = PSOAlgorithm.CalculateError(ToolRelated, ParticleRelated, 100) ;
+            foreach (Automata A in automatas)
+            {
+                int[] ParticleEndingStates = A.ComputeAutomata(words);
+                List<wordRelation> ParticleRelated = PSOAlgorithm.Relations(ParticleEndingStates, words);
 
+                double Error = PSOAlgorithm.CalculateError(ToolRelated, ParticleRelated, 100);
+                A.SetError(Error);
+            }
            PSOAlgorithm.ComputePSO(ideal, alphabet, 100);
 
-
+           int d = 0;
            MessageBox.Show("Computation complete") ;
 
             //PSOAlgorithm a = new PSOAlgorithm();
