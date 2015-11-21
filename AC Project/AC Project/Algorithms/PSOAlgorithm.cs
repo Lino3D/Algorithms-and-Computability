@@ -36,17 +36,15 @@ namespace AC_Project.Algorithms
             int n;
             List<Automata> automatas = new List<Automata>();
             n = _n;
-            for( int i = 0 ; i < n; i++)
-            {
+    //        for( int i = 0 ; i < n; i++)
+    //        {
                 //Generate 2-states random Automatons
-                automatas.Add(Automata.GenerateParticle(2, alphabet));
-            }
-
-            ChooseLocalBests(automatas);
-        //    for (int j = 0; j < n; j++ )
-          ///      automatas[j].AddState();
-          ///      
-            ChooseLocalBests(automatas);
+    //            automatas.Add(Automata.GenerateParticle(2, alphabet));
+   //         }
+       //     ChooseLocalBests();
+     //       for (int j = 0; j < n; j++ )
+       //         automatas[j].AddState();
+     //       ChooseLocalBests();
             int iterations = 0;
           //  Words words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
             Word[] words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
@@ -75,50 +73,81 @@ namespace AC_Project.Algorithms
                 return distance;
         }
 
-        public static void ChooseLocalBests(List<Automata> particles)
+        public static void ChooseLocalBests(List<Automata> automatas, List<LocalBest> LocalBests, int n)
         {
-            int n=0;
-    //        List<Automata> automatas = new List<Automata>();
-            List<LocalBest> LocalBests = new List<LocalBest>();
+            LocalBests.Clear();
+            GroupAutomatas(automatas, LocalBests, n);
 
+        }
+
+        public static void GroupAutomatas(List<Automata> automatas, List<LocalBest> LocalBests, int n)
+        {
             int MinDistance = Int32.MaxValue;
             int x = -1;
             int y = -1;
+            int z = -1;
             int distance;
+            int groupcount = 0;
             int[] Taken = new int[n];
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n && groupcount < 25; i++)
                 Taken[i] = 0;
 
 
-            for( int i = 0; i < n; i++) {
-                if( Taken[i] != 1){
+            for (int i = 0; i < n; i++)
+            {
+                if (Taken[i] != 1)
+                {
                     Taken[i] = 1;
                     MinDistance = Int32.MaxValue;
-                    for( int j = i; j < n; j++){
-                        if(Taken[j] != 1){
-                            distance = CalculateDistance(particles[i], particles[j]);
-                            if( distance < MinDistance){
+                    for (int j = i; j < n; j++)
+                    {
+                        if (Taken[j] != 1)
+                        {
+                            distance = CalculateDistance(automatas[i], automatas[j]);
+                            if (distance < MinDistance)
+                            {
                                 MinDistance = distance;
-                                x = j;}}
+                                x = j;
+                            }
+                        }
                     }
                     Taken[x] = 1;
                     MinDistance = Int32.MaxValue;
-                    for( int j = i; j < n; j++)
+                    for (int j = i; j < n; j++)
                     {
-                        if(Taken[j] != 1){
-                            distance = CalculateDistance(particles[i], particles[j]);
-                            if( distance < MinDistance){
+                        if (Taken[j] != 1)
+                        {
+                            distance = CalculateDistance(automatas[i], automatas[j]);
+                            if (distance < MinDistance)
+                            {
                                 MinDistance = distance;
-                                y = j;}}
+                                y = j;
+                            }
+                        }
                     }
                     Taken[y] = 1;
-                   //UWAGA DODAJE -1 DO LOCAL BESTOW!!!!!!
-                    LocalBest tmp = new LocalBest(i, x, y);
+
+                    MinDistance = Int32.MaxValue;
+                    for (int j = i; j < n; j++)
+                    {
+                        if (Taken[j] != 1)
+                        {
+                            distance = CalculateDistance(automatas[i], automatas[j]);
+                            if (distance < MinDistance)
+                            {
+                                MinDistance = distance;
+                                z = j;
+                            }
+                        }
+                    }
+                    Taken[z] = 1;
+                    LocalBest tmp = new LocalBest(i, x, y, z);
                     LocalBests.Add(tmp);
+                    groupcount++;
                 }
             }
 
-            }
+        }
         public static List<wordRelation> Relations(int[] EndingStates, Word[] words)
         {
             //
@@ -179,7 +208,6 @@ namespace AC_Project.Algorithms
                                wrongwords.Add(toolRelated[z]);
                        }
                    }
-                  
 
                }
              
@@ -196,11 +224,7 @@ namespace AC_Project.Algorithms
 
                }
            }
-           double error;
-           error = 1 - ( Correctwords.Count / n) * 100;
-         
-
-           return error;
+               return 1-Correctwords.Count/100;
         }
 
 

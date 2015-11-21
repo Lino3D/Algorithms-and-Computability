@@ -8,24 +8,16 @@ namespace AC_Project.Classes
 {
     public class LocalBest
     {
-        List<int> Group;
+        List<int> Group = new List<int>();
         int _LocalBest;
         List<int> Error;
 
-        LocalBest ( Automata a, Automata b, Automata c, int aa, int bb, int cc)
+        public LocalBest(int a, int b, int c, int d)
         {
-            Group.Add(aa);
-            Group.Add(bb);
-            Group.Add(cc);
-
-        }
-        public LocalBest(int aa, int bb, int cc)
-        {
-            Group = new List<int>();
-            Group.Add(aa);
-            Group.Add(bb);
-            Group.Add(cc);
-
+            Group.Add(a);
+            Group.Add(b);
+            Group.Add(c);
+            Group.Add(d);
         }
         public List<int> GetGroup()
         {

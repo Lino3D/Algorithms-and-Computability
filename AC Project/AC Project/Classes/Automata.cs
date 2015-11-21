@@ -12,16 +12,18 @@ namespace AC_Project.Classes
         int[] Alphabet;
         List<TransitionTable> TransitionTables;
         int[] Position;
+        int id;
         double Error;
 
 
 
 
-       public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables)
+       public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables, int _id)
         {
             States = s;
             Alphabet = alphabet;
             TransitionTables = _transitiontables;
+            id = _id;
             
         }
 
@@ -74,7 +76,7 @@ namespace AC_Project.Classes
        {
            return Position;
        }
-        public static Automata GenerateParticle(int s, int[] alphabet)
+        public static Automata GenerateParticle(int s, int[] alphabet, int _id)
         {
             TransitionTable tmp;
             List<TransitionTable> ListOfTransitionTables = new List<TransitionTable>();
@@ -83,7 +85,7 @@ namespace AC_Project.Classes
                 tmp = new TransitionTable(s);
                 ListOfTransitionTables.Add(tmp);
             }
-            Automata automata = new Automata(s, alphabet, ListOfTransitionTables);
+            Automata automata = new Automata(s, alphabet, ListOfTransitionTables, _id);
             return automata;
         }
         /*

@@ -26,9 +26,22 @@ namespace AC_Project
         Automata tool;
         double[,] table;
         List<TransitionTable> transitiontables = new List<TransitionTable>();
+        List<Automata> automatas = new List<Automata>();
+        int n;
+        List<LocalBest> LocalBests = new List<LocalBest>();
+        int[] alphabet;
+
+
         public MainWindow()
         {
             InitializeComponent();
+            int[] _alphabet = { 0, 1 };
+            alphabet = _alphabet;
+            for (int i = 0; i < n; i++)
+            {
+                //Generate 2-states random Automatons
+                automatas.Add(Automata.GenerateParticle(2, alphabet, i));
+            }
         }
 
         private void LoadAutomata_Click(object sender, RoutedEventArgs e)
@@ -42,7 +55,7 @@ namespace AC_Project
                 string filename = dlg.FileName;
                 string line;
                 int states=0;
-                int[] alphabet= new int[0];
+                int[] _alphabet= new int[0];
 
                 int counter = 0 ;
                 System.IO.StreamReader file = new System.IO.StreamReader(filename);
@@ -54,17 +67,17 @@ namespace AC_Project
                         states = Int32.Parse(line);
                     }                    if(counter==1)
                     {
-                        alphabet = new int[line.Length];
+                        _alphabet = new int[line.Length];
                         for (int i=0; i<line.Length; i++)
                         {
-                            alphabet[i] = (int)Char.GetNumericValue(line[i]);
+                            _alphabet[i] = (int)Char.GetNumericValue(line[i]);
                         }
                     }
                     if(counter==2)
                     {
                         table = new double[states, states];
 
-                        for (int z = 0; z < alphabet.Length; z++)
+                        for (int z = 0; z < _alphabet.Length; z++)
                         {
                             for (int i = 0; i < states; i++)
                             {
@@ -79,14 +92,18 @@ namespace AC_Project
                     }
                     counter++;
                 }
-                tool = new Automata(states, alphabet, transitiontables);
+                tool = new Automata(states, _alphabet, transitiontables, -1);
+                alphabet = _alphabet;
+
+
+              
            //     MessageBox.Show("hello world");
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            int[] alphabet = { 0, 1 };
+            int[] _alphabet = { 0, 1 };
             //Hardcoded for easy testing, a sample from first AC classes 
             List<TransitionTable> SampleTable = new List<TransitionTable>();
             double[,] tmp1 = new double[4, 4] { { 0, 0,0,0 }, { 1, 0, 0, 0 }, { 0,0,1,0 }, { 0, 1, 0,1 } };
@@ -95,10 +112,10 @@ namespace AC_Project
             SampleTable.Add(new TransitionTable(4, tmp1));
             SampleTable.Add(new TransitionTable(4, tmp2));
 
-            Automata ideal = new Automata(4,alphabet,SampleTable);
-            Automata Particle = Automata.GenerateParticle(4, alphabet);
+            Automata ideal = new Automata(4,_alphabet,SampleTable, -1);
+            Automata Particle = Automata.GenerateParticle(4, _alphabet, 1);
 
-            Word[] words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
+            Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count());
 
             int[] EndingStates = ideal.ComputeAutomata( words);
             int[] ParticleEndingStates = Particle.ComputeAutomata(words);
@@ -115,7 +132,7 @@ namespace AC_Project
            MessageBox.Show("Computation complete") ;
 
             //PSOAlgorithm a = new PSOAlgorithm();
-       //     a.ComputePSO(ideal, alphabet, 100);
+       //     a.ComputePSO(ideal, _alphabet, 100);
         }
     }
 }
