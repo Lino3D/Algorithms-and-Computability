@@ -9,12 +9,11 @@ namespace AC_Project.Classes
 {
     public class WordGenerator
     {
-        public static Word[] GenerateWords(int[] alphabet, int lettercount)
+        public static Word[] GenerateWords(int[] alphabet, int lettercount, Random rand)
         {
          // int[][] Words = new int[100][];
             Word[] words = new Word[100];
 
-            Random rand = new Random();
             int StepSize = 10;
             int [] tmpWord;
             int c;

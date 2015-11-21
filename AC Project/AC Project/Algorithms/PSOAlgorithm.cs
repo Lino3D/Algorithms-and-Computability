@@ -47,7 +47,7 @@ namespace AC_Project.Algorithms
      //       ChooseLocalBests();
             int iterations = 0;
           //  Words words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
-            Word[] words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
+       //     Word[] words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
             while( iterations < 500 )// && Error > MinError)
             {
                 iterations++;

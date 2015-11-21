@@ -35,18 +35,19 @@ namespace AC_Project.Classes
                 int r = rand.Next(size);
                 for (int j = 0; j < size; j++)
                     if (j != r)
-                        Table[i, j] = 0;
+                        Table[j, i] = 0;
                     else
-                        Table[i, j] = 1;
+                        Table[j, i] = 1;
             }
       //      trans.Table = Table;
             int a = 1;
            // return trans;
         }
-
+        // TO JEST ZJEBANE!!!! HEHEHEHEHEhe hueehuehuheuheuheuhe
         public void IncreaseSize( Random rand)
        {
             size++;
+            int r;
             double[,] tmp = new double[size, size];
             for( int i = 0; i < size; i++)
             {
@@ -55,7 +56,7 @@ namespace AC_Project.Classes
                         tmp[i, j] = 0;
                     else if( i == size - 1)
                     {
-                        int r = rand.Next(size);
+                        r = rand.Next(size);
                         for (int k = 0; k < size; k++)
                             if (k != r)
                                 tmp[i, k] = 0;
