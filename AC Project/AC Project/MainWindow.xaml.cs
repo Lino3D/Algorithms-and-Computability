@@ -120,21 +120,20 @@ namespace AC_Project
             Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count(), rand);
 
             int[] EndingStates = ideal.ComputeAutomata( words);
+
+            foreach(Automata AT in automatas)
+            {
+                AT.ComputeAutomata(words);
+            }
+
+
+
             PSOAlgorithm.CalculateError(ideal, automatas);
             
             int a = PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
-            foreach (var aut in automatas)
-            {
-                aut.AddState(rand);
-                aut.ComputeAutomata(words);
-            }
+ 
             PSOAlgorithm.CalculateError(ideal, automatas);
 
-            foreach (var aut in automatas)
-            {
-                aut.AddState(rand);
-                aut.ComputeAutomata(words);
-            }
             PSOAlgorithm.CalculateError(ideal, automatas);
 
 
@@ -144,20 +143,7 @@ namespace AC_Project
             
             
             
-            List<wordRelation> ToolRelated = PSOAlgorithm.Relations(EndingStates, words);
-
-            foreach (Automata A in automatas)
-            {
-                int[] ParticleEndingStates = A.ComputeAutomata(words);
-                List<wordRelation> ParticleRelated = PSOAlgorithm.Relations(ParticleEndingStates, words);
-
-                double Error = PSOAlgorithm.CalculateError(ToolRelated, ParticleRelated, 100);
-                A.SetError(Error);
-            }
-           PSOAlgorithm.ComputePSO(ideal, alphabet, 100);
-
-           int d = 0;
-           MessageBox.Show("Computation complete") ;
+    
 
             //PSOAlgorithm a = new PSOAlgorithm();
        //     a.ComputePSO(ideal, _alphabet, 100);

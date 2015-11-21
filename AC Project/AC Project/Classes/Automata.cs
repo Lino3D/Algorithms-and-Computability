@@ -130,11 +130,12 @@ namespace AC_Project.Classes
                 }
                 FinalState[i] = CurrentState;
             }
-            CalculateRelations(FinalState);
+            CalculateRelationsVector(FinalState);
             return FinalState;
         }
 
-        void CalculateRelations(int[] final)
+        //calculating Relations object in automata class.
+        void CalculateRelationsVector(int[] final)
         {
             int count = 0;
             for( int i = 0 ; i < 100; i++)
