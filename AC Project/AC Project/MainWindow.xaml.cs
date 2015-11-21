@@ -124,8 +124,12 @@ namespace AC_Project
             List<wordRelation> ToolRelated = PSOAlgorithm.Relations(EndingStates, words);
             List<wordRelation> ParticleRelated = PSOAlgorithm.Relations(ParticleEndingStates, words);
 
-            double Error = PSOAlgorithm.CalculateError(ToolRelated, ParticleRelated, 100) ;
-         // MessageBox.Show("Computation complete") ;
+           double Error = PSOAlgorithm.CalculateError(ToolRelated, ParticleRelated, 100) ;
+
+           PSOAlgorithm.ComputePSO(ideal, alphabet, 100);
+
+
+           MessageBox.Show("Computation complete") ;
 
             //PSOAlgorithm a = new PSOAlgorithm();
        //     a.ComputePSO(ideal, _alphabet, 100);

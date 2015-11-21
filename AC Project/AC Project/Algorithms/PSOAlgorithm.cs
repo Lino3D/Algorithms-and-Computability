@@ -178,7 +178,7 @@ namespace AC_Project.Algorithms
             }
             return clustered2;
         }
-       public static List<int> FindErrors(List<wordRelation> ToolRelated, List<wordRelation> ParticleRelated, int n )
+       public static double CalculateError(List<wordRelation> ToolRelated, List<wordRelation> ParticleRelated, int n )
         {
           //int[] errors = new int [n];
 
@@ -208,7 +208,6 @@ namespace AC_Project.Algorithms
                                wrongwords.Add(toolRelated[z]);
                        }
                    }
-                  
 
                }
              
@@ -225,8 +224,7 @@ namespace AC_Project.Algorithms
 
                }
            }
-
-               return Correct;
+               return 1-Correctwords.Count/100;
         }
 
 
