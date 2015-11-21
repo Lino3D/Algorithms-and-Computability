@@ -32,11 +32,11 @@ namespace AC_Project.Classes
         {
             return Relations;
         }
-        public void AddState()
+        public void AddState(Random rand)
         {
             States++;
             foreach (TransitionTable t in TransitionTables)
-                t.IncreaseSize();
+                t.IncreaseSize(rand);
 
         }
         public void SetError(double _error)
@@ -85,13 +85,13 @@ namespace AC_Project.Classes
        {
            return Position;
        }
-        public static Automata GenerateParticle(int s, int[] alphabet, int _id)
+        public static Automata GenerateParticle(int s, int[] alphabet, int _id, Random rand)
         {
             TransitionTable tmp;
             List<TransitionTable> ListOfTransitionTables = new List<TransitionTable>();
             for (int i = 0; i < alphabet.Count(); i++)
             {
-                tmp = new TransitionTable(s);
+                tmp = new TransitionTable(s, rand);
                 ListOfTransitionTables.Add(tmp);
             }
             Automata automata = new Automata(s, alphabet, ListOfTransitionTables, _id);

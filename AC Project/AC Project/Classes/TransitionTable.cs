@@ -8,7 +8,6 @@ namespace AC_Project.Classes
 {
     public class TransitionTable
     {
-        Random rand = new Random();
         int size
         {
             get;
@@ -24,7 +23,7 @@ namespace AC_Project.Classes
          * 0 0 1 0
          * 1 0 0 0
          * */
-       public TransitionTable(int Size)
+       public TransitionTable(int Size, Random rand)
         {
       //      TransitionTable trans = new TransitionTable();
        //     trans.size = size;
@@ -45,7 +44,7 @@ namespace AC_Project.Classes
            // return trans;
         }
 
-        public void IncreaseSize()
+        public void IncreaseSize( Random rand)
        {
             size++;
             double[,] tmp = new double[size, size];

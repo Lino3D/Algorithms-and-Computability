@@ -37,10 +37,11 @@ namespace AC_Project
             InitializeComponent();
             int[] _alphabet = { 0, 1 };
             alphabet = _alphabet;
+            Random rand = new Random();
             for (int i = 0; i < n; i++)
             {
                 //Generate 2-states random Automatons
-                automatas.Add(Automata.GenerateParticle(2, alphabet, i));
+                automatas.Add(Automata.GenerateParticle(2, alphabet, i, rand));
             }
         }
 
@@ -112,13 +113,16 @@ namespace AC_Project
             SampleTable.Add(new TransitionTable(4, tmp1));
             SampleTable.Add(new TransitionTable(4, tmp2));
 
+            Random rand = new Random();
             Automata ideal = new Automata(4,_alphabet,SampleTable, -1);
-            Automata Particle = Automata.GenerateParticle(4, _alphabet, 1);
+            Automata Particle = Automata.GenerateParticle(4, _alphabet, 1,rand);
 
             Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count());
 
             int[] EndingStates = ideal.ComputeAutomata( words);
-           
+            PSOAlgorithm.CalculateError(ideal, automatas);
+            
+            int a = PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
 
 
             List<wordRelation> ToolRelated = PSOAlgorithm.Relations(EndingStates, words);
