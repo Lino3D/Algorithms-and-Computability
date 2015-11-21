@@ -14,7 +14,8 @@ namespace AC_Project.Classes
         int[] Position;
         int id;
         double Error;
-      
+        int[] Relations = new int[4950];
+
 
 
 
@@ -24,9 +25,13 @@ namespace AC_Project.Classes
             Alphabet = alphabet;
             TransitionTables = _transitiontables;
             id = _id;
+            calculateposition();
             
         }
-
+        public int[] GetRelations()
+        {
+            return Relations;
+        }
         public void AddState()
         {
             States++;
@@ -128,14 +133,26 @@ namespace AC_Project.Classes
                 FinalState[i] = CurrentState;
             }
 
-                return FinalState;
+            CalculateRelations(FinalState);
+            return FinalState;
         }
 
+        void CalculateRelations(int[] final)
+        {
+            int count = 0;
+            for( int i = 0 ; i < 100; i++)
+            {
+                for (int j = i + 1; j < 100; j++)
+                {
+                    if (final[i] == final[j])
+                        Relations[count] = 1;
+                    else
+                        Relations[count] = 0;
+                    count++;
+                }
+            }
+            return;
 
+        }
     }
-
-
-
-
-
 }
