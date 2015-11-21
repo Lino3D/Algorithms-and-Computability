@@ -14,7 +14,7 @@ namespace AC_Project.Classes
         int[] Position;
         int id;
         double Error;
-
+      
 
 
 
@@ -131,5 +131,11 @@ namespace AC_Project.Classes
                 return FinalState;
         }
 
+
     }
+
+
+
+
+
 }

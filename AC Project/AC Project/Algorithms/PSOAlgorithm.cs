@@ -178,6 +178,11 @@ namespace AC_Project.Algorithms
             }
             return clustered2;
         }
+
+
+
+
+
        public static double CalculateError(List<wordRelation> ToolRelated, List<wordRelation> ParticleRelated, int n )
         {
           //int[] errors = new int [n];
@@ -226,6 +231,14 @@ namespace AC_Project.Algorithms
            }
                return 1-Correctwords.Count/100;
         }
+
+
+       public static double cerror(List<wordRelation> ToolRelated, List<wordRelation> ParticleRelated, int n )
+       {
+           double cerror=0;
+
+             return cerror;
+       }
 
 
     /*    int ChooseLocalBest()
