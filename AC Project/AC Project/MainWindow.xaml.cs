@@ -107,7 +107,7 @@ namespace AC_Project
             int[] _alphabet = { 0, 1 };
             //Hardcoded for easy testing, a sample from first AC classes 
             List<TransitionTable> SampleTable = new List<TransitionTable>();
-            double[,] tmp1 = new double[4, 4] { { 0, 0,0,0 }, { 1, 0, 0, 0 }, { 0,0,1,0 }, { 0, 1, 0,1 } };
+            double[,] tmp1 = new double[4, 4] { { 0, 0, 0, 0 }, { 1, 0, 0, 0 }, { 0, 0, 1, 0 }, { 0, 1, 0, 1 } };
             double[,] tmp2 = new double[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 1, 0, 1, 0 }, { 0, 1, 0, 1 } };
 
             SampleTable.Add(new TransitionTable(4, tmp1));
@@ -117,12 +117,25 @@ namespace AC_Project
             Automata ideal = new Automata(4,_alphabet,SampleTable, -1);
             Automata Particle = Automata.GenerateParticle(4, _alphabet, 1,rand);
 
-            Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count());
+            Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count(), rand);
 
             int[] EndingStates = ideal.ComputeAutomata( words);
             PSOAlgorithm.CalculateError(ideal, automatas);
             
             int a = PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
+            foreach (var aut in automatas)
+            {
+                aut.AddState(rand);
+                aut.ComputeAutomata(words);
+            }
+            PSOAlgorithm.CalculateError(ideal, automatas);
+
+            foreach (var aut in automatas)
+            {
+                aut.AddState(rand);
+                aut.ComputeAutomata(words);
+            }
+            PSOAlgorithm.CalculateError(ideal, automatas);
 
 
            
