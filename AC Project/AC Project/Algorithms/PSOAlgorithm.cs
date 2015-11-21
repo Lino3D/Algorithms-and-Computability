@@ -227,7 +227,43 @@ namespace AC_Project.Algorithms
                return 1-Correctwords.Count/100;
         }
 
+       public static double CalculateError2(List<wordRelation> ToolRelated, List<wordRelation> ParticleRelated, int n)
+       {
+           int[] MarkedTable = new int[n];
+           for (int i = 0; i < n; i++)
+               MarkedTable[i] = 0;
+           int StateComputed;
+           foreach (var c in ParticleRelated)
+           {
+               MarkedTable[c.getRelatedWords()[0].getId()] = 1;
+       //        StateComputed = c.getEndingState();
 
+               //Recursion begins!!!!
+                foreach( var ToolVar in ToolRelated)
+                {
+                    StateComputed = ToolVar.getEndingState();
+                    foreach( var word in c.getRelatedWords())
+                    {
+                        if (ToolVar.getRelatedWords().Contains(word))
+                            MarkedTable[word.getId()] = 1;
+                    }
+                }
+
+          }
+
+           return 0.0;
+       }
+
+       public static int CalculateRelations(Automata ideal, Automata particle)
+       {
+           int error = 0;
+           int[] RelIdeal = ideal.GetRelations();
+           int[] RelPart = particle.GetRelations();
+           for (int i = 0; i < 4950; i++)
+               if (RelIdeal[i] == RelPart[i])
+                   error++;
+           return error;
+       }
     /*    int ChooseLocalBest()
         {
             int best = 0;
