@@ -41,10 +41,12 @@ namespace AC_Project.Algorithms
                 //Generate 2-states random Automatons
                 automatas.Add(Automata.GenerateParticle(2, alphabet));
             }
-            ChooseLocalBests();
-            for (int j = 0; j < n; j++ )
-                automatas[j].AddState();
-            ChooseLocalBests();
+
+            ChooseLocalBests(automatas);
+        //    for (int j = 0; j < n; j++ )
+          ///      automatas[j].AddState();
+          ///      
+            ChooseLocalBests(automatas);
             int iterations = 0;
           //  Words words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
             Word[] words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
@@ -73,10 +75,10 @@ namespace AC_Project.Algorithms
                 return distance;
         }
 
-        public static void ChooseLocalBests()
+        public static void ChooseLocalBests(List<Automata> particles)
         {
             int n=0;
-            List<Automata> automatas = new List<Automata>();
+    //        List<Automata> automatas = new List<Automata>();
             List<LocalBest> LocalBests = new List<LocalBest>();
 
             int MinDistance = Int32.MaxValue;
@@ -94,7 +96,7 @@ namespace AC_Project.Algorithms
                     MinDistance = Int32.MaxValue;
                     for( int j = i; j < n; j++){
                         if(Taken[j] != 1){
-                            distance = CalculateDistance(automatas[i], automatas[j]);
+                            distance = CalculateDistance(particles[i], particles[j]);
                             if( distance < MinDistance){
                                 MinDistance = distance;
                                 x = j;}}
@@ -104,7 +106,7 @@ namespace AC_Project.Algorithms
                     for( int j = i; j < n; j++)
                     {
                         if(Taken[j] != 1){
-                            distance = CalculateDistance(automatas[i], automatas[j]);
+                            distance = CalculateDistance(particles[i], particles[j]);
                             if( distance < MinDistance){
                                 MinDistance = distance;
                                 y = j;}}
@@ -147,7 +149,7 @@ namespace AC_Project.Algorithms
             }
             return clustered2;
         }
-       public static List<int> FindErrors(List<wordRelation> ToolRelated, List<wordRelation> ParticleRelated, int n )
+       public static double CalculateError(List<wordRelation> ToolRelated, List<wordRelation> ParticleRelated, int n )
         {
           //int[] errors = new int [n];
 
@@ -194,8 +196,11 @@ namespace AC_Project.Algorithms
 
                }
            }
+           double error;
+           error = 1 - ( Correctwords.Count / n) * 100;
+         
 
-               return Correct;
+           return error;
         }
 
 
