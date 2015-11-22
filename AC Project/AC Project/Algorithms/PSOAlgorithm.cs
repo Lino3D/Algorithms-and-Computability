@@ -73,14 +73,14 @@ namespace AC_Project.Algorithms
                 return distance;
         }
 
-        public static void ChooseLocalBests(List<Automata> automatas, List<LocalBest> LocalBests, int n)
+        public static void ChooseLocalBests(List<Automata> automatas, List<Nieghbours> LocalBests, int n)
         {
             LocalBests.Clear();
             GroupAutomatas(automatas, LocalBests, n);
 
         }
 
-        public static void GroupAutomatas(List<Automata> automatas, List<LocalBest> LocalBests, int n)
+        public static void GroupAutomatas(List<Automata> automatas, List<Nieghbours> LocalBests, int n)
         {
             int MinDistance = Int32.MaxValue;
             int x = -1;
@@ -141,7 +141,7 @@ namespace AC_Project.Algorithms
                         }
                     }
                     Taken[z] = 1;
-                    LocalBest tmp = new LocalBest(i, x, y, z);
+                    Nieghbours tmp = new Nieghbours(i, x, y, z);
                     LocalBests.Add(tmp);
                     groupcount++;
                 }
