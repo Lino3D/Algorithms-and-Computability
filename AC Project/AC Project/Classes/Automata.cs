@@ -15,7 +15,7 @@ namespace AC_Project.Classes
         int id;
         double Error;
         int[] Relations = new int[4950];
-
+        int[] Velocity;
 
 
 
@@ -43,6 +43,8 @@ namespace AC_Project.Classes
         {
             this.Error = _error;
         }
+
+
         public void calculateposition()
         {
             List<TransitionTable>_transitiontables = TransitionTables;
@@ -116,7 +118,6 @@ namespace AC_Project.Classes
             {
                 Word = words[i].getWord();
                 CurrentState = 0;
-
                 foreach (int Letter in Word)
                 {
                     Table = this.GetTransitionTable(Letter).GetTransitionMatrix();

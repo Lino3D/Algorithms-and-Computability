@@ -126,7 +126,7 @@ namespace AC_Project
                 AT.ComputeAutomata(words);
             }
 
-
+            ideal.calculateposition();
 
             PSOAlgorithm.CalculateError(ideal, automatas);
             
