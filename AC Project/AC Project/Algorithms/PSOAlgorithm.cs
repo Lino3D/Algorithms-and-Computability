@@ -259,10 +259,11 @@ namespace AC_Project.Algorithms
            int error = 0;
            int[] RelIdeal = ideal.GetRelations();
            int[] RelPart = particle.GetRelations();
-           for (int i = 0; i < 4950; i++)
+           for (int i = 0; i < RelIdeal.Count(); i++)
+           {
                if (RelIdeal[i] != RelPart[i])
                    error++;
-           error = 4950 - error;
+           }
            return error;
        }
 

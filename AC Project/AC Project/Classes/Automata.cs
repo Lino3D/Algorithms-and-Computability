@@ -35,8 +35,13 @@ namespace AC_Project.Classes
         public void AddState(Random rand)
         {
             States++;
-            foreach (TransitionTable t in TransitionTables)
-                t.IncreaseSize(rand);
+            TransitionTables.Clear();
+            TransitionTable tmp;
+            for (int i = 0; i < Alphabet.Count(); i++)
+            {
+                tmp = new TransitionTable(States, rand);
+                TransitionTables.Add(tmp);
+            }
 
         }
         public void SetError(double _error)
@@ -58,7 +63,7 @@ namespace AC_Project.Classes
                     {
                         //tmp[j, i] = (int)Char.GetNumericValue(line[i * states + j + states * states * z]);
                      //   _position[i * States + j + size] = (int)tmp[j, i];
-                        _position[i * States + j ] = (int)tmp[j, i];
+                        _position[(z*States*States) + i * States + j ] = (int)tmp[j, i];
                     }
                 }
             }
@@ -85,6 +90,11 @@ namespace AC_Project.Classes
        {
            return Position;
        }
+
+        public double getError()
+        {
+            return Error;
+        }
         public static Automata GenerateParticle(int s, int[] alphabet, int _id, Random rand)
         {
             TransitionTable tmp;
