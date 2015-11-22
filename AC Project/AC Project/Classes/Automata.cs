@@ -56,6 +56,14 @@ namespace AC_Project.Classes
      {
          return id;
      }
+        public void calculatevelocity()
+     {
+         int size = States * States * Alphabet.Length;
+         for (int i = 0; i < size; i++)
+         {
+
+         }
+     }
 
         public void calculateposition()
         {
