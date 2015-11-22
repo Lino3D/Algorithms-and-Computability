@@ -21,6 +21,7 @@ namespace AC_Project
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    ///
     public partial class MainWindow 
     {
         Automata tool;
@@ -30,7 +31,7 @@ namespace AC_Project
         int n=101;
         List<LocalBest> LocalBests = new List<LocalBest>();
         int[] alphabet;
-
+        int[] EndingState;
 
         public MainWindow()
         {
@@ -123,12 +124,26 @@ namespace AC_Project
 
             foreach(Automata AT in automatas)
             {
-                AT.ComputeAutomata(words);
+               EndingStates = AT.ComputeAutomata(words);
+               
             }
 
-            ideal.calculateposition();
 
+            ideal.AddState(rand);
+            foreach (var c in automatas)
+                c.AddState(rand);
+
+            foreach (Automata AT in automatas)
+            {
+               EndingStates = AT.ComputeAutomata(words);
+
+            }
             PSOAlgorithm.CalculateError(ideal, automatas);
+            List<double> abc = new List<double>();
+            foreach (var c in automatas)
+                if (!abc.Contains(c.getError()))
+                    abc.Add(c.getError());
+
             
             int a = PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
  
@@ -137,9 +152,6 @@ namespace AC_Project
             PSOAlgorithm.CalculateError(ideal, automatas);
 
 
-           
-            
-            
             
             
             

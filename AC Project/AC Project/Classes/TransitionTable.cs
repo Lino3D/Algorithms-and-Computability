@@ -43,29 +43,21 @@ namespace AC_Project.Classes
             int a = 1;
            // return trans;
         }
-        // TO JEST ZJEBANE!!!! HEHEHEHEHEhe hueehuehuheuheuheuhe
         public void IncreaseSize( Random rand)
        {
             size++;
             int r;
             double[,] tmp = new double[size, size];
-            for( int i = 0; i < size; i++)
-            {
-                for (int j = 0; j < size; j++)
-                    if ( j == size - 1)
-                        tmp[i, j] = 0;
-                    else if( i == size - 1)
-                    {
-                        r = rand.Next(size);
-                        for (int k = 0; k < size; k++)
-                            if (k != r)
-                                tmp[i, k] = 0;
-                            else
-                                tmp[i, k] = 1;
-                    }
-                    else
+            r = rand.Next(size);
+            for (int i = 0; i < size - 1; i++)
+                for (int j = 0; j < size - 1; j++)
+                    tmp[i, j] = 0;
+            for (int i = 0; i < size - 1; i++)
+                for (int j = 0; j < size - 1; j++)
                     tmp[i, j] = Table[i, j];
-            }
+
+            tmp[r, size - 1] = 1;
+
             Table = tmp;
        }
         public TransitionTable(int _size, double[,] _table)
