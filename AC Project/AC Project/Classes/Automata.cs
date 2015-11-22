@@ -48,7 +48,14 @@ namespace AC_Project.Classes
         {
             this.Error = _error;
         }
-
+        public double getError()
+        {
+            return Error;
+        }
+     public int GetId()
+     {
+         return id;
+     }
 
         public void calculateposition()
         {
@@ -93,10 +100,7 @@ namespace AC_Project.Classes
            return Position;
        }
 
-        public double getError()
-        {
-            return Error;
-        }
+     
         public static Automata GenerateParticle(int s, int[] alphabet, int _id, Random rand)
         {
             TransitionTable tmp;

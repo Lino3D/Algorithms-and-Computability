@@ -73,14 +73,32 @@ namespace AC_Project.Algorithms
                 return distance;
         }
 
-        public static void ChooseLocalBests(List<Automata> automatas, List<Nieghbours> LocalBests, int n)
+        public static List<Neighbours> ChooseLocalBests(List<Automata> automatas, List<Neighbours> Neighbours, int n)
         {
-            LocalBests.Clear();
-            GroupAutomatas(automatas, LocalBests, n);
+            Neighbours.Clear();
+           Neighbours= GroupAutomatas(automatas, Neighbours, n);
+                
+           foreach(Neighbours N in Neighbours )
+           {
+               
+               List<int> Neighbourhood = N.GetGroup(); //This list collects indexes of automatas
+               int _localbest = Neighbourhood[0];
 
+               foreach (int index in Neighbourhood)
+               {
+                   if (automatas[index].getError() < automatas[_localbest].getError())
+                       _localbest = automatas[index].GetId();
+               }
+
+               N.SetLocalBest(_localbest);
+           }
+
+           return Neighbours;
         }
+   
 
-        public static void GroupAutomatas(List<Automata> automatas, List<Nieghbours> LocalBests, int n)
+
+        public static List<Neighbours> GroupAutomatas(List<Automata> automatas, List<Neighbours> Neighbours, int n)
         {
             int MinDistance = Int32.MaxValue;
             int x = -1;
@@ -141,12 +159,12 @@ namespace AC_Project.Algorithms
                         }
                     }
                     Taken[z] = 1;
-                    Nieghbours tmp = new Nieghbours(i, x, y, z);
-                    LocalBests.Add(tmp);
+                    Neighbours tmp = new Neighbours(i, x, y, z);
+                    Neighbours.Add(tmp);
                     groupcount++;
                 }
             }
-
+            return Neighbours;
         }
         public static List<wordRelation> Relations(int[] EndingStates, Word[] words)
         {
