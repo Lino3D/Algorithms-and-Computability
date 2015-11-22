@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using AC_Project.Classes;
 using AC_Project.Properties;
 using AC_Project.Algorithms;
-
 namespace AC_Project
 {
     /// <summary>
@@ -28,8 +27,10 @@ namespace AC_Project
         double[,] table;
         List<TransitionTable> transitiontables = new List<TransitionTable>();
         List<Automata> automatas = new List<Automata>();
+        List<Neighbours> Neighbours = new List<Neighbours>();
+
         int n=101;
-        List<Nieghbours> LocalBests = new List<Nieghbours>();
+        List<Neighbours> LocalBests = new List<Neighbours>();
         int[] alphabet;
         int[] EndingState;
 
@@ -146,15 +147,14 @@ namespace AC_Project
 
             
             int a = PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
- 
+            Neighbours = PSOAlgorithm.ChooseLocalBests(automatas, Neighbours, n);
+
+
             PSOAlgorithm.CalculateError(ideal, automatas);
 
             PSOAlgorithm.CalculateError(ideal, automatas);
 
 
-           
-            
-            
             
             
             

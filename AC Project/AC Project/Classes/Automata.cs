@@ -15,7 +15,7 @@ namespace AC_Project.Classes
         int id;
         double Error;
         int[] Relations = new int[4950];
-
+        int[] Velocity;
 
 
 
@@ -48,6 +48,23 @@ namespace AC_Project.Classes
         {
             this.Error = _error;
         }
+        public double getError()
+        {
+            return Error;
+        }
+     public int GetId()
+     {
+         return id;
+     }
+        public void calculatevelocity()
+     {
+         int size = States * States * Alphabet.Length;
+         for (int i = 0; i < size; i++)
+         {
+
+         }
+     }
+
         public void calculateposition()
         {
             List<TransitionTable>_transitiontables = TransitionTables;
@@ -91,10 +108,7 @@ namespace AC_Project.Classes
            return Position;
        }
 
-        public double getError()
-        {
-            return Error;
-        }
+     
         public static Automata GenerateParticle(int s, int[] alphabet, int _id, Random rand)
         {
             TransitionTable tmp;
@@ -126,7 +140,6 @@ namespace AC_Project.Classes
             {
                 Word = words[i].getWord();
                 CurrentState = 0;
-
                 foreach (int Letter in Word)
                 {
                     Table = this.GetTransitionTable(Letter).GetTransitionMatrix();
