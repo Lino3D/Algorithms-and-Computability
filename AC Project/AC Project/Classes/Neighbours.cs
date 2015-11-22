@@ -26,7 +26,7 @@ namespace AC_Project.Classes
 
       public  void SetLocalBest(int a)
         { LocalBest = a; }
-        public int GetLocalBest(int b)
+        public int GetLocalBest()
         { return LocalBest; }
 
     }
