@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace AC_Project.Classes
 {
-    public class LocalBest
+    public class Nieghbours
     {
         List<int> Group = new List<int>();
         int _LocalBest;
         List<int> Error;
 
-        public LocalBest(int a, int b, int c, int d)
+        public Nieghbours(int a, int b, int c, int d)
         {
             Group.Add(a);
             Group.Add(b);

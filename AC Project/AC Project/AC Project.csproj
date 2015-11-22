@@ -70,7 +70,7 @@
     </Compile>
     <Compile Include="Classes\Automata.cs" />
     <Compile Include="Classes\History.cs" />
-    <Compile Include="Classes\LocalBest.cs" />
+    <Compile Include="Classes\Neighbours.cs" />
     <Compile Include="Classes\TransitionTable.cs" />
     <Compile Include="Classes\Word.cs" />
     <Compile Include="Classes\WordGenerator.cs" />

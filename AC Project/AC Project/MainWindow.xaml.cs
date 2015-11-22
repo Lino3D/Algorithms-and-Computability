@@ -29,7 +29,7 @@ namespace AC_Project
         List<TransitionTable> transitiontables = new List<TransitionTable>();
         List<Automata> automatas = new List<Automata>();
         int n=101;
-        List<LocalBest> LocalBests = new List<LocalBest>();
+        List<Nieghbours> LocalBests = new List<Nieghbours>();
         int[] alphabet;
         int[] EndingState;
 
