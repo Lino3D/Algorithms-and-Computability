@@ -16,7 +16,7 @@ namespace AC_Project.Classes
         double Error;
         int[] Relations = new int[4950];
         int[] Velocity;
-
+        
 
 
        public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables, int _id)
@@ -56,14 +56,62 @@ namespace AC_Project.Classes
      {
          return id;
      }
-        public void calculatevelocity()
+        public void calculatevelocity(Neighbours N, List<Automata> automatas, Random r, int[] position)
      {
          int size = States * States * Alphabet.Length;
-         for (int i = 0; i < size; i++)
-         {
+            double[] gx = calculategx(N, automatas,r);
+            double[] px = calculatepx(position, r);
+            double[] tmpV = new double[size];
+            
 
+         for (int i = 0; i < size; i++ )
+         {
+             
+             tmpV[i] = this.getError() * Velocity[i] + gx[i];
          }
+
+          
      }
+        
+       public double[] calculategx(Neighbours N, List<Automata> automatas, Random r)
+        {
+            double[] a= new double[Position.Count()];
+            int[] wektorlosowy = new int[Position.Count()];
+            int best = N.GetLocalBest();
+            for (int i = 0; i < Position.Count(); i++ )
+            {
+                a[i] = this.getPosition()[i] - automatas[best].getPosition()[i];
+            }
+            for (int i = 0; i < Position.Count(); i++ )
+            {
+                wektorlosowy[i] = r.Next(2);
+            }
+
+            for (int i = 0; i < a.Count(); i++)
+            {
+                a[i] = a[i] * wektorlosowy[i];
+            }
+                return a;
+        }
+       public double[] calculatepx(int[] position, Random r)
+       {
+           double[] a = new double[Position.Count()];
+           int[] wektorlosowy = new int[Position.Count()];
+           for (int i = 0; i < Position.Count(); i++)
+           {
+               a[i] = this.getPosition()[i] - position[i];
+           }
+           for (int i = 0; i < Position.Count(); i++)
+           {
+               wektorlosowy[i] = r.Next(2);
+           }
+
+           for (int i = 0; i < a.Count(); i++)
+           {
+               a[i] = a[i] * wektorlosowy[i];
+           }
+           return a;
+       }
 
         public void calculateposition()
         {
