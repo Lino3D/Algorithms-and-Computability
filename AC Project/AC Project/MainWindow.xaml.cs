@@ -169,9 +169,16 @@ namespace AC_Project
                 foreach( var item2 in Group)
                 {
                     automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest.getPosition());
+
+
                 }
             }
 
+            foreach( var automata in automatas)
+            {
+                automata.SetPosition();
+
+            }
 
             PSOAlgorithm.CalculateError(ideal, automatas);
 

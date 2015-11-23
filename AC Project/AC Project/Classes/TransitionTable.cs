@@ -15,6 +15,11 @@ namespace AC_Project.Classes
         }
         double[,] Table;
 
+        public int getSize()
+        {
+            return size;
+        }
+
         /*Creation of the transition Matrix in the following pattern
          * T[x,y] - where x defines row and y defines column
          * i.e.
