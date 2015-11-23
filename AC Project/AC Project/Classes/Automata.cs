@@ -38,15 +38,15 @@ namespace AC_Project.Classes
         public void SetPosition()
         {
             List<TransitionTable> _transitiontables = new List<TransitionTable>();
-            List<TransitionTable> _old = TransitionTables;
             double[,] tmp;
             int size = States * States * Alphabet.Length;
             double[] _position = new double[size];
 
             for (int i = 0; i < size; i++)
                 _position[i] = Velocity[i] + (double)Position[i];
+
             for (int i = 0; i < _position.Count(); i++)
-                if (_position[i] < 0.5)
+                if (_position[i] < 0.5 && _position[i] >= 0.0)
                     _position[i] = 0.0;
                 else
                     _position[i] = 1.0;
@@ -67,8 +67,9 @@ namespace AC_Project.Classes
                 }
 
                 TransitionTables = _transitiontables;
-                calculateposition();
                 Dyskretyzacja();
+                calculateposition();
+                
 
         }
 
@@ -77,19 +78,12 @@ namespace AC_Project.Classes
             foreach( var table in TransitionTables)
             {
                 double[,] tmp =  table.GetTransitionMatrix();
-                for( int i = 0; i < table.getSize(); i ++)
-                    for( int j = 0; j < table.getSize(); j++)
-                        if (tmp[i,j] < 0.5)
-                            tmp[i,j] = 0;
-                        else
-                            tmp[i,j] = 1;
 
                 for (int i = 0; i < table.getSize(); i++)
                     for (int j = 0; j < table.getSize(); j++)
                         if (tmp[i, j] == 1)
-                            for (int k = j + 1; k < table.getSize(); k++)
-                                tmp[i, k] = 0;
-                    
+                            for (int k = i + 1; k < table.getSize(); k++)
+                                tmp[k, j] = 0;
 
             }
         }
@@ -104,6 +98,10 @@ namespace AC_Project.Classes
                 tmp = new TransitionTable(States, rand);
                 TransitionTables.Add(tmp);
             }
+            calculateposition();
+            Velocity = new double[Position.Count()];
+            Array.Copy(Position, Velocity, Position.Count());
+            
 
         }
         public void SetError(double _error)
