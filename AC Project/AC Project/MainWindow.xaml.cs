@@ -132,18 +132,26 @@ namespace AC_Project
 
             ideal.AddState(rand);
             foreach (var c in automatas)
-                c.AddState(rand);
+             //   c.AddState(rand);
 
             foreach (Automata AT in automatas)
             {
                EndingStates = AT.ComputeAutomata(words);
 
             }
+            Automata zeroautomata;
             PSOAlgorithm.CalculateError(ideal, automatas);
             List<double> abc = new List<double>();
             foreach (var c in automatas)
+            {
                 if (!abc.Contains(c.getError()))
                     abc.Add(c.getError());
+                if (c.getError() == 0)
+                    zeroautomata = c;
+
+            }
+
+           
 
             
             int a = PSOAlgorithm.CalculateRelations(ideal, automatas[0]);

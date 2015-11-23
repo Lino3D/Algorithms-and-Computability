@@ -107,11 +107,11 @@ namespace AC_Project.Algorithms
             int distance;
             int groupcount = 0;
             int[] Taken = new int[n];
-            for (int i = 0; i < n && groupcount < 25; i++)
+            for (int i = 0; i < n ; i++)
                 Taken[i] = 0;
 
 
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n && groupcount < 25; i++)
             {
                 if (Taken[i] != 1)
                 {
