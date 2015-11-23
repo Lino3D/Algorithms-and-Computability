@@ -90,7 +90,7 @@ namespace AC_Project.Algorithms
                        _localbest = automatas[index].GetId();
                }
 
-               N.SetLocalBest(_localbest);
+               N.SetLocalBest(_localbest, automatas[_localbest].getError());
            }
 
            return Neighbours;
@@ -107,11 +107,11 @@ namespace AC_Project.Algorithms
             int distance;
             int groupcount = 0;
             int[] Taken = new int[n];
-            for (int i = 0; i < n && groupcount < 25; i++)
+            for (int i = 0; i < n ; i++)
                 Taken[i] = 0;
 
 
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n && groupcount < 25; i++)
             {
                 if (Taken[i] != 1)
                 {
@@ -272,9 +272,10 @@ namespace AC_Project.Algorithms
            return 0.0;
        }
 
-       public static int CalculateRelations(Automata ideal, Automata particle)
+       public static double CalculateRelations(Automata ideal, Automata particle)
        {
            int error = 0;
+           int a;
            int[] RelIdeal = ideal.GetRelations();
            int[] RelPart = particle.GetRelations();
            for (int i = 0; i < RelIdeal.Count(); i++)
@@ -282,12 +283,13 @@ namespace AC_Project.Algorithms
                if (RelIdeal[i] != RelPart[i])
                    error++;
            }
-           return error;
+          
+           return (error/4950.0);
        }
 
        public static void CalculateError(Automata ideal, List<Automata> automatas)
        {
-           int error;
+           double error;
            foreach( var tmp in automatas)
            {
                error = CalculateRelations(ideal, tmp);
