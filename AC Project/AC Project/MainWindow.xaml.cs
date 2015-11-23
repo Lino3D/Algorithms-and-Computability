@@ -27,9 +27,9 @@ namespace AC_Project
         double[,] table;
         List<TransitionTable> transitiontables = new List<TransitionTable>();
         List<Automata> automatas = new List<Automata>();
-        List<Neighbours> Neighbours = new List<Neighbours>();
+        List<Neighbours> Neighbourhoods = new List<Neighbours>();
 
-        int n=101;
+        int n=100;
         List<Neighbours> LocalBests = new List<Neighbours>();
         int[] alphabet;
         int[] EndingState;
@@ -121,41 +121,42 @@ namespace AC_Project
 
             Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count(), rand);
 
-            int[] EndingStates = ideal.ComputeAutomata( words);
-
+            ideal.ComputeAutomata( words);
+            int[][] EndingStates;
+            EndingStates = new int[100][];
+            int i2 = 0;
             foreach(Automata AT in automatas)
             {
-               EndingStates = AT.ComputeAutomata(words);
+
+                AT.ComputeAutomata(words);
                
             }
 
 
-            ideal.AddState(rand);
-            foreach (var c in automatas)
-             //   c.AddState(rand);
+       //     ideal.AddState(rand);
+           foreach (var c in automatas)
+               c.AddState(rand);
 
             foreach (Automata AT in automatas)
             {
-               EndingStates = AT.ComputeAutomata(words);
+                EndingStates[i2] = new int[100];
+               EndingStates[i2] = AT.ComputeAutomata(words);
+               i2++;
 
             }
-            Automata zeroautomata;
+            int id2;
             PSOAlgorithm.CalculateError(ideal, automatas);
             List<double> abc = new List<double>();
             foreach (var c in automatas)
-            {
                 if (!abc.Contains(c.getError()))
+                {
                     abc.Add(c.getError());
-                if (c.getError() == 0)
-                    zeroautomata = c;
-
-            }
-
-           
-
+                    if (c.getError() == 0.0)
+                        id2 = c.GetId();
+                }
             
-            int a = PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
-            Neighbours = PSOAlgorithm.ChooseLocalBests(automatas, Neighbours, n);
+            double a = PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
+            Neighbourhoods = PSOAlgorithm.ChooseLocalBests(automatas, Neighbourhoods, n);
 
 
             PSOAlgorithm.CalculateError(ideal, automatas);

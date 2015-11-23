@@ -10,7 +10,9 @@ namespace AC_Project.Classes
     {
         List<int> Group = new List<int>();
         int LocalBest { get; set; }
+        double MinError;
         List<double> Error = new List<double>();
+        
 
         public Neighbours(int a, int b, int c, int d)
         {
@@ -24,8 +26,8 @@ namespace AC_Project.Classes
             return Group;
         }
 
-      public  void SetLocalBest(int a)
-        { LocalBest = a; }
+      public  void SetLocalBest(int id, double error)
+        { LocalBest = id; MinError = error; }
         public int GetLocalBest()
         { return LocalBest; }
 
