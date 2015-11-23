@@ -78,11 +78,12 @@ namespace AC_Project.Classes
        public double[] calculategx(Neighbours N, List<Automata> automatas, Random r)
         {
             double[] a= new double[Position.Count()];
+            int[] b = new int[Position.Count()];
             int[] wektorlosowy = new int[Position.Count()];
             int best = N.GetLocalBest();
             for (int i = 0; i < Position.Count(); i++ )
             {
-                a[i] = this.getPosition()[i] - automatas[best].getPosition()[i];
+                b[i] = this.getPosition()[i] - automatas[best].getPosition()[i];
             }
             for (int i = 0; i < Position.Count(); i++ )
             {
@@ -91,7 +92,7 @@ namespace AC_Project.Classes
 
             for (int i = 0; i < a.Count(); i++)
             {
-                a[i] = a[i] * wektorlosowy[i];
+                a[i] = (double) b[i] * (double) wektorlosowy[i];
             }
                 return a;
         }
