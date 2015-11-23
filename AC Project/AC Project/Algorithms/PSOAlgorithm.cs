@@ -73,6 +73,20 @@ namespace AC_Project.Algorithms
                 return distance;
         }
 
+        public static Automata FindGlobalBest(List<Neighbours> N, List<Automata> automatas)
+        {
+            double MinValue = double.MaxValue;
+            int id= 0;
+            foreach( var item in N)
+            {
+                if( item.GetLocalMinError() < MinValue)
+                {
+                    MinValue = item.GetLocalMinError();
+                    id = item.GetLocalBest();
+                }
+            }
+            return automatas.ElementAt(id);
+        }
         public static List<Neighbours> ChooseLocalBests(List<Automata> automatas, List<Neighbours> Neighbours, int n)
         {
             Neighbours.Clear();

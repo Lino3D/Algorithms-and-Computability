@@ -134,8 +134,8 @@ namespace AC_Project
 
 
        //     ideal.AddState(rand);
-           foreach (var c in automatas)
-               c.AddState(rand);
+       //    foreach (var c in automatas)
+      //         c.AddState(rand);
 
             foreach (Automata AT in automatas)
             {
@@ -157,6 +157,20 @@ namespace AC_Project
             
             double a = PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
             Neighbours = PSOAlgorithm.ChooseLocalBests(automatas, Neighbours, n);
+            Automata GlobalBest = PSOAlgorithm.FindGlobalBest(Neighbours, automatas);
+
+
+
+
+            foreach (var item in Neighbours) 
+            {
+                List<int> Group;
+                Group = item.GetGroup();
+                foreach( var item2 in Group)
+                {
+                    automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest.getPosition());
+                }
+            }
 
 
             PSOAlgorithm.CalculateError(ideal, automatas);

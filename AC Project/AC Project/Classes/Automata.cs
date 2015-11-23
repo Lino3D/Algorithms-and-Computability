@@ -26,6 +26,8 @@ namespace AC_Project.Classes
             TransitionTables = _transitiontables;
             id = _id;
             calculateposition();
+            Velocity = new int[Position.Count()];
+            Array.Copy(Position, Velocity, Position.Count());
             
         }
         public int[] GetRelations()
@@ -67,7 +69,7 @@ namespace AC_Project.Classes
          for (int i = 0; i < size; i++ )
          {
              
-             tmpV[i] = this.getError() * Velocity[i] + gx[i];
+             tmpV[i] = this.getError() * Velocity[i] + gx[i] + px[i];
          }
 
           
