@@ -15,7 +15,7 @@ namespace AC_Project.Classes
         int id;
         double Error;
         int[] Relations = new int[4950];
-        int[] Velocity;
+        double[] Velocity;
         
 
 
@@ -26,7 +26,7 @@ namespace AC_Project.Classes
             TransitionTables = _transitiontables;
             id = _id;
             calculateposition();
-            Velocity = new int[Position.Count()];
+            Velocity = new double[Position.Count()];
             Array.Copy(Position, Velocity, Position.Count());
             
         }
@@ -71,7 +71,7 @@ namespace AC_Project.Classes
              
              tmpV[i] = this.getError() * Velocity[i] + gx[i] + px[i];
          }
-
+         Velocity = tmpV;
           
      }
         
