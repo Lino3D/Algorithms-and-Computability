@@ -31,5 +31,10 @@ namespace AC_Project.Classes
         public int GetLocalBest()
         { return LocalBest; }
 
+        public double GetLocalMinError()
+        {
+            return MinError;
+        }
+
     }
 }
