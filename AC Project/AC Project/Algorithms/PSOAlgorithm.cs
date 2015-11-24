@@ -40,12 +40,11 @@ namespace AC_Project.Algorithms
                     c.AddState(rand);
             }
             int iterations = 0;
-            while( iterations < 500 || GlobalBest.getError() < 0.05 ) // && Error > MinError)
+            while( iterations < 500  ) // && Error > MinError)
             {
 
 
                 ideal.ComputeAutomata(words);
-
 
                 foreach (Automata AT in automatas)
                 {
@@ -53,8 +52,6 @@ namespace AC_Project.Algorithms
                     AT.ComputeAutomata(words);
 
                 }
-                
-
 
                 int id2;
                 PSOAlgorithm.CalculateError(ideal, automatas);
@@ -67,37 +64,30 @@ namespace AC_Project.Algorithms
                             id2 = c.GetId();
                     }
 
-                double a = PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
+                PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
                 Neighbours = PSOAlgorithm.ChooseLocalBests(automatas, Neighbours, n);
                 GlobalBest = PSOAlgorithm.FindGlobalBest(Neighbours, automatas);
-
-
-
-
                 foreach (var item in Neighbours)
                 {
                     List<int> Group;
                     Group = item.GetGroup();
                     foreach (var item2 in Group)
                     {
-                        automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest.getPosition());
-
-
+                        if(item2!=GlobalBest.GetId()) //not Global
+                        automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest);
                     }
                 }
-
                 foreach (var automata in automatas)
                 {
+                   if(automata!=GlobalBest) //Not global
                     automata.SetPosition();
 
                 }
-
-                PSOAlgorithm.CalculateError(ideal, automatas);
-
-                PSOAlgorithm.CalculateError(ideal, automatas);
-
-                Automata a2 = automatas[0];
+                Automata firstautomata = automatas[0];
                 iterations++;
+
+                if (GlobalBest.getError() < 0.05)
+                    break;
             }
 
             int abc2 = 3;
@@ -338,7 +328,7 @@ namespace AC_Project.Algorithms
        public static double CalculateRelations(Automata ideal, Automata particle)
        {
            int error = 0;
-           int a;
+       
            int[] RelIdeal = ideal.GetRelations();
            int[] RelPart = particle.GetRelations();
            for (int i = 0; i < RelIdeal.Count(); i++)
