@@ -47,7 +47,7 @@ namespace AC_Project
             }
         }
 
-        private void LoadAutomata_Click(object sender, RoutedEventArgs e)
+        private void LoadAutomataLines_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.DefaultExt = ".txt";
@@ -78,10 +78,11 @@ namespace AC_Project
                     }
                     if(counter==2)
                     {
-                        table = new double[states, states];
+                        
 
                         for (int z = 0; z < _alphabet.Length; z++)
                         {
+                            table = new double[states, states];
                             for (int i = 0; i < states; i++)
                             {
                                 for (int j = 0; j < states; j++)
@@ -91,16 +92,14 @@ namespace AC_Project
                             }
                             TransitionTable t = new TransitionTable(states, table);
                             transitiontables.Add(t);
+                            int d = 0;
                         }
                     }
                     counter++;
                 }
                 tool = new Automata(states, _alphabet, transitiontables, -1);
                 alphabet = _alphabet;
-
-
-              
-           //     MessageBox.Show("hello world");
+                SetAutomataIntoWindow(tool);
             }
         }
 
@@ -172,5 +171,62 @@ namespace AC_Project
             }
             
         }
+
+        private void LoaderComma_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.DefaultExt = ".txt";
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+            {
+                // Open document 
+                string filename = dlg.FileName;
+                string line;
+                int states = 0;
+                int[] _alphabet = new int[0];
+
+             //   int counter = 0;
+                System.IO.StreamReader file = new System.IO.StreamReader(filename);
+                 line= file.ReadToEnd();
+
+                 List<string> stringautomata = line.Split(',').ToList();
+                 if (stringautomata.Count() != 3)
+                 {
+                     MessageBox.Show("Wrong File Format");
+                     return;
+                 }
+                 states = Int32.Parse(stringautomata[0]);
+                       // string a = stringautomata[0];
+                        _alphabet = new int[stringautomata[1].Count()];
+                        for (int i = 0; i < stringautomata[1].Count(); i++)
+                        {
+                            _alphabet[i] = (int)Char.GetNumericValue(stringautomata[1][i]);
+                        }
+           
+
+                        for (int z = 0; z < _alphabet.Length; z++)
+                        {
+                            table = new double[states, states];
+                            for (int i = 0; i < states; i++)
+                            {
+                                for (int j = 0; j < states; j++)
+                                {
+                                    table[j, i] = (int)Char.GetNumericValue(stringautomata[2][i * states + j + states * states * z]);
+                                }
+                            }
+                            TransitionTable t = new TransitionTable(states, table);
+                            transitiontables.Add(t);
+                        }
+      
+                tool = new Automata(states, _alphabet, transitiontables, -1);
+                alphabet = _alphabet;
+                SetAutomataIntoWindow(tool);
+
+            }
+            else
+                MessageBox.Show("Something went very, very wrong");
+        }
+
+
     }
 }
