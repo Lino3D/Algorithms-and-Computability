@@ -286,5 +286,9 @@ namespace AC_Project.Classes
             return;
 
         }
+        public int[] getAlphabet()
+        {
+            return Alphabet;
+        }
     }
 }

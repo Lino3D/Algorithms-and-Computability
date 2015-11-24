@@ -121,83 +121,56 @@ namespace AC_Project
 
             Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count(), rand);
 
-            PSOAlgorithm.ComputePSO(ideal, automatas, alphabet, n, words, Neighbours, rand);
+ //           PSOAlgorithm.ComputePSO(ideal, automatas, alphabet, n, words, Neighbours, rand);
 
 
+            SetAutomataIntoWindow(ideal);
+        }
 
+        public void SetAutomataIntoWindow(Automata ideal )
+        {
+            string text;
+            text = "" + ideal.getAlphabet()[0];
+            foreach( var item in ideal.getAlphabet())
+                if( item != ideal.getAlphabet()[0])
+                    text += ", " + item;
 
-
-            ideal.ComputeAutomata( words);
-            int[][] EndingStates;
-            EndingStates = new int[100][];
-            int i2 = 0;
-            foreach(Automata AT in automatas)
+            AlphabetTextbox.Text = text;
+            StatesTextbox.Text = ideal.getStates().ToString();
+            TabItemWindow.Content = "";
+            for( int i = 0; i < ideal.getAlphabet().Count(); i++)
             {
-
-                AT.ComputeAutomata(words);
-               
-            }
-
-
-       //     ideal.AddState(rand);
-       //    foreach (var c in automatas)
-      //         c.AddState(rand);
-
-            foreach (Automata AT in automatas)
-            {
-                EndingStates[i2] = new int[100];
-               EndingStates[i2] = AT.ComputeAutomata(words);
-               i2++;
-
-            }
-            int id2;
-            PSOAlgorithm.CalculateError(ideal, automatas);
-            List<double> abc = new List<double>();
-            foreach (var c in automatas)
-                if (!abc.Contains(c.getError()))
+                if (i == 0)
                 {
-                    abc.Add(c.getError());
-                    if (c.getError() == 0.0)
-                        id2 = c.GetId();
-                }
-            
-            double a = PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
-            Neighbours = PSOAlgorithm.ChooseLocalBests(automatas, Neighbours, n);
-            Automata GlobalBest = PSOAlgorithm.FindGlobalBest(Neighbours, automatas);
-
-
-
-
-            foreach (var item in Neighbours) 
-            {
-                List<int> Group;
-                Group = item.GetGroup();
-                foreach( var item2 in Group)
-                {
-                    automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest.getPosition());
-
+                    text = "";
+                    double[,] table = ideal.GetTransitionTable(i).GetTransitionMatrix();
+                    for (int j = 0; j < ideal.GetTransitionTable(i).getSize(); j++)
+                    {
+                        for (int j2 = 0; j2 < ideal.GetTransitionTable(i).getSize(); j2++)
+                            text += table[j2, j] + "  ";
+                        TabItemWindow.Content += text;
+                        text = "\n";
+                    }
+                    TabItemWindow.Header = ideal.getAlphabet()[i];
 
                 }
+                else
+                {
+                    TabItem NewTab = new TabItem { DataContext = TabItemWindow.DataContext };
+                    text = "";
+                    double[,] table = ideal.GetTransitionTable(i).GetTransitionMatrix();
+                    for (int j = 0; j < ideal.GetTransitionTable(i).getSize(); j++)
+                    {
+                        for (int j2 = 0; j2 < ideal.GetTransitionTable(i).getSize(); j2++)
+                            text += table[j2, j] + "  ";
+                        NewTab.Content += text;
+                        text = "\n";
+                    }
+                    NewTab.Header = ideal.getAlphabet()[i];
+                    TabControlWindow.Items.Add(NewTab);
+                }
             }
-
-            foreach( var automata in automatas)
-            {
-                automata.SetPosition();
-
-            }
-
-            PSOAlgorithm.CalculateError(ideal, automatas);
-
-            PSOAlgorithm.CalculateError(ideal, automatas);
-
-
             
-            
-            
-    
-
-            //PSOAlgorithm a = new PSOAlgorithm();
-       //     a.ComputePSO(ideal, _alphabet, 100);
         }
     }
 }
