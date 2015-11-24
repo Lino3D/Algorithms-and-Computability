@@ -14,7 +14,7 @@ namespace AC_Project.Classes
          // int[][] Words = new int[100][];
             Word[] words = new Word[100];
 
-            int StepSize = 9;
+            int StepSize = 5;
             int [] tmpWord;
             int c;
             int MaxLetters = 10;
