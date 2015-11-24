@@ -116,22 +116,32 @@ namespace AC_Project.Classes
      {
          return id;
      }
-        public void calculatevelocity(Neighbours N, List<Automata> automatas, Random r, int[] position)
+        //ostatni to global best 
+        public void calculatevelocity(Neighbours N, List<Automata> automatas, Random r, Automata Globalbest)
      {
          int size = States * States * Alphabet.Length;
             double[] gx = calculategx(N, automatas,r);
-            double[] px = calculatepx(position, r);
+            double[] px = calculatepx(Globalbest.getPosition(), r);
             double[] tmpV = new double[size];
             
 
          for (int i = 0; i < size; i++ )
          {
-             
-             tmpV[i] = this.getError() * Velocity[i] + gx[i] + px[i];
+             if (this != Globalbest)
+                 tmpV[i] = this.getError() * Velocity[i] + gx[i] + px[i];
+             else
+                 tmpV[i] = r.Next(2);
+
          }
          Velocity = tmpV;
           
      }
+        public void CalculateGlobalBestTotallyRandomShit(List<Automata> automatas)
+        {
+          
+
+
+        }
 
        
         

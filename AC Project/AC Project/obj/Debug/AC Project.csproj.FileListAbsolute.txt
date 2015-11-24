@@ -111,3 +111,4 @@ C:\Users\Michał\Desktop\ACProject\AC Project\AC Project\obj\Debug\AC Project_Ma
 C:\Users\Michał\Desktop\ACProject\AC Project\AC Project\obj\Debug\AC Project.g.resources
 C:\Users\Michał\Desktop\ACProject\AC Project\AC Project\obj\Debug\AC_Project.Properties.Resources.resources
 C:\Users\Michał\Desktop\ACProject\AC Project\AC Project\obj\Debug\AC Project.csproj.GenerateResource.Cache
+C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project.csprojResolveAssemblyReference.cache

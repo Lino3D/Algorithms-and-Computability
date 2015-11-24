@@ -45,7 +45,7 @@ namespace AC_Project.Classes
                         Table[j, i] = 1;
             }
       //      trans.Table = Table;
-            int a = 1;
+    
            // return trans;
         }
         public void IncreaseSize( Random rand)
