@@ -73,7 +73,6 @@ C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project_MarkupCompil
 C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project.g.resources
 C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC_Project.Properties.Resources.resources
 C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project.csproj.GenerateResource.Cache
-C:\Users\Lino\Desktop\AC\AC Project\AC Project\obj\Debug\AC Project.csprojResolveAssemblyReference.cache
 C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\bin\Debug\AC Project.exe.config
 C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\AC Project.exe
 C:\Users\Michał\Desktop\AC Project\a-c\AC Project\AC Project\obj\Debug\AC Project.pdb

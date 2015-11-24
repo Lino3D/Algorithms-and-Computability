@@ -25,7 +25,7 @@ namespace AC_Project.Algorithms
          * alphabet - alphabet of the automaton
          * n - number of particles
          * */
-        public static void ComputePSO( Automata ideal, int[] alphabet, int _n )
+       public static void ComputePSO(Automata ideal, List<Automata> automatas, int[] alphabet, int n, Word[] words, List<Neighbours> Neighbours, Random rand)
         {
             /* 1. Generate Particles, Velocity
              * 2. Compute Error and Choose Local Bests
@@ -33,25 +33,74 @@ namespace AC_Project.Algorithms
              * 4. Aplly velocity with previous step
              * 
              */
-            int n;
-            List<Automata> automatas = new List<Automata>();
-            n = _n;
-    //        for( int i = 0 ; i < n; i++)
-    //        {
-                //Generate 2-states random Automatons
-    //            automatas.Add(Automata.GenerateParticle(2, alphabet));
-   //         }
-       //     ChooseLocalBests();
-     //       for (int j = 0; j < n; j++ )
-       //         automatas[j].AddState();
-     //       ChooseLocalBests();
-            int iterations = 0;
-          //  Words words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
-       //     Word[] words = WordGenerator.GenerateWords(alphabet, alphabet.Count());
-            while( iterations < 500 )// && Error > MinError)
+            Automata GlobalBest = automatas[0] ;
+            for( int i = 0; i < 2; i++)
             {
+                foreach (var c in automatas)
+                    c.AddState(rand);
+            }
+            int iterations = 0;
+            while( iterations < 500 || GlobalBest.getError() < 0.05 ) // && Error > MinError)
+            {
+
+
+                ideal.ComputeAutomata(words);
+
+
+                foreach (Automata AT in automatas)
+                {
+
+                    AT.ComputeAutomata(words);
+
+                }
+                
+
+
+                int id2;
+                PSOAlgorithm.CalculateError(ideal, automatas);
+                List<double> abc = new List<double>();
+                foreach (var c in automatas)
+                    if (!abc.Contains(c.getError()))
+                    {
+                        abc.Add(c.getError());
+                        if (c.getError() == 0.0)
+                            id2 = c.GetId();
+                    }
+
+                double a = PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
+                Neighbours = PSOAlgorithm.ChooseLocalBests(automatas, Neighbours, n);
+                GlobalBest = PSOAlgorithm.FindGlobalBest(Neighbours, automatas);
+
+
+
+
+                foreach (var item in Neighbours)
+                {
+                    List<int> Group;
+                    Group = item.GetGroup();
+                    foreach (var item2 in Group)
+                    {
+                        automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest.getPosition());
+
+
+                    }
+                }
+
+                foreach (var automata in automatas)
+                {
+                    automata.SetPosition();
+
+                }
+
+                PSOAlgorithm.CalculateError(ideal, automatas);
+
+                PSOAlgorithm.CalculateError(ideal, automatas);
+
+                Automata a2 = automatas[0];
                 iterations++;
             }
+
+            int abc2 = 3;
         }
         public static int CalculateDistance(Automata a, Automata b)
         {
