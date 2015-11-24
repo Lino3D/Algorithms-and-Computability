@@ -30,6 +30,19 @@ namespace AC_Project.Classes
             Array.Copy(Position, Velocity, Position.Count());
             
         }
+       public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables, int _id, double error, int[] rel)
+       {
+           States = s;
+           Alphabet = alphabet;
+           TransitionTables = _transitiontables;
+           id = _id;
+           calculateposition();
+           Velocity = new double[Position.Count()];
+           Array.Copy(Position, Velocity, Position.Count());
+           Error = error;
+           Relations = rel;
+
+       }
         public int[] GetRelations()
         {
             return Relations;
@@ -46,7 +59,7 @@ namespace AC_Project.Classes
                 _position[i] = Velocity[i] + (double)Position[i];
 
             for (int i = 0; i < _position.Count(); i++)
-                if (_position[i] < 0.5 && _position[i] >= 0.0)
+                if (_position[i] < 0.0 )
                     _position[i] = 0.0;
                 else
                     _position[i] = 1.0;
@@ -148,7 +161,7 @@ namespace AC_Project.Classes
 
          for (int i = 0; i < size; i++ )
          {
-       //      if (this != Globalbest)
+        //     if (this != Globalbest)
                  tmpV[i] = this.getError() * Velocity[i] + gx[i] + px[i];
      //        else
       //           tmpV[i] = r.Next(2);
@@ -157,7 +170,7 @@ namespace AC_Project.Classes
          Velocity = tmpV;
           
      }
-        public void CalculateGlobalBestTotallyRandomShit(Random rand, List<Automata> automatas)
+        public Automata CalculateGlobalBestTotallyRandomShit(Random rand, List<Automata> automatas, History history, Automata GlobalBest)
         {
             List<TransitionTable> list = new List<TransitionTable>();
             bool isdifferent = false;
@@ -169,9 +182,9 @@ namespace AC_Project.Classes
                     TransitionTable tmp = new TransitionTable(this.getStates(), rand);
                     list.Add(tmp);
                 }
-                TransitionTables = list;
-                this.Dyskretyzacja(rand);
-                this.calculateposition();
+                GlobalBest.TransitionTables = list;
+                GlobalBest.Dyskretyzacja(rand);
+                GlobalBest.calculateposition();
                 
 
                 foreach(var aut in automatas)
@@ -179,7 +192,7 @@ namespace AC_Project.Classes
                     isdifferent = false;
                     foreach( var item in aut.GetTransitionTables())
                     {
-                        if (!this.TransitionTables.Contains(item))
+                        if (!GlobalBest.TransitionTables.Contains(item))
                             isdifferent = true;
                     }
 
@@ -188,6 +201,14 @@ namespace AC_Project.Classes
 
                 }
             }
+            //Automata TmpAut = history.ReturnLowestErrorAutomata(GlobalBest.getError(),GlobalBest.getStates(), GlobalBest );
+          //  if (GlobalBest != TmpAut)
+           //     GlobalBest = TmpAut;
+
+            Automata TmpAut = history.ReturnBestAutomata(GlobalBest);
+            if (GlobalBest != TmpAut)
+                return TmpAut;
+            return GlobalBest;
         }
 
        
@@ -204,12 +225,12 @@ namespace AC_Project.Classes
             }
             for (int i = 0; i < Position.Count(); i++ )
             {
-                wektorlosowy[i] = r.Next(2);
+                wektorlosowy[i] = r.Next(5) - 2;
             }
 
             for (int i = 0; i < a.Count(); i++)
             {
-                a[i] = (double) b[i] * (double) wektorlosowy[i];
+                a[i] = ((double) b[i]+0.5) * (double) wektorlosowy[i];
             }
                 return a;
         }
@@ -223,12 +244,12 @@ namespace AC_Project.Classes
            }
            for (int i = 0; i < Position.Count(); i++)
            {
-               wektorlosowy[i] = r.Next(2);
+               wektorlosowy[i] = r.Next(5)- 2;
            }
 
            for (int i = 0; i < a.Count(); i++)
            {
-               a[i] = a[i] * wektorlosowy[i];
+               a[i] = (a[i]+0.5) * wektorlosowy[i];
            }
            return a;
        }

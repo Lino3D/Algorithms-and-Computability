@@ -33,6 +33,8 @@ namespace AC_Project.Algorithms
              * 4. Aplly velocity with previous step
              * 
              */
+            int abcde;
+            History history = new History();
             Automata GlobalBest = automatas[0] ;
             for( int i = 0; i < 2; i++)
             {
@@ -55,6 +57,9 @@ namespace AC_Project.Algorithms
 
                 int id2;
                 PSOAlgorithm.CalculateError(ideal, automatas);
+            ///    history.AddToHistory(automatas);
+
+
                 List<double> abc = new List<double>();
                 foreach (var c in automatas)
                     if (!abc.Contains(c.getError()))
@@ -64,37 +69,49 @@ namespace AC_Project.Algorithms
                             id2 = c.GetId();
                     }
 
-                PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
+           //     PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
                 Neighbours = PSOAlgorithm.ChooseLocalBests(automatas, Neighbours, n);
                 GlobalBest = PSOAlgorithm.FindGlobalBest(Neighbours, automatas);
+                history.AddGlobalBest(GlobalBest);
+                GlobalBest = history.ReturnBestAutomata(GlobalBest);
+                automatas[GlobalBest.GetId()] = GlobalBest;
+
                 foreach (var item in Neighbours)
                 {
                     List<int> Group;
                     Group = item.GetGroup();
                     foreach (var item2 in Group)
                     {
-              //          if(item2!=GlobalBest.GetId()) //not Global
+                        if(item2!=GlobalBest.GetId()) //not Global
                         automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest);
                     }
                 }
                 foreach (var automata in automatas)
                 {
-            //       if(automata!=GlobalBest) //Not global
+                   if(automata!=GlobalBest) //Not global
                     automata.SetPosition(rand);
 
                 }
 
-
+                
                 //CHUUUJJJJJJ tak bardzo
-               foreach (var item in automatas)
-                    item.CalculateGlobalBestTotallyRandomShit(rand, automatas);
-                GlobalBest.CalculateGlobalBestTotallyRandomShit(rand, automatas);
-
-                Automata firstautomata = automatas[0];
+         //      foreach (var item in automatas)
+        //            item.CalculateGlobalBestTotallyRandomShit(rand, automatas);
+                
+        //       GlobalBest =  GlobalBest.CalculateGlobalBestTotallyRandomShit(rand, automatas, history,GlobalBest);
+               
+        //       automatas[GlobalBest.GetId()] = GlobalBest;
+              //  Automata firstautomata = automatas[0];
+                
+        //        automatas[GlobalBest.GetId()] = GlobalBest;
+                
                 iterations++;
-
+                
                 if (GlobalBest.getError() < 0.05)
                     break;
+                if (GlobalBest.getError() < 0.3)
+                    abcde = 1;
+                     
             }
 
             int abc2 = 3;
