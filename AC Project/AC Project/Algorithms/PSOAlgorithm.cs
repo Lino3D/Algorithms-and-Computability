@@ -73,16 +73,23 @@ namespace AC_Project.Algorithms
                     Group = item.GetGroup();
                     foreach (var item2 in Group)
                     {
-                        if(item2!=GlobalBest.GetId()) //not Global
+              //          if(item2!=GlobalBest.GetId()) //not Global
                         automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest);
                     }
                 }
                 foreach (var automata in automatas)
                 {
-                   if(automata!=GlobalBest) //Not global
-                    automata.SetPosition();
+            //       if(automata!=GlobalBest) //Not global
+                    automata.SetPosition(rand);
 
                 }
+
+
+                //CHUUUJJJJJJ tak bardzo
+               foreach (var item in automatas)
+                    item.CalculateGlobalBestTotallyRandomShit(rand, automatas);
+                GlobalBest.CalculateGlobalBestTotallyRandomShit(rand, automatas);
+
                 Automata firstautomata = automatas[0];
                 iterations++;
 

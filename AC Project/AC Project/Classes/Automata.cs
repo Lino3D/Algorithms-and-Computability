@@ -35,7 +35,7 @@ namespace AC_Project.Classes
             return Relations;
         }
 
-        public void SetPosition()
+        public void SetPosition( Random rand)
         {
             List<TransitionTable> _transitiontables = new List<TransitionTable>();
             double[,] tmp;
@@ -67,23 +67,44 @@ namespace AC_Project.Classes
                 }
 
                 TransitionTables = _transitiontables;
-                Dyskretyzacja();
+                Dyskretyzacja( rand);
                 calculateposition();
                 
 
         }
 
-         public void Dyskretyzacja()
+         public void Dyskretyzacja(Random rand)
         {
+
+
             foreach( var table in TransitionTables)
             {
+                int countones = 1;
+                int r;
                 double[,] tmp =  table.GetTransitionMatrix();
 
                 for (int i = 0; i < table.getSize(); i++)
                     for (int j = 0; j < table.getSize(); j++)
                         if (tmp[i, j] == 1)
+                        {
+                            countones = 1;
                             for (int k = i + 1; k < table.getSize(); k++)
-                                tmp[k, j] = 0;
+                                countones++;
+                            r = rand.Next(countones);
+                            int iteration = 0;
+                            for (int k = i + 1; k < table.getSize(); k++, iteration++)
+                                if (iteration == r && tmp[k, j] == 1)
+                                {
+                                    tmp[k, j] = 1;
+                                    iteration++;
+                                }
+                                else if( tmp[k,j] == 1 && iteration !=r)
+                                {
+                                    tmp[k, j] = 0;
+                                    iteration++;
+                                }
+                        }
+                            
 
             }
         }
@@ -127,20 +148,46 @@ namespace AC_Project.Classes
 
          for (int i = 0; i < size; i++ )
          {
-             if (this != Globalbest)
+       //      if (this != Globalbest)
                  tmpV[i] = this.getError() * Velocity[i] + gx[i] + px[i];
-             else
-                 tmpV[i] = r.Next(2);
+     //        else
+      //           tmpV[i] = r.Next(2);
 
          }
          Velocity = tmpV;
           
      }
-        public void CalculateGlobalBestTotallyRandomShit(List<Automata> automatas)
+        public void CalculateGlobalBestTotallyRandomShit(Random rand, List<Automata> automatas)
         {
-          
+            List<TransitionTable> list = new List<TransitionTable>();
+            bool isdifferent = false;
 
+            while (!isdifferent)
+            {
+                foreach (var item in this.Alphabet)
+                {
+                    TransitionTable tmp = new TransitionTable(this.getStates(), rand);
+                    list.Add(tmp);
+                }
+                TransitionTables = list;
+                this.Dyskretyzacja(rand);
+                this.calculateposition();
+                
 
+                foreach(var aut in automatas)
+                {
+                    isdifferent = false;
+                    foreach( var item in aut.GetTransitionTables())
+                    {
+                        if (!this.TransitionTables.Contains(item))
+                            isdifferent = true;
+                    }
+
+                    if (isdifferent)
+                        break;
+
+                }
+            }
         }
 
        
@@ -216,6 +263,10 @@ namespace AC_Project.Classes
         {
             return TransitionTables.ElementAt(i);
         }
+        public List<TransitionTable> GetTransitionTables()
+       {
+           return this.TransitionTables;
+       }
        public int getStates()
         { 
             return States;
