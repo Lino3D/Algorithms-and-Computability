@@ -121,7 +121,7 @@ namespace AC_Project
 
             Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count(), rand);
 
- //           PSOAlgorithm.ComputePSO(ideal, automatas, alphabet, n, words, Neighbours, rand);
+            PSOAlgorithm.ComputePSO(ideal, automatas, alphabet, n, words, Neighbours, rand);
 
 
             SetAutomataIntoWindow(ideal);
