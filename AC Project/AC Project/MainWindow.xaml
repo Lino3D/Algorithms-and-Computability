@@ -8,7 +8,7 @@
    >
 
     <Grid>
-        <Button Name="LoadAutomata" Content="Load File" HorizontalAlignment="Left" Margin="19,25,0,0" VerticalAlignment="Top" Width="75" Click="LoadAutomata_Click"/>
+        <Button Name="LoadAutomata" Content="Load File" HorizontalAlignment="Left" Margin="19,25,0,0" VerticalAlignment="Top" Width="75" Click="LoadAutomataLines_Click"/>
         <TextBox x:Name="AlphabetTextbox" HorizontalAlignment="Left" Height="23" Margin="170,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" IsEnabled="False"/>
         <Button Content="Test" HorizontalAlignment="Left" Margin="19,285,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
         <Label Content="Alphabet:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="111,10,0,0" RenderTransformOrigin="0.737,2.308"/>
@@ -26,6 +26,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
+        <Button Content="Load File" x:Name="LoaderComma" Click="LoaderComma_Click" HorizontalAlignment="Left" Margin="19,55,0,0" VerticalAlignment="Top" Width="75" Height="17"/>
 
     </Grid>
 </Controls:MetroWindow>
