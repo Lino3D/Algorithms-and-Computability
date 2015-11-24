@@ -67,9 +67,8 @@ namespace AC_Project.Classes
                 }
 
                 TransitionTables = _transitiontables;
-                calculateposition();
                 Dyskretyzacja();
-
+                calculateposition();
         }
 
          public void Dyskretyzacja()
