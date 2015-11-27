@@ -25,7 +25,7 @@ namespace AC_Project.Algorithms
          * alphabet - alphabet of the automaton
          * n - number of particles
          * */
-       public static void ComputePSO(Automata ideal, List<Automata> automatas, int[] alphabet, int n, Word[] words, List<Neighbours> Neighbours, Random rand)
+       public static Automata ComputePSO(Automata ideal, List<Automata> automatas, int[] alphabet, int n, Word[] words, List<Neighbours> Neighbours, Random rand)
         {
             /* 1. Generate Particles, Velocity
              * 2. Compute Error and Choose Local Bests
@@ -36,14 +36,25 @@ namespace AC_Project.Algorithms
             int abcde;
             History history = new History();
             Automata GlobalBest = automatas[0] ;
-            for( int i = 0; i < 2; i++)
+             for (int i = 0; i < 2; i++)
+             {
+        //    foreach (var c in automatas)
+         //       c.AddState(rand);
+             }
+            int stepsize = 80;
+            int iterations = 1;
+            while( iterations < 8000  ) // && Error > MinError)
             {
-                foreach (var c in automatas)
-                    c.AddState(rand);
-            }
-            int iterations = 0;
-            while( iterations < 500  ) // && Error > MinError)
-            {
+
+                if (iterations % stepsize == 0)
+                {
+                   // for (int i = 0; i < 2; i++)
+                   // {
+                        foreach (var c in automatas)
+                            c.AddState(rand);
+                   // }
+                }
+
 
 
                 ideal.ComputeAutomata(words);
@@ -83,18 +94,16 @@ namespace AC_Project.Algorithms
                     foreach (var item2 in Group)
                     {
                         if(item2!=GlobalBest.GetId()) //not Global
-                        automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest);
+                            automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest);
                     }
                 }
                 foreach (var automata in automatas)
                 {
                    if(automata!=GlobalBest) //Not global
-                    automata.SetPosition(rand);
+                        automata.SetPosition(rand);
 
                 }
 
-                
-                //CHUUUJJJJJJ tak bardzo
          //      foreach (var item in automatas)
         //            item.CalculateGlobalBestTotallyRandomShit(rand, automatas);
                 
@@ -107,13 +116,14 @@ namespace AC_Project.Algorithms
                 
                 iterations++;
                 
-                if (GlobalBest.getError() < 0.05)
+                if (GlobalBest.getError() < 0.005)
                     break;
                 if (GlobalBest.getError() < 0.3)
                     abcde = 1;
                      
             }
-
+           double error = CalculateRelations(ideal, GlobalBest);
+            return GlobalBest;
             int abc2 = 3;
         }
         public static int CalculateDistance(Automata a, Automata b)

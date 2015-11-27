@@ -3,7 +3,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525" 
+        Title="MainWindow" Height="484.8" Width="588" 
         ResizeMode="CanResizeWithGrip"
    >
 
@@ -27,6 +27,27 @@
             </TabItem>
         </TabControl>
         <Button Content="Load File" x:Name="LoaderComma" Click="LoaderComma_Click" HorizontalAlignment="Left" Margin="19,55,0,0" VerticalAlignment="Top" Width="75" Height="17"/>
+        <StackPanel HorizontalAlignment="Left" Height="100" Margin="-118,169,0,0" VerticalAlignment="Top" Width="100"/>
+        <TextBox x:Name="AlphabetTextbox2" HorizontalAlignment="Left" Height="23" Margin="215,264,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" IsEnabled="False"/>
+        <Label Content="Alphabet:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="156,264,0,0" RenderTransformOrigin="0.737,2.308"/>
+        <TextBox x:Name="StatesTextbox2" HorizontalAlignment="Left" Height="23" Margin="215,300,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="23" IsEnabled="False"/>
+        <Label Content="States:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="156,295,0,0" RenderTransformOrigin="0.737,2.308"/>
+        <Label Content="Transition Matrices" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="308,261,0,0" RenderTransformOrigin="0.737,2.308"/>
+        <TabControl x:Name="TabControlWindow2" HorizontalAlignment="Left" Height="161" Margin="319,279,0,0" VerticalAlignment="Top" Width="233">
+            <TabItem x:Name="TabItemWindow2" Header="" HorizontalAlignment="Left" Width="31">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="87*"/>
+                        <ColumnDefinition Width="140*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Height="90" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="180"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Label Content="Found Solution:" HorizontalAlignment="Left" Height="25" Margin="156,234,0,0" VerticalAlignment="Top" Width="113"/>
+        <Button x:Name="Start" Content="Start" HorizontalAlignment="Left" Height="15" Margin="27,107,0,0" VerticalAlignment="Top" Width="67" Click="Start_Click"/>
+        <TextBox x:Name="ErrorTextBox" HorizontalAlignment="Left" Height="23" Margin="215,331,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="23" IsEnabled="False"/>
+        <Label Content="Error:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="156,326,0,0" RenderTransformOrigin="0.737,2.308"/>
 
     </Grid>
 </Controls:MetroWindow>

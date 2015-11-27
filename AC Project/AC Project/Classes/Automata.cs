@@ -14,9 +14,9 @@ namespace AC_Project.Classes
         int[] Position;
         int id;
         double Error;
-        int[] Relations = new int[4950];
+       int[] Relations = new int[4950];
         double[] Velocity;
-        
+    //    int[] Relations = new int[124750];
 
 
        public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables, int _id)
@@ -30,7 +30,19 @@ namespace AC_Project.Classes
             Array.Copy(Position, Velocity, Position.Count());
             
         }
-       public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables, int _id, double error, int[] rel)
+        public void calculatRsize(int n)
+        {
+            int _size=0;
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = i+1; j < n; j++)
+                {
+                    _size++;
+                }
+            }
+            
+        }
+        public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables, int _id, double error, int[] rel)
        {
            States = s;
            Alphabet = alphabet;
@@ -97,8 +109,33 @@ namespace AC_Project.Classes
                 double[,] tmp =  table.GetTransitionMatrix();
 
                 for (int i = 0; i < table.getSize(); i++)
+                {
+                    countones = 0;
                     for (int j = 0; j < table.getSize(); j++)
-                        if (tmp[i, j] == 1)
+                        if (tmp[j, i] == 1)
+                        {
+                            countones++;
+                        }
+
+                    if (countones == 0)
+                    {
+                        r = rand.Next(table.getSize());
+                        tmp[r, i] = 1;
+
+                    }
+                    else if (countones > 1)
+                    {
+                        for (int k = 0; k < table.getSize(); k++)
+                            tmp[k, i] = 0;
+                        r = rand.Next(table.getSize());
+                        tmp[r, i] = 1;
+                    }
+
+                }
+                /*
+                for (int i = 0; i < table.getSize(); i++)
+                    for (int j = 0; j < table.getSize(); j++)
+                        if (tmp[j, i] == 1)
                         {
                             countones = 1;
                             for (int k = i + 1; k < table.getSize(); k++)
@@ -117,7 +154,7 @@ namespace AC_Project.Classes
                                     iteration++;
                                 }
                         }
-                            
+                            */
 
             }
         }
@@ -350,8 +387,9 @@ namespace AC_Project.Classes
             return FinalState;
         }
 
+
         //calculating Relations object in automata class.
-        void CalculateRelationsVector(int[] final)
+        public void CalculateRelationsVector(int[] final)
         {
             int count = 0;
             for( int i = 0 ; i < 100; i++)

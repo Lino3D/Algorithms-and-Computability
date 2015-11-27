@@ -105,14 +105,26 @@ namespace AC_Project
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
+            int _size = 0;
+            for (int i = 0; i < 500; i++)
+            {
+                for (int j = i + 1; j < 500; j++)
+                {
+                    _size++;
+                }
+            }
+
             int[] _alphabet = { 0, 1 };
             //Hardcoded for easy testing, a sample from first AC classes 
             List<TransitionTable> SampleTable = new List<TransitionTable>();
             double[,] tmp1 = new double[4, 4] { { 0, 0, 0, 0 }, { 1, 0, 0, 0 }, { 0, 0, 1, 0 }, { 0, 1, 0, 1 } };
             double[,] tmp2 = new double[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 1, 0, 1, 0 }, { 0, 1, 0, 1 } };
+       //     double[,] tmp3 = new double[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 1, 0, 1, 0 }, { 0, 1, 0, 1 } };
 
             SampleTable.Add(new TransitionTable(4, tmp1));
             SampleTable.Add(new TransitionTable(4, tmp2));
+       //     SampleTable.Add(new TransitionTable(4, tmp3));
 
             Random rand = new Random();
             Automata ideal = new Automata(4,_alphabet,SampleTable, -1);
@@ -120,10 +132,12 @@ namespace AC_Project
 
             Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count(), rand);
 
-         PSOAlgorithm.ComputePSO(ideal, automatas, alphabet, n, words, Neighbours, rand);
-
-
             SetAutomataIntoWindow(ideal);
+         Automata solved = PSOAlgorithm.ComputePSO(ideal, automatas, alphabet, n, words, Neighbours, rand);
+         if (solved != null)
+             SetFoundAutomataIntoWindow(solved);
+
+            
         }
 
         public void SetAutomataIntoWindow(Automata ideal )
@@ -172,6 +186,53 @@ namespace AC_Project
             
         }
 
+
+        public void SetFoundAutomataIntoWindow(Automata ideal)
+        {
+            string text;
+            text = "" + ideal.getAlphabet()[0];
+            foreach (var item in ideal.getAlphabet())
+                if (item != ideal.getAlphabet()[0])
+                    text += ", " + item;
+
+            AlphabetTextbox2.Text = text;
+            StatesTextbox2.Text = ideal.getStates().ToString();
+            TabItemWindow2.Content = "";
+            ErrorTextBox.Text = ideal.getError().ToString();
+            for (int i = 0; i < ideal.getAlphabet().Count(); i++)
+            {
+                if (i == 0)
+                {
+                    text = "";
+                    double[,] table = ideal.GetTransitionTable(i).GetTransitionMatrix();
+                    for (int j = 0; j < ideal.GetTransitionTable(i).getSize(); j++)
+                    {
+                        for (int j2 = 0; j2 < ideal.GetTransitionTable(i).getSize(); j2++)
+                            text += table[j2, j] + "  ";
+                        TabItemWindow2.Content += text;
+                        text = "\n";
+                    }
+                    TabItemWindow2.Header = ideal.getAlphabet()[i];
+
+                }
+                else
+                {
+                    TabItem NewTab = new TabItem { DataContext = TabItemWindow2.DataContext };
+                    text = "";
+                    double[,] table = ideal.GetTransitionTable(i).GetTransitionMatrix();
+                    for (int j = 0; j < ideal.GetTransitionTable(i).getSize(); j++)
+                    {
+                        for (int j2 = 0; j2 < ideal.GetTransitionTable(i).getSize(); j2++)
+                            text += table[j2, j] + "  ";
+                        NewTab.Content += text;
+                        text = "\n";
+                    }
+                    NewTab.Header = ideal.getAlphabet()[i];
+                    TabControlWindow2.Items.Add(NewTab);
+                }
+            }
+
+        }
         private void LoaderComma_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -225,6 +286,18 @@ namespace AC_Project
             }
             else
                 MessageBox.Show("Something went very, very wrong");
+        }
+
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+            Random rand = new Random();
+            if (tool != null)
+            {
+                Word[] words = WordGenerator.GenerateWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand);
+                Automata solved = PSOAlgorithm.ComputePSO(tool, automatas, tool.getAlphabet(), n, words, Neighbours, rand);
+                if (solved != null)
+                    SetFoundAutomataIntoWindow(solved);
+            }
         }
 
 

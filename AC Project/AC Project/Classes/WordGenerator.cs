@@ -18,7 +18,7 @@ namespace AC_Project.Classes
             int [] tmpWord;
             int c;
             int MaxLetters = 10;
-            for (int i = 0; i < 100; i++ )
+            for (int i = 0; i < words.Count(); i++ )
             {
                 tmpWord = new int[MaxLetters];
                 for (int j = 0; j < MaxLetters; j++)
