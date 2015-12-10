@@ -37,7 +37,7 @@ namespace AC_Project
         public MainWindow()
         {
             InitializeComponent();
-            int[] _alphabet = { 0, 1 };
+            int[] _alphabet = { 0, 1, 2, 3, 4 };
             alphabet = _alphabet;
             Random rand = new Random();
             for (int i = 0; i < n; i++)
@@ -106,6 +106,27 @@ namespace AC_Project
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
+            Random rand = new Random();
+            for (int i = 0; i < 6; i++)
+                automatas[0].AddState(rand);
+
+            string filename = @"h:\Windows7\Desktop\automata.txt";
+            System.IO.StreamWriter file = new System.IO.StreamWriter(filename);
+
+
+            string txt = "";
+
+            foreach( var item in automatas[0].GetTransitionTables() )
+            {
+                double[,] tmp = item.GetTransitionMatrix();
+                for( int i = 0; i < item.getSize(); i++)
+                    for( int j = 0; j < item.getSize(); j++)
+                        txt+=tmp[j,i].ToString();
+                
+            }
+            file.Write(txt);
+    file.Close();
+
             int _size = 0;
             for (int i = 0; i < 500; i++)
             {
@@ -126,7 +147,7 @@ namespace AC_Project
             SampleTable.Add(new TransitionTable(4, tmp2));
        //     SampleTable.Add(new TransitionTable(4, tmp3));
 
-            Random rand = new Random();
+          //  Random rand = new Random();
             Automata ideal = new Automata(4,_alphabet,SampleTable, -1);
             Automata Particle = Automata.GenerateParticle(4, _alphabet, 1,rand);
 
@@ -258,12 +279,15 @@ namespace AC_Project
                  }
                  states = Int32.Parse(stringautomata[0]);
                        // string a = stringautomata[0];
-                        _alphabet = new int[stringautomata[1].Count()];
+                 int length = 0;
+                        
                         for (int i = 0; i < stringautomata[1].Count(); i++)
                         {
-                            _alphabet[i] = (int)Char.GetNumericValue(stringautomata[1][i]);
+                            length = (int)Char.GetNumericValue(stringautomata[1][i]);
                         }
-           
+                        _alphabet = new int[length];
+                        for (int i = 0; i < length; i++)
+                            _alphabet[i] = i;
 
                         for (int z = 0; z < _alphabet.Length; z++)
                         {

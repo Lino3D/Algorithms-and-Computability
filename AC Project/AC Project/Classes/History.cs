@@ -34,16 +34,29 @@ namespace AC_Project.Classes
             BestAutomatas.Add(tmp2);
         }
 
-        public Automata ReturnBestAutomata(Automata CurrentBest)
+        public Automata ReturnBestAutomata(Automata CurrentBest, int states)
         {
             Automata Best = CurrentBest;
             if (BestAutomatas.Count == 0)
                 return Best;
            
             for (int i = 0; i < BestAutomatas.Count; i++ )
-                if (BestAutomatas[i].getError() < Best.getError())
+                if (BestAutomatas[i].getError() < Best.getError() && BestAutomatas[i].getStates() == states)
                     Best = BestAutomatas[i];
             
+            return Best;
+        }
+
+        public Automata ReturnBestAutomata(Automata CurrentBest)
+        {
+            Automata Best = CurrentBest;
+            if (BestAutomatas.Count == 0)
+                return Best;
+
+            for (int i = 0; i < BestAutomatas.Count; i++)
+                if (BestAutomatas[i].getError() < Best.getError())
+                    Best = BestAutomatas[i];
+
             return Best;
         }
 

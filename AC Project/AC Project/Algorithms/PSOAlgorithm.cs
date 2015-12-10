@@ -36,14 +36,14 @@ namespace AC_Project.Algorithms
             int abcde;
             History history = new History();
             Automata GlobalBest = automatas[0] ;
-             for (int i = 0; i < 2; i++)
+             for (int i = 0; i < 5; i++)
              {
         //    foreach (var c in automatas)
          //       c.AddState(rand);
              }
-            int stepsize = 80;
+             int stepsize = 80;
             int iterations = 1;
-            while( iterations < 8000  ) // && Error > MinError)
+            while( iterations < 800  ) // && Error > MinError)
             {
 
                 if (iterations % stepsize == 0)
@@ -84,7 +84,7 @@ namespace AC_Project.Algorithms
                 Neighbours = PSOAlgorithm.ChooseLocalBests(automatas, Neighbours, n);
                 GlobalBest = PSOAlgorithm.FindGlobalBest(Neighbours, automatas);
                 history.AddGlobalBest(GlobalBest);
-                GlobalBest = history.ReturnBestAutomata(GlobalBest);
+                GlobalBest = history.ReturnBestAutomata(GlobalBest, automatas[0].getStates());
                 automatas[GlobalBest.GetId()] = GlobalBest;
 
                 foreach (var item in Neighbours)
@@ -123,13 +123,16 @@ namespace AC_Project.Algorithms
                      
             }
            double error = CalculateRelations(ideal, GlobalBest);
+
+
+           GlobalBest = history.ReturnBestAutomata(GlobalBest);
             return GlobalBest;
             int abc2 = 3;
         }
         public static int CalculateDistance(Automata a, Automata b)
         {
             int distance = 0;
-            int dimensions = a.getStates() * a.getAlphabetSize() * a.getAlphabetSize();
+            int dimensions = a.getStates() * a.getStates() * a.getAlphabetSize();
             int[] Difference = new int[dimensions];
             int[] x, y;
 

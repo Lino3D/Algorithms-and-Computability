@@ -242,9 +242,9 @@ namespace AC_Project.Classes
           //  if (GlobalBest != TmpAut)
            //     GlobalBest = TmpAut;
 
-            Automata TmpAut = history.ReturnBestAutomata(GlobalBest);
-            if (GlobalBest != TmpAut)
-                return TmpAut;
+       //     Automata TmpAut = history.ReturnBestAutomata(GlobalBest);
+      //      if (GlobalBest != TmpAut)
+       //         return TmpAut;
             return GlobalBest;
         }
 
