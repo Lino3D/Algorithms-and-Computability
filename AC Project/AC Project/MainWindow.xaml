@@ -8,7 +8,6 @@
    >
 
     <Grid>
-        <Button Name="LoadAutomata" Content="Load File" HorizontalAlignment="Left" Margin="19,25,0,0" VerticalAlignment="Top" Width="75" Click="LoadAutomataLines_Click"/>
         <TextBox x:Name="AlphabetTextbox" HorizontalAlignment="Left" Height="23" Margin="170,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" IsEnabled="False"/>
         <Button Content="Test" HorizontalAlignment="Left" Margin="19,285,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
         <Label Content="Alphabet:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="111,10,0,0" RenderTransformOrigin="0.737,2.308"/>
@@ -22,11 +21,11 @@
                         <ColumnDefinition Width="87*"/>
                         <ColumnDefinition Width="140*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Height="90" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="180"/>
+                    <TextBlock Height="116" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="217"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button Content="Load File" x:Name="LoaderComma" Click="LoaderComma_Click" HorizontalAlignment="Left" Margin="19,55,0,0" VerticalAlignment="Top" Width="75" Height="17"/>
+        <Button Content="Load File" x:Name="LoaderComma" Click="LoaderComma_Click" HorizontalAlignment="Left" Margin="19,16,0,0" VerticalAlignment="Top" Width="75" Height="17"/>
         <StackPanel HorizontalAlignment="Left" Height="100" Margin="-118,169,0,0" VerticalAlignment="Top" Width="100"/>
         <TextBox x:Name="AlphabetTextbox2" HorizontalAlignment="Left" Height="23" Margin="215,264,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" IsEnabled="False"/>
         <Label Content="Alphabet:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="156,264,0,0" RenderTransformOrigin="0.737,2.308"/>
@@ -35,12 +34,12 @@
         <Label Content="Transition Matrices" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="308,261,0,0" RenderTransformOrigin="0.737,2.308"/>
         <TabControl x:Name="TabControlWindow2" HorizontalAlignment="Left" Height="161" Margin="319,279,0,0" VerticalAlignment="Top" Width="233">
             <TabItem x:Name="TabItemWindow2" Header="" HorizontalAlignment="Left" Width="31">
-                <Grid Background="#FFE5E5E5" Margin="0,0,-66,-114">
+                <Grid Background="#FFE5E5E5" Margin="0,0,-13,-60">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="87*"/>
                         <ColumnDefinition Width="140*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Height="90" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="180"/>
+                    <TextBlock Height="176" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="216" Margin="0,0,0,-23"/>
                 </Grid>
             </TabItem>
         </TabControl>

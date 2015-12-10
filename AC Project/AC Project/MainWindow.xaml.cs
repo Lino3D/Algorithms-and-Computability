@@ -254,7 +254,7 @@ namespace AC_Project
             }
 
         }
-        private void LoaderComma_Click(object sender, RoutedEventArgs e)
+     private void LoaderComma_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.DefaultExt = ".txt";
@@ -266,43 +266,46 @@ namespace AC_Project
                 string line;
                 int states = 0;
                 int[] _alphabet = new int[0];
-
-             //   int counter = 0;
                 System.IO.StreamReader file = new System.IO.StreamReader(filename);
                  line= file.ReadToEnd();
 
                  List<string> stringautomata = line.Split(',').ToList();
-                 if (stringautomata.Count() != 3)
-                 {
-                     MessageBox.Show("Wrong File Format");
-                     return;
-                 }
-                 states = Int32.Parse(stringautomata[0]);
-                       // string a = stringautomata[0];
-                 int length = 0;
-                        
-                        for (int i = 0; i < stringautomata[1].Count(); i++)
+                
+                //Number of states
+                        states = Int32.Parse(stringautomata[0]);
+                //Initializing Alphabet
+                        _alphabet = new int[int.Parse(stringautomata[1])];
+                        for (int i = 0; i < _alphabet.Count(); i++)
                         {
-                            length = (int)Char.GetNumericValue(stringautomata[1][i]);
-                        }
-                        _alphabet = new int[length];
-                        for (int i = 0; i < length; i++)
                             _alphabet[i] = i;
+                        }
+           
+                //initializing transition tables.
+                        int nrofRows = states * states * _alphabet.Count();
 
-                        for (int z = 0; z < _alphabet.Length; z++)
+                        double[,] onetable = new double[states,states];
+
+                        for (int j = 0; j < _alphabet.Count(); j++)
                         {
-                            table = new double[states, states];
-                            for (int i = 0; i < states; i++)
+                            onetable = new double[states, states];
+                            int counter = 0;
+                            for (int i = 2 + j; i < stringautomata.Count; i = i + _alphabet.Count())
                             {
-                                for (int j = 0; j < states; j++)
+                                int transition = int.Parse(stringautomata[i]);
+
+                                //       for (int y = 0; y < states; y++)
+                                for (int x = 0; x < states; x++)
                                 {
-                                    table[j, i] = (int)Char.GetNumericValue(stringautomata[2][i * states + j + states * states * z]);
+                                    if (x == transition)
+                                        onetable[x, counter] = 1;
+                                    else
+                                        onetable[x, counter] = 0;
                                 }
+                                counter++;
                             }
-                            TransitionTable t = new TransitionTable(states, table);
+                            TransitionTable t = new TransitionTable(states, onetable);
                             transitiontables.Add(t);
                         }
-      
                 tool = new Automata(states, _alphabet, transitiontables, -1);
                 alphabet = _alphabet;
                 SetAutomataIntoWindow(tool);
