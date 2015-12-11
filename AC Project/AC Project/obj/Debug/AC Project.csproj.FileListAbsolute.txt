@@ -175,3 +175,4 @@ C:\Users\Lino\Desktop\AC new\AC Project\AC Project\bin\Debug\AC Project.pdb
 C:\Users\Lino\Desktop\AC new\AC Project\AC Project\bin\Debug\MahApps.Metro.dll
 C:\Users\Lino\Desktop\AC new\AC Project\AC Project\bin\Debug\System.Windows.Interactivity.dll
 C:\Users\Lino\Desktop\AC new\AC Project\AC Project\bin\Debug\MahApps.Metro.xml
+C:\Users\Lino\Desktop\AC new\AC Project\AC Project\bin\Debug\GraphVizWrapper.dll

@@ -10,7 +10,7 @@ namespace AC_Project.Classes
     {
         int States {get; set;}
         int[] Alphabet;
-        List<TransitionTable> TransitionTables;
+        public List<TransitionTable> TransitionTables;
         int[] Position;
         int id;
         double Error;

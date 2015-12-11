@@ -15,6 +15,11 @@ using System.Windows.Shapes;
 using AC_Project.Classes;
 using AC_Project.Properties;
 using AC_Project.Algorithms;
+using GraphVizWrapper.Queries;
+using GraphVizWrapper;
+using GraphVizWrapper.Commands;
+using System.IO;
+using System.Configuration;
 namespace AC_Project
 {
     /// <summary>
@@ -37,6 +42,13 @@ namespace AC_Project
         public MainWindow()
         {
             InitializeComponent();
+
+            string path = AppDomain.CurrentDomain.BaseDirectory + "\\graphviz\\bin";
+    
+
+            string file1 = ConfigurationManager.AppSettings["graphVizLocation"];
+       
+
             int[] _alphabet = { 0, 1, 2, 3, 4 };
             alphabet = _alphabet;
             Random rand = new Random();
@@ -100,6 +112,7 @@ namespace AC_Project
                 tool = new Automata(states, _alphabet, transitiontables, -1);
                 alphabet = _alphabet;
                 SetAutomataIntoWindow(tool);
+                Dupa();
             }
         }
 
@@ -308,6 +321,7 @@ namespace AC_Project
                         }
                 tool = new Automata(states, _alphabet, transitiontables, -1);
                 alphabet = _alphabet;
+                            Dupa();
                 SetAutomataIntoWindow(tool);
 
             }
@@ -326,7 +340,91 @@ namespace AC_Project
                     SetFoundAutomataIntoWindow(solved);
             }
         }
+        void Dupa()
+        {
+            var getStartProcessQuery = new GetStartProcessQuery();
+            var getProcessStartInfoQuery = new GetProcessStartInfoQuery();
+            var registerLayoutPluginCommand = new RegisterLayoutPluginCommand(getProcessStartInfoQuery, getStartProcessQuery);
+
+            // GraphGeneration can be injected via the IGraphGeneration interface
+
+            var wrapper = new GraphGeneration(getStartProcessQuery,
+                                              getProcessStartInfoQuery,
+                                              registerLayoutPluginCommand);
+
+           // byte[] orginal = wrapper.GenerateGraph(GenerateDotString(orginalAutomaton), Enums.GraphReturnType.Png);
+            //byte[] found = wrapper.GenerateGraph(GenerateDotString(foundAutomaton), Enums.GraphReturnType.Png);
+
+
+
+            string g = "digraph { " + "a" + " -> " + "b;" + " }";
+            g = "digraph { a-> b[label=\"1\"];  a-> a[label=\"0\"];    }";
+
+
+
+          
+
+
+            byte[] original = wrapper.GenerateGraph(Generatedot(tool.GetTransitionTables()), Enums.GraphReturnType.Png);
+            BitmapImage bm = LoadImage(original);
+            toolAutomatonImage.Source = bm;
+
+
+        }
+
+
+
+     //   public string GenerateDotString(List<int>[][] automaton)
+
+        public string Generatedot(List<TransitionTable>automaton)
+        {
+            string dotString = "digraph{";
+
+            for (int i = 0; i < automaton.Count(); i++)
+            {
+                double[,] Table = automaton[i].GetTransitionMatrix();
+                for (int j = 0; j < Table.GetLength(0); j++)
+                {
+                    for (int k = 0; k < Table.GetLength(0); k++ )
+                    {
+                        if(Table[j,k]>0)
+                        {
+                            string stateToState = "" + k + " -> " +j + @" [label = """;
+                            stateToState += i;
+                          //  stateToState += ",";
+                            stateToState += @"""] ;";
+                            dotString += stateToState;
+                        }
+                    }
+                    }
+            }
+
+            dotString += "}";
+            return dotString;
+        }
+
+        private static BitmapImage LoadImage(byte[] imageData)
+        {
+            if (imageData == null || imageData.Length == 0) return null;
+            var image = new BitmapImage();
+            using (var mem = new MemoryStream(imageData))
+            {
+                mem.Position = 0;
+                image.BeginInit();
+                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.UriSource = null;
+                image.StreamSource = mem;
+                image.EndInit();
+            }
+            image.Freeze();
+            return image;
+        }
 
 
     }
+
+
+
+
 }
