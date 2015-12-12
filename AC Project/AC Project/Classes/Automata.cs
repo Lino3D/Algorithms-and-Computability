@@ -29,18 +29,7 @@ namespace AC_Project.Classes
             Array.Copy(Position, Velocity, Position.Count());
             
         }
-        public void calculatRsize(int n)
-        {
-            int _size=0;
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = i+1; j < n; j++)
-                {
-                    _size++;
-                }
-            }
-            
-        }
+
         public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables, int _id, double error, int[] rel)
        {
            States = s;
