@@ -9,15 +9,16 @@ namespace AC_Project.Classes
 {
     public class WordGenerator
     {
-        public static Word[] GenerateWords(int[] alphabet, int lettercount, Random rand)
+        public static Word[] GenerateWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo)
         {
-         // int[][] Words = new int[100][];
-            Word[] words = new Word[100];
+            Word[] words = new Word[NumOfWords];
 
-            int StepSize = 5;
+            int StepSize = (LengthTo-LengthFrom)/9;
             int [] tmpWord;
             int c;
-            int MaxLetters = 10;
+            int MaxLetters = LengthFrom;
+            int count = 0;
+
             for (int i = 0; i < words.Count(); i++ )
             {
                 tmpWord = new int[MaxLetters];
@@ -26,14 +27,56 @@ namespace AC_Project.Classes
                     c = rand.Next(lettercount);
                     tmpWord[j] = alphabet[c];
                 }
-             //   Words[i] = tmpWord;
                 words[i] = new Word(i, MaxLetters, tmpWord);
-                if (i % 10 == 0 && i != 0)
+                count++;
+                if (StepSize == count)
+                {
                     MaxLetters += StepSize;
+                    count = 0;
+                    if (LengthTo - MaxLetters < StepSize)
+                        MaxLetters = LengthTo;
+                }
             }
             return words;
-          //  Words tmp = new Words(Words, 100);
-         //   return tmp;
+        }
+
+        public static Word[] GenerateTrainingWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo, Word[] TestSet)
+        {
+            Word[] words = new Word[NumOfWords];
+
+            int StepSize = (LengthTo - LengthFrom) / 9;
+            int[] tmpWord;
+            int c;
+            int MaxLetters = LengthFrom;
+            int count = 0;
+            bool Contains = true;
+            for (int i = 0; i < words.Count(); i++)
+            {
+                tmpWord = new int[MaxLetters];
+
+                while (Contains)
+                {
+                    for (int j = 0; j < MaxLetters; j++)
+                    {
+                        c = rand.Next(lettercount);
+                        tmpWord[j] = alphabet[c];
+                    }
+                    var temporary = new Word(i, MaxLetters, tmpWord);
+                    if (!TestSet.Contains(temporary))
+                        Contains = false;
+                }
+                Contains = true;
+                words[i] = new Word(i, MaxLetters, tmpWord);
+                count++;
+                if (StepSize == count)
+                {
+                    MaxLetters += StepSize;
+                    count = 0;
+                    if (LengthTo - MaxLetters < StepSize)
+                        MaxLetters = LengthTo;
+                }
+            }
+            return words;
         }
 
       

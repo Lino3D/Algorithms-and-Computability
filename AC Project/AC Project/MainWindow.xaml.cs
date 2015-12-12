@@ -20,6 +20,7 @@ using GraphVizWrapper;
 using GraphVizWrapper.Commands;
 using System.IO;
 using System.Configuration;
+using System.Text.RegularExpressions;
 namespace AC_Project
 {
     /// <summary>
@@ -34,10 +35,19 @@ namespace AC_Project
         List<Automata> automatas = new List<Automata>();
         List<Neighbours> Neighbours = new List<Neighbours>();
 
+
         int n=100;
         List<Neighbours> LocalBests = new List<Neighbours>();
         int[] alphabet;
         int[] EndingState;
+
+
+
+        int NumOfWords = 100;
+        int LengthOfWordsFrom = 9;
+        int LengthOfWordsTo = 100;
+        int MaxIterations = 500;
+
 
         public MainWindow()
         {
@@ -47,16 +57,13 @@ namespace AC_Project
     
 
             string file1 = ConfigurationManager.AppSettings["graphVizLocation"];
-       
 
-            int[] _alphabet = { 0, 1, 2, 3, 4 };
-            alphabet = _alphabet;
-            Random rand = new Random();
-            for (int i = 0; i < n; i++)
-            {
-                //Generate 2-states random Automatons
-                automatas.Add(Automata.GenerateParticle(2, alphabet, i, rand));
-            }
+            NumberOfWordsTextBox.Text = NumOfWords.ToString();
+            LengthFromTextBox.Text = LengthOfWordsFrom.ToString();
+            LengthToTextBox.Text = LengthOfWordsTo.ToString();
+            MaxIterationsTextBox.Text = MaxIterations.ToString();
+
+            
         }
 
         private void LoadAutomataLines_Click(object sender, RoutedEventArgs e)
@@ -113,32 +120,23 @@ namespace AC_Project
                 alphabet = _alphabet;
                 SetAutomataIntoWindow(tool);
                 Dupa();
+                Start.IsEnabled = true;
             }
         }
 
+        //This is a Test function, we do not need it
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
             Random rand = new Random();
-            for (int i = 0; i < 6; i++)
-                automatas[0].AddState(rand);
 
-            string filename = @"h:\Windows7\Desktop\automata.txt";
-            System.IO.StreamWriter file = new System.IO.StreamWriter(filename);
-
-
-            string txt = "";
-
-            foreach( var item in automatas[0].GetTransitionTables() )
+            int[] _alphabet = { 0, 1 };
+            alphabet = _alphabet;
+            for (int i = 0; i < n; i++)
             {
-                double[,] tmp = item.GetTransitionMatrix();
-                for( int i = 0; i < item.getSize(); i++)
-                    for( int j = 0; j < item.getSize(); j++)
-                        txt+=tmp[j,i].ToString();
-                
+                //Generate 2-states random Automatons
+                automatas.Add(Automata.GenerateParticle(2, alphabet, i, rand));
             }
-            file.Write(txt);
-    file.Close();
 
             int _size = 0;
             for (int i = 0; i < 500; i++)
@@ -149,7 +147,6 @@ namespace AC_Project
                 }
             }
 
-            int[] _alphabet = { 0, 1 };
             //Hardcoded for easy testing, a sample from first AC classes 
             List<TransitionTable> SampleTable = new List<TransitionTable>();
             double[,] tmp1 = new double[4, 4] { { 0, 0, 0, 0 }, { 1, 0, 0, 0 }, { 0, 0, 1, 0 }, { 0, 1, 0, 1 } };
@@ -164,10 +161,10 @@ namespace AC_Project
             Automata ideal = new Automata(4,_alphabet,SampleTable, -1);
             Automata Particle = Automata.GenerateParticle(4, _alphabet, 1,rand);
 
-            Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count(), rand);
+            Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo);
 
             SetAutomataIntoWindow(ideal);
-         Automata solved = PSOAlgorithm.ComputePSO(ideal, automatas, alphabet, n, words, Neighbours, rand);
+         Automata solved = PSOAlgorithm.ComputePSO(ideal, automatas, alphabet, n, words, Neighbours, rand, MaxIterations);
          if (solved != null)
              SetFoundAutomataIntoWindow(solved);
 
@@ -267,7 +264,7 @@ namespace AC_Project
             }
 
         }
-     private void LoaderComma_Click(object sender, RoutedEventArgs e)
+        private void LoaderComma_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.DefaultExt = ".txt";
@@ -323,6 +320,7 @@ namespace AC_Project
                 alphabet = _alphabet;
                             Dupa();
                 SetAutomataIntoWindow(tool);
+                Start.IsEnabled = true;
 
             }
             else
@@ -332,12 +330,27 @@ namespace AC_Project
         private void Start_Click(object sender, RoutedEventArgs e)
         {
             Random rand = new Random();
+
+            int[] _alphabet = tool.getAlphabet();
+            alphabet = _alphabet;
+            for (int i = 0; i < n; i++)
+            {
+                //Generate 2-states random Automatons
+                automatas.Add(Automata.GenerateParticle(2, alphabet, i, rand));
+            }
             if (tool != null)
             {
-                Word[] words = WordGenerator.GenerateWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand);
-                Automata solved = PSOAlgorithm.ComputePSO(tool, automatas, tool.getAlphabet(), n, words, Neighbours, rand);
+                Word[] TestSet = WordGenerator.GenerateWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo);
+                Word[] TrainingSet = WordGenerator.GenerateTrainingWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo,TestSet);
+                Automata solved = PSOAlgorithm.ComputePSO(tool, automatas, tool.getAlphabet(), n, TrainingSet, Neighbours, rand, MaxIterations);
+                //Place for comparsion between test and training set
                 if (solved != null)
+                {
+                    tool.ComputeAutomata(TestSet);
+                    solved.ComputeAutomata(TestSet);
+                    PSOAlgorithm.CalculateRelations(tool, solved);
                     SetFoundAutomataIntoWindow(solved);
+                }
             }
         }
         void Dupa()
@@ -421,10 +434,80 @@ namespace AC_Project
             return image;
         }
 
+        // Use the DataObject.Pasting Handler 
+        private void TextBoxPasting(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(typeof(String)))
+            {
+                String text = (String)e.DataObject.GetData(typeof(String));
+                if (!IsTextAllowed(text))
+                {
+                    e.CancelCommand();
+                }
+            }
+            else
+            {
+                e.CancelCommand();
+            }
+        }
 
+        private static bool IsTextAllowed(string text)
+        {
+            Regex regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+            return !regex.IsMatch(text);
+        }
+
+        private void PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
+        }
+
+        private void NumberOfWords_LostFocus(object sender, RoutedEventArgs e)
+        {
+            int tmp;
+            Int32.TryParse(NumberOfWordsTextBox.Text, out tmp);
+            tmp = Clamp(tmp, 1, 2000);
+            NumOfWords = tmp;
+            NumberOfWordsTextBox.Text = NumOfWords.ToString();
+        }
+
+        private int Clamp(int  val, int min, int  max) 
+        {
+            if (val.CompareTo(min) < 0) return min;
+            else if (val.CompareTo(max) > 0) return max;
+            else return val;
+        }
+
+        private void LengthToTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            int tmp;
+            Int32.TryParse(LengthToTextBox.Text, out tmp);
+            tmp = Clamp(tmp, LengthOfWordsFrom, 500);
+            LengthOfWordsTo = tmp;
+            LengthToTextBox.Text = LengthOfWordsTo.ToString();
+        }
+
+        private void LenghtFromTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            int tmp;
+            Int32.TryParse(LengthFromTextBox.Text, out tmp);
+            tmp = Clamp(tmp, 1, LengthOfWordsTo);
+            LengthOfWordsFrom = tmp;
+            LengthFromTextBox.Text = LengthOfWordsFrom.ToString();
+        }
+
+        private void NumberOfIterationsTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            int tmp;
+            Int32.TryParse(MaxIterationsTextBox.Text, out tmp);
+            tmp = Clamp(tmp, 100, 10000);
+            MaxIterations = tmp;
+            MaxIterationsTextBox.Text = MaxIterations.ToString();
+        }
+       
     }
 
-
+     
 
 
 }

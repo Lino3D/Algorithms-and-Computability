@@ -25,110 +25,101 @@ namespace AC_Project.Algorithms
          * alphabet - alphabet of the automaton
          * n - number of particles
          * */
-       public static Automata ComputePSO(Automata ideal, List<Automata> automatas, int[] alphabet, int n, Word[] words, List<Neighbours> Neighbours, Random rand)
-        {
-            /* 1. Generate Particles, Velocity
-             * 2. Compute Error and Choose Local Bests
-             * 3. Choose Global Best
-             * 4. Aplly velocity with previous step
-             * 
-             */
-            int abcde;
-            History history = new History();
-            Automata GlobalBest = automatas[0] ;
-             for (int i = 0; i < 5; i++)
-             {
-        //    foreach (var c in automatas)
-         //       c.AddState(rand);
-             }
-             int stepsize = 80;
-            int iterations = 1;
-            while( iterations < 800  ) // && Error > MinError)
-            {
+       public static Automata ComputePSO(Automata ideal, List<Automata> automatas, int[] alphabet, int n, Word[] words,
+           List<Neighbours> Neighbours, Random rand, int MaxIterations)
+       {
+           /* 1. Generate Particles, Velocity
+            * 2. Compute Error and Choose Local Bests
+            * 3. Choose Global Best
+            * 4. Aplly velocity with previous step
+            * 
+            */
+           History history = new History();
+           Automata GlobalBest = automatas[0];
 
-                if (iterations % stepsize == 0)
-                {
-                   // for (int i = 0; i < 2; i++)
-                   // {
-                        foreach (var c in automatas)
-                            c.AddState(rand);
-                   // }
-                }
+
+           int stepsize = (MaxIterations - ( MaxIterations/10)) / 10;
+           int iterations = 0;
+           while (iterations < MaxIterations)
+           {
+
+               if (iterations % stepsize == 0 && iterations != 0 && automatas[0].getStates() < 12)
+               {
+                   foreach (var c in automatas)
+                       c.AddState(rand);
+               }
 
 
 
-                ideal.ComputeAutomata(words);
+               ideal.ComputeAutomata(words);
 
-                foreach (Automata AT in automatas)
-                {
+               foreach (Automata AT in automatas)
+               {
 
-                    AT.ComputeAutomata(words);
+                   AT.ComputeAutomata(words);
 
-                }
+               }
 
-                int id2;
-                PSOAlgorithm.CalculateError(ideal, automatas);
-            ///    history.AddToHistory(automatas);
+               int id2;
+               PSOAlgorithm.CalculateError(ideal, automatas);
+               ///    history.AddToHistory(automatas);
 
 
-                List<double> abc = new List<double>();
-                foreach (var c in automatas)
-                    if (!abc.Contains(c.getError()))
-                    {
-                        abc.Add(c.getError());
-                        if (c.getError() == 0.0)
-                            id2 = c.GetId();
-                    }
+               List<double> abc = new List<double>();
+               foreach (var c in automatas)
+                   if (!abc.Contains(c.getError()))
+                   {
+                       abc.Add(c.getError());
+                       if (c.getError() == 0.0)
+                           id2 = c.GetId();
+                   }
 
-           //     PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
-                Neighbours = PSOAlgorithm.ChooseLocalBests(automatas, Neighbours, n);
-                GlobalBest = PSOAlgorithm.FindGlobalBest(Neighbours, automatas);
-                history.AddGlobalBest(GlobalBest);
-                GlobalBest = history.ReturnBestAutomata(GlobalBest, automatas[0].getStates());
-                automatas[GlobalBest.GetId()] = GlobalBest;
+               //     PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
+               Neighbours = PSOAlgorithm.ChooseLocalBests(automatas, Neighbours, n);
+               GlobalBest = PSOAlgorithm.FindGlobalBest(Neighbours, automatas);
+               history.AddGlobalBest(GlobalBest);
+               GlobalBest = history.ReturnBestAutomata(GlobalBest, automatas[0].getStates());
+               automatas[GlobalBest.GetId()] = GlobalBest;
 
-                foreach (var item in Neighbours)
-                {
-                    List<int> Group;
-                    Group = item.GetGroup();
-                    foreach (var item2 in Group)
-                    {
-                        if(item2!=GlobalBest.GetId()) //not Global
-                            automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest);
-                    }
-                }
-                foreach (var automata in automatas)
-                {
-                   if(automata!=GlobalBest) //Not global
-                        automata.SetPosition(rand);
+               foreach (var item in Neighbours)
+               {
+                   List<int> Group;
+                   Group = item.GetGroup();
+                   foreach (var item2 in Group)
+                   {
+                       if (item2 != GlobalBest.GetId()) //not Global
+                           automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest);
+                   }
+               }
+               foreach (var automata in automatas)
+               {
+                   if (automata != GlobalBest) //Not global
+                       automata.SetPosition(rand);
 
-                }
+               }
 
-         //      foreach (var item in automatas)
-        //            item.CalculateGlobalBestTotallyRandomShit(rand, automatas);
-                
-        //       GlobalBest =  GlobalBest.CalculateGlobalBestTotallyRandomShit(rand, automatas, history,GlobalBest);
-               
-        //       automatas[GlobalBest.GetId()] = GlobalBest;
-              //  Automata firstautomata = automatas[0];
-                
-        //        automatas[GlobalBest.GetId()] = GlobalBest;
-                
-                iterations++;
-                
-                if (GlobalBest.getError() < 0.005)
-                    break;
-                if (GlobalBest.getError() < 0.3)
-                    abcde = 1;
-                     
-            }
+               //      foreach (var item in automatas)
+               //            item.CalculateGlobalBestTotallyRandomShit(rand, automatas);
+
+               //       GlobalBest =  GlobalBest.CalculateGlobalBestTotallyRandomShit(rand, automatas, history,GlobalBest);
+
+               //       automatas[GlobalBest.GetId()] = GlobalBest;
+               //  Automata firstautomata = automatas[0];
+
+               //        automatas[GlobalBest.GetId()] = GlobalBest;
+
+               iterations++;
+
+               if (GlobalBest.getError() < 0.005)
+                   break;
+
+           }
            double error = CalculateRelations(ideal, GlobalBest);
 
 
            GlobalBest = history.ReturnBestAutomata(GlobalBest);
-            return GlobalBest;
-            int abc2 = 3;
-        }
+           return GlobalBest;
+       }
         public static int CalculateDistance(Automata a, Automata b)
         {
             int distance = 0;
@@ -256,112 +247,6 @@ namespace AC_Project.Algorithms
             }
             return Neighbours;
         }
-        public static List<wordRelation> Relations(int[] EndingStates, Word[] words)
-        {
-            //
-
-            List<int> clusters = new List<int>(); // Holds information about number of possible relations between words.
-            List<List<Word>> clustered = new List<List<Word>>();
-            List<wordRelation> clustered2 = new List<wordRelation>();
-
-            for (int i = 0; i < EndingStates.Length; i++)
-            {
-                if (clusters.Contains(EndingStates[i]) == false)
-                { clusters.Add(EndingStates[i]); }
-            }
-            for (int i = 0; i < clusters.Count(); i++)
-            {
-                clustered.Add(new List<Word>());
-                for (int j = 0; j < EndingStates.Count(); j++)
-                {
-                    if (EndingStates[j] == clusters[i])
-                    {
-                        clustered[i].Add(words[j]);
-                        //  clustered2.Set
-                    }
-                   
-                }
-                clustered2.Add(new wordRelation(clusters[i], clustered[i]));
-            
-            }
-            return clustered2;
-        }
-       public static double CalculateError(List<wordRelation> ToolRelated, List<wordRelation> ParticleRelated, int n )
-        {
-          //int[] errors = new int [n];
-
-           List<int> Correct= new List<int>();
-           List<Word> wrongwords = new List<Word>();
-           List<Word> Correctwords = new List<Word>();
-           for (int i = 0; i < ToolRelated.Count; i++ )
-           {
-               int EndingState = ToolRelated[i].getEndingState();
-               List<Word> toolRelated = ToolRelated[i].getRelatedWords();
-
-               for(int j=0; j<ParticleRelated.Count; j++)
-               {
-                   if (EndingState == ParticleRelated[j].getEndingState())
-                   {
-                       List<Word> particleRelated = ParticleRelated[j].getRelatedWords();
-                 
-                       for (int z = 0; z < toolRelated.Count; z++)
-                       {
-                           if (particleRelated.Contains(toolRelated[z]) == true)
-                           {
-                               Correct.Add(toolRelated[z].getId());
-                               Correctwords.Add(toolRelated[z]);
-
-                           }
-                           else
-                               wrongwords.Add(toolRelated[z]);
-                       }
-                   }
-
-               }
-             
-           }
-           if (wrongwords.Count + Correctwords.Count < n)
-           {
-               for (int i = 0; i < ToolRelated.Count; i++)
-               {
-                   List<Word> toolRelated = ToolRelated[i].getRelatedWords();
-
-                   for (int j = 0; j < toolRelated.Count; j++)
-                       if (Correctwords.Contains(toolRelated[j]) == false)
-                           wrongwords.Add(toolRelated[j]);
-
-               }
-           }
-               return 1-Correctwords.Count/100;
-        }
-
-       public static double CalculateError2(List<wordRelation> ToolRelated, List<wordRelation> ParticleRelated, int n)
-       {
-           int[] MarkedTable = new int[n];
-           for (int i = 0; i < n; i++)
-               MarkedTable[i] = 0;
-           int StateComputed;
-           foreach (var c in ParticleRelated)
-           {
-               MarkedTable[c.getRelatedWords()[0].getId()] = 1;
-       //        StateComputed = c.getEndingState();
-
-               //Recursion begins!!!!
-                foreach( var ToolVar in ToolRelated)
-                {
-                    StateComputed = ToolVar.getEndingState();
-                    foreach( var word in c.getRelatedWords())
-                    {
-                        if (ToolVar.getRelatedWords().Contains(word))
-                            MarkedTable[word.getId()] = 1;
-                    }
-                }
-
-          }
-
-           return 0.0;
-       }
-
        public static double CalculateRelations(Automata ideal, Automata particle)
        {
            int error = 0;
@@ -373,8 +258,8 @@ namespace AC_Project.Algorithms
                if (RelIdeal[i] != RelPart[i])
                    error++;
            }
-          
-           return (error/4950.0);
+
+           return ((double)error / (double) RelIdeal.Count());
        }
 
        public static void CalculateError(Automata ideal, List<Automata> automatas)
@@ -387,16 +272,5 @@ namespace AC_Project.Algorithms
            }
 
        }
-    /*    int ChooseLocalBest()
-        {
-            int best = 0;
-            float ErrorMin = float.MaxValue;
-            for( int i = 0; i < n ; i++)
-            {
-               
-
-            }
-            return best;
-        }*/
     }
 }

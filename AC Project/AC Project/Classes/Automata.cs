@@ -14,9 +14,8 @@ namespace AC_Project.Classes
         int[] Position;
         int id;
         double Error;
-       int[] Relations = new int[4950];
+        int[] Relations;
         double[] Velocity;
-    //    int[] Relations = new int[124750];
 
 
        public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables, int _id)
@@ -354,9 +353,6 @@ namespace AC_Project.Classes
         /*
          * The function returns number of accepted words by the
          * Automata over the Words table
-         * 
-         * 
-         * BASIC SKETCH OF THE FUNCTION
          */
         public int[] ComputeAutomata( Word[] words)
         {
@@ -383,18 +379,20 @@ namespace AC_Project.Classes
                 }
                 FinalState[i] = CurrentState;
             }
-            CalculateRelationsVector(FinalState);
+            CalculateRelationsVector(FinalState,words.Count());
             return FinalState;
         }
 
 
         //calculating Relations object in automata class.
-        public void CalculateRelationsVector(int[] final)
+        public void CalculateRelationsVector(int[] final, int NumberOfWords)
         {
             int count = 0;
-            for( int i = 0 ; i < 100; i++)
+            int tmp = ((NumberOfWords - 1) * NumberOfWords / 2);
+            Relations = new int[tmp];
+            for (int i = 0; i < NumberOfWords; i++)
             {
-                for (int j = i + 1; j < 100; j++)
+                for (int j = i + 1; j < NumberOfWords; j++)
                 {
                     if (final[i] == final[j])
                         Relations[count] = 1;
