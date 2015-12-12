@@ -12,6 +12,8 @@ using System.Threading.Tasks;
     [TestClass]
     public class UnitTest1
     {
+
+        //parameters for testing.
         double aError = 0.005;
         int NumOfWords = 100;
         int LengthOfWordsFrom = 9;
@@ -25,7 +27,7 @@ using System.Threading.Tasks;
 
 
 
-
+        //test method for checking if word are generated correctly 
 
         [TestMethod]
         public void WordsGenerationMethod1()
