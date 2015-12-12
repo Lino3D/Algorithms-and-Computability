@@ -12,26 +12,20 @@ using System.Threading.Tasks;
     [TestClass]
     public class UnitTest1
     {
-
-        //parameters for testing.
-        double aError = 0.005;
-        int NumOfWords = 100;
-        int LengthOfWordsFrom = 9;
-        int LengthOfWordsTo = 100;
-        int MaxIterations = 500;
-        int n = 100; 
-        int[] alphabet = {0,1};
-        int nrLetters = 2;
-        Random rand = new Random();
-
-
-
-
-        //test method for checking if word are generated correctly 
+            double aError = 0.005;
+            int NumOfWords = 100;
+            int LengthOfWordsFrom = 9;
+            int LengthOfWordsTo = 100;
+            int MaxIterations = 500;
+            int n = 100; 
+            int[] alphabet = {0,1};
+            int nrLetters = 2;
+            Random rand = new Random();
 
         [TestMethod]
         public void WordsGenerationMethod1()
         {
+           
             Word[] testWords = WordGenerator.GenerateWords(alphabet, nrLetters, rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo);
             int actualCount = testWords.Count();
 
@@ -44,8 +38,47 @@ using System.Threading.Tasks;
             int actualID = testWords[index].getId();
             Assert.AreEqual(2, actualID);
         }
- 
-   
+
+
+
+        [TestMethod]
+        public void AutomataTest()
+        {
+
+            double[,] tmp1 = new double[4, 4] { { 0, 0, 0, 0 }, { 1, 0, 0, 0 }, { 0, 0, 1, 0 }, { 0, 1, 0, 1 } };
+            double[,] tmp2 = new double[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 1, 0, 1, 0 }, { 0, 1, 0, 1 } };
+            List<TransitionTable> SampleTable = new List<TransitionTable>();
+            SampleTable.Add(new TransitionTable(4, tmp1));
+            SampleTable.Add(new TransitionTable(4, tmp2));
+            Random rand = new Random();
+            int[] alphabet = { 0, 1 };
+            Automata target = new Automata(4, alphabet, SampleTable, -1);
+
+
+            int[] ActualAlphabet = target.getAlphabet();
+            Assert.AreEqual(alphabet, ActualAlphabet);
+
+            List<TransitionTable> ActualList = target.GetTransitionTables();
+            Assert.AreEqual(ActualList, SampleTable);
+
+
+            TransitionTable ActualTransitionTable = target.GetTransitionTable(0);
+
+            Assert.AreEqual(tmp1, ActualTransitionTable.GetTransitionMatrix());
+            ActualTransitionTable = target.GetTransitionTable(1);
+            Assert.AreEqual(tmp2, ActualTransitionTable.GetTransitionMatrix());
+            Assert.AreEqual(4, target.getStates());
+            Assert.AreEqual(2, target.getAlphabetSize());
+
+
+            target.getPosition();
+            int[] expectedposition =  {0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1};
+       
+            Assert.AreEqual(expectedposition, target.getPosition());
+
+
+
+        }
 
 
     }
