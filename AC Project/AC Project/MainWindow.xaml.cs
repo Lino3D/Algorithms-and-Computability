@@ -170,7 +170,7 @@ namespace AC_Project
             AlphabetTextbox2.Text = text;
             StatesTextbox2.Text = found.getStates().ToString();
             TabItemWindow2.Content = "";
-            ErrorTestSetTextbox.Text = found.getError().ToString();
+
             for (int i = 0; i < found.getAlphabet().Count(); i++)
             {
                 if (i == 0)
@@ -289,7 +289,7 @@ namespace AC_Project
                     ErrorTextBox.Text = solved.getError().ToString();
                     tool.ComputeAutomata(TestSet);
                     solved.ComputeAutomata(TestSet);
-                    PSOAlgorithm.CalculateRelations(tool, solved);
+                   ErrorTestSetTextbox.Text = PSOAlgorithm.CalculateRelations(tool, solved).ToString();
                     SetFoundAutomataIntoWindow(solved);
                     DrawAutomaton();
                 }
