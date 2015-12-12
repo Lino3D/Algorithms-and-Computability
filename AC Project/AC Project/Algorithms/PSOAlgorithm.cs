@@ -26,7 +26,7 @@ namespace AC_Project.Algorithms
          * n - number of particles
          * */
        public static Automata ComputePSO(Automata ideal, List<Automata> automatas, int[] alphabet, int n, Word[] words,
-           List<Neighbours> Neighbours, Random rand, int MaxIterations)
+           List<Neighbours> Neighbours, Random rand, int MaxIterations, double acceptedError)
        {
            /* 1. Generate Particles, Velocity
             * 2. Compute Error and Choose Local Bests
