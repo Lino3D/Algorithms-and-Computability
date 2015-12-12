@@ -34,7 +34,7 @@ namespace AC_Project
         List<TransitionTable> transitiontables = new List<TransitionTable>();
         List<Automata> automatas = new List<Automata>();
         List<Neighbours> Neighbours = new List<Neighbours>();
-
+        Automata solved;
 
         int n=100;
         List<Neighbours> LocalBests = new List<Neighbours>();
@@ -52,79 +52,16 @@ namespace AC_Project
         public MainWindow()
         {
             InitializeComponent();
-
             string path = AppDomain.CurrentDomain.BaseDirectory + "\\graphviz\\bin";
-    
-
             string file1 = ConfigurationManager.AppSettings["graphVizLocation"];
-
             NumberOfWordsTextBox.Text = NumOfWords.ToString();
             LengthFromTextBox.Text = LengthOfWordsFrom.ToString();
             LengthToTextBox.Text = LengthOfWordsTo.ToString();
             MaxIterationsTextBox.Text = MaxIterations.ToString();
-
             
         }
 
-        private void LoadAutomataLines_Click(object sender, RoutedEventArgs e)
-        {
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.DefaultExt = ".txt";
-            Nullable<bool> result = dlg.ShowDialog();
-            if (result == true)
-            {
-                // Open document 
-                string filename = dlg.FileName;
-                string line;
-                int states=0;
-                int[] _alphabet= new int[0];
-
-                int counter = 0 ;
-                System.IO.StreamReader file = new System.IO.StreamReader(filename);
-
-                while ((line = file.ReadLine()) != null)
-                {
-                    if (counter == 0)
-                    {
-                        states = Int32.Parse(line);
-                    }                    if(counter==1)
-                    {
-                        _alphabet = new int[line.Length];
-                        for (int i=0; i<line.Length; i++)
-                        {
-                            _alphabet[i] = (int)Char.GetNumericValue(line[i]);
-                        }
-                    }
-                    if(counter==2)
-                    {
-                        
-
-                        for (int z = 0; z < _alphabet.Length; z++)
-                        {
-                            table = new double[states, states];
-                            for (int i = 0; i < states; i++)
-                            {
-                                for (int j = 0; j < states; j++)
-                                {
-                                    table[j, i] = (int)Char.GetNumericValue(line[i * states + j + states*states*z]);
-                                }
-                            }
-                            TransitionTable t = new TransitionTable(states, table);
-                            transitiontables.Add(t);
-                            int d = 0;
-                        }
-                    }
-                    counter++;
-                }
-                tool = new Automata(states, _alphabet, transitiontables, -1);
-                alphabet = _alphabet;
-                SetAutomataIntoWindow(tool);
-                Dupa();
-                Start.IsEnabled = true;
-            }
-        }
-
-        //This is a Test function, we do not need it
+              //This is a Test function, we do not need it
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -218,47 +155,47 @@ namespace AC_Project
         }
 
 
-        public void SetFoundAutomataIntoWindow(Automata ideal)
+        public void SetFoundAutomataIntoWindow(Automata found)
         {
             string text;
-            text = "" + ideal.getAlphabet()[0];
-            foreach (var item in ideal.getAlphabet())
-                if (item != ideal.getAlphabet()[0])
+            text = "" + found.getAlphabet()[0];
+            foreach (var item in found.getAlphabet())
+                if (item != found.getAlphabet()[0])
                     text += ", " + item;
 
             AlphabetTextbox2.Text = text;
-            StatesTextbox2.Text = ideal.getStates().ToString();
+            StatesTextbox2.Text = found.getStates().ToString();
             TabItemWindow2.Content = "";
-            ErrorTextBox.Text = ideal.getError().ToString();
-            for (int i = 0; i < ideal.getAlphabet().Count(); i++)
+            ErrorTextBox.Text = found.getError().ToString();
+            for (int i = 0; i < found.getAlphabet().Count(); i++)
             {
                 if (i == 0)
                 {
                     text = "";
-                    double[,] table = ideal.GetTransitionTable(i).GetTransitionMatrix();
-                    for (int j = 0; j < ideal.GetTransitionTable(i).getSize(); j++)
+                    double[,] table = found.GetTransitionTable(i).GetTransitionMatrix();
+                    for (int j = 0; j < found.GetTransitionTable(i).getSize(); j++)
                     {
-                        for (int j2 = 0; j2 < ideal.GetTransitionTable(i).getSize(); j2++)
+                        for (int j2 = 0; j2 < found.GetTransitionTable(i).getSize(); j2++)
                             text += table[j2, j] + "  ";
                         TabItemWindow2.Content += text;
                         text = "\n";
                     }
-                    TabItemWindow2.Header = ideal.getAlphabet()[i];
+                    TabItemWindow2.Header = found.getAlphabet()[i];
 
                 }
                 else
                 {
                     TabItem NewTab = new TabItem { DataContext = TabItemWindow2.DataContext };
                     text = "";
-                    double[,] table = ideal.GetTransitionTable(i).GetTransitionMatrix();
-                    for (int j = 0; j < ideal.GetTransitionTable(i).getSize(); j++)
+                    double[,] table = found.GetTransitionTable(i).GetTransitionMatrix();
+                    for (int j = 0; j < found.GetTransitionTable(i).getSize(); j++)
                     {
-                        for (int j2 = 0; j2 < ideal.GetTransitionTable(i).getSize(); j2++)
+                        for (int j2 = 0; j2 < found.GetTransitionTable(i).getSize(); j2++)
                             text += table[j2, j] + "  ";
                         NewTab.Content += text;
                         text = "\n";
                     }
-                    NewTab.Header = ideal.getAlphabet()[i];
+                    NewTab.Header = found.getAlphabet()[i];
                     TabControlWindow2.Items.Add(NewTab);
                 }
             }
@@ -318,7 +255,6 @@ namespace AC_Project
                         }
                 tool = new Automata(states, _alphabet, transitiontables, -1);
                 alphabet = _alphabet;
-                            Dupa();
                 SetAutomataIntoWindow(tool);
                 Start.IsEnabled = true;
 
@@ -342,7 +278,7 @@ namespace AC_Project
             {
                 Word[] TestSet = WordGenerator.GenerateWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo);
                 Word[] TrainingSet = WordGenerator.GenerateTrainingWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo,TestSet);
-                Automata solved = PSOAlgorithm.ComputePSO(tool, automatas, tool.getAlphabet(), n, TrainingSet, Neighbours, rand, MaxIterations);
+                solved = PSOAlgorithm.ComputePSO(tool, automatas, tool.getAlphabet(), n, TrainingSet, Neighbours, rand, MaxIterations);
                 //Place for comparsion between test and training set
                 if (solved != null)
                 {
@@ -350,45 +286,28 @@ namespace AC_Project
                     solved.ComputeAutomata(TestSet);
                     PSOAlgorithm.CalculateRelations(tool, solved);
                     SetFoundAutomataIntoWindow(solved);
+                    DrawAutomaton();
                 }
             }
         }
-        void Dupa()
+        void DrawAutomaton()
         {
             var getStartProcessQuery = new GetStartProcessQuery();
             var getProcessStartInfoQuery = new GetProcessStartInfoQuery();
             var registerLayoutPluginCommand = new RegisterLayoutPluginCommand(getProcessStartInfoQuery, getStartProcessQuery);
-
-            // GraphGeneration can be injected via the IGraphGeneration interface
-
             var wrapper = new GraphGeneration(getStartProcessQuery,
                                               getProcessStartInfoQuery,
                                               registerLayoutPluginCommand);
-
-           // byte[] orginal = wrapper.GenerateGraph(GenerateDotString(orginalAutomaton), Enums.GraphReturnType.Png);
-            //byte[] found = wrapper.GenerateGraph(GenerateDotString(foundAutomaton), Enums.GraphReturnType.Png);
-
-
-
-            string g = "digraph { " + "a" + " -> " + "b;" + " }";
-            g = "digraph { a-> b[label=\"1\"];  a-> a[label=\"0\"];    }";
-
-
-
-          
 
 
             byte[] original = wrapper.GenerateGraph(Generatedot(tool.GetTransitionTables()), Enums.GraphReturnType.Png);
             BitmapImage bm = LoadImage(original);
             toolAutomatonImage.Source = bm;
+            byte[] found = wrapper.GenerateGraph(Generatedot(solved.GetTransitionTables()), Enums.GraphReturnType.Png);
+            foundAutomatonImage.Source = LoadImage(found);
 
 
         }
-
-
-
-     //   public string GenerateDotString(List<int>[][] automaton)
-
         public string Generatedot(List<TransitionTable>automaton)
         {
             string dotString = "digraph{";
