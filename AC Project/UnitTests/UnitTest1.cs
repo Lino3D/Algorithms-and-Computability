@@ -12,25 +12,20 @@ using System.Threading.Tasks;
     [TestClass]
     public class UnitTest1
     {
-        double aError = 0.005;
-        int NumOfWords = 100;
-        int LengthOfWordsFrom = 9;
-        int LengthOfWordsTo = 100;
-        int MaxIterations = 500;
-        int n = 100; 
-        int[] alphabet = {0,1};
-        int nrLetters = 2;
-        Random rand = new Random();
-
-
-
-
-
+            double aError = 0.005;
+            int NumOfWords = 100;
+            int LengthOfWordsFrom = 9;
+            int LengthOfWordsTo = 100;
+            int MaxIterations = 500;
+            int n = 100; 
+            int[] alphabet = {0,1};
+            int nrLetters = 2;
+            Random rand = new Random();
 
         [TestMethod]
-        public void AutomataTest()
         public void WordsGenerationMethod1()
         {
+           
             Word[] testWords = WordGenerator.GenerateWords(alphabet, nrLetters, rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo);
             int actualCount = testWords.Count();
 
@@ -42,6 +37,14 @@ using System.Threading.Tasks;
             //checking if word index is correct;
             int actualID = testWords[index].getId();
             Assert.AreEqual(2, actualID);
+        }
+
+
+
+        [TestMethod]
+        public void AutomataTest()
+        {
+
             double[,] tmp1 = new double[4, 4] { { 0, 0, 0, 0 }, { 1, 0, 0, 0 }, { 0, 0, 1, 0 }, { 0, 1, 0, 1 } };
             double[,] tmp2 = new double[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 1, 0, 1, 0 }, { 0, 1, 0, 1 } };
             List<TransitionTable> SampleTable = new List<TransitionTable>();
@@ -58,9 +61,9 @@ using System.Threading.Tasks;
             List<TransitionTable> ActualList = target.GetTransitionTables();
             Assert.AreEqual(ActualList, SampleTable);
 
- 
+
             TransitionTable ActualTransitionTable = target.GetTransitionTable(0);
-            
+
             Assert.AreEqual(tmp1, ActualTransitionTable.GetTransitionMatrix());
             ActualTransitionTable = target.GetTransitionTable(1);
             Assert.AreEqual(tmp2, ActualTransitionTable.GetTransitionMatrix());
@@ -70,11 +73,7 @@ using System.Threading.Tasks;
 
             Assert.AreEqual(2, target.getAlphabetSize());
 
-
-
         }
- 
-   
 
 
     }
