@@ -9,6 +9,15 @@ namespace AC_Project.Classes
 {
     public class WordGenerator
     {
+        /* The function generates words and returns them as a form of array of Word object.
+         * The parameters:
+         * int[] alphabet - alphabet of the words
+         * int lettercount - number of letters in the alphabet
+         * Random rand - random variable
+         * int NumOfWords - Number of words to be generated
+         * int LengthFrom - Shortest words length
+         * int LengthTo - Longest words length
+         * */
         public static Word[] GenerateWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo)
         {
             Word[] words = new Word[NumOfWords];
@@ -39,7 +48,18 @@ namespace AC_Project.Classes
             }
             return words;
         }
-
+        /* The function generates words and returns them as a form of array of Word object.
+         * It takes into consideration another set of words - in order to create
+         * an another disjoint set.
+         * The parameters:
+         * int[] alphabet - alphabet of the words
+         * int lettercount - number of letters in the alphabet
+         * Random rand - random variable
+         * int NumOfWords - Number of words to be generated
+         * int LengthFrom - Shortest words length
+         * int LengthTo - Longest words length
+         * Word[] TestSet - The set to be disjoint
+         * */
         public static Word[] GenerateTrainingWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo, Word[] TestSet)
         {
             Word[] words = new Word[NumOfWords];

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AC_Project.Classes
 {
+    /* Class responsible for keeping the Transition Tables
+     * in form of a 2-dimensional array of doubles.
+     * */
     public class TransitionTable
     {
         int size
@@ -14,7 +17,7 @@ namespace AC_Project.Classes
             set;
         }
         double[,] Table;
-
+        /* Returns the size of the array */
         public int getSize()
         {
             return size;
@@ -48,29 +51,14 @@ namespace AC_Project.Classes
     
            // return trans;
         }
-        public void IncreaseSize( Random rand)
-       {
-            size++;
-            int r;
-            double[,] tmp = new double[size, size];
-            r = rand.Next(size);
-            for (int i = 0; i < size - 1; i++)
-                for (int j = 0; j < size - 1; j++)
-                    tmp[i, j] = 0;
-            for (int i = 0; i < size - 1; i++)
-                for (int j = 0; j < size - 1; j++)
-                    tmp[i, j] = Table[i, j];
-
-            tmp[r, size - 1] = 1;
-
-            Table = tmp;
-       }
+        /* Copy constructor - it takes the size and the table */
         public TransitionTable(int _size, double[,] _table)
        {
            this.size = _size;
            Table = _table;
        }
-
+        /* Returns the Transition Matrix in form of
+         * a 2-dimensional double arrray */
        public double[,] GetTransitionMatrix()
         {
             return Table;
