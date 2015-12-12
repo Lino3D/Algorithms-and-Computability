@@ -390,7 +390,7 @@ namespace AC_Project
         {
             int tmp;
             Int32.TryParse(NumberOfWordsTextBox.Text, out tmp);
-            tmp = Clamp(tmp, 1, 2000);
+            tmp = Clamp(tmp, 1, 100000);
             NumOfWords = tmp;
             NumberOfWordsTextBox.Text = NumOfWords.ToString();
         }
@@ -406,7 +406,7 @@ namespace AC_Project
         {
             int tmp;
             Int32.TryParse(LengthToTextBox.Text, out tmp);
-            tmp = Clamp(tmp, LengthOfWordsFrom, 500);
+            tmp = Clamp(tmp, LengthOfWordsFrom, 5000);
             LengthOfWordsTo = tmp;
             LengthToTextBox.Text = LengthOfWordsTo.ToString();
         }
@@ -424,7 +424,7 @@ namespace AC_Project
         {
             int tmp;
             Int32.TryParse(MaxIterationsTextBox.Text, out tmp);
-            tmp = Clamp(tmp, 100, 10000);
+            tmp = Clamp(tmp, 100, 1000000);
             MaxIterations = tmp;
             MaxIterationsTextBox.Text = MaxIterations.ToString();
         }
