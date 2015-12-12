@@ -36,25 +36,29 @@ namespace AC_Project
         List<Neighbours> Neighbours = new List<Neighbours>();
         Automata solved;
 
-        int n=100;
+    
         List<Neighbours> LocalBests = new List<Neighbours>();
-        int[] alphabet;
+        int[] alphabet; 
         int[] EndingState;
 
 
-
+        double aError = 0.005;
         int NumOfWords = 100;
         int LengthOfWordsFrom = 9;
         int LengthOfWordsTo = 100;
         int MaxIterations = 500;
-
+        int n = 100;             //nr of particles 
 
         public MainWindow()
         {
             InitializeComponent();
-            string path = AppDomain.CurrentDomain.BaseDirectory + "\\graphviz\\bin";
-            string file1 = ConfigurationManager.AppSettings["graphVizLocation"];
+
+          //  string path = AppDomain.CurrentDomain.BaseDirectory + "\\graphviz\\bin";
+        //    string file1 = ConfigurationManager.AppSettings["graphVizLocation"];
+
             NumberOfWordsTextBox.Text = NumOfWords.ToString();
+            nParticlesTextBox.Text = n.ToString();
+            aErrorTextBox.Text = aError.ToString();
             LengthFromTextBox.Text = LengthOfWordsFrom.ToString();
             LengthToTextBox.Text = LengthOfWordsTo.ToString();
             MaxIterationsTextBox.Text = MaxIterations.ToString();
@@ -101,7 +105,7 @@ namespace AC_Project
             Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo);
 
             SetAutomataIntoWindow(ideal);
-         Automata solved = PSOAlgorithm.ComputePSO(ideal, automatas, alphabet, n, words, Neighbours, rand, MaxIterations);
+         Automata solved = PSOAlgorithm.ComputePSO(ideal, automatas, alphabet, n, words, Neighbours, rand, MaxIterations, aError);
          if (solved != null)
              SetFoundAutomataIntoWindow(solved);
 
@@ -166,7 +170,7 @@ namespace AC_Project
             AlphabetTextbox2.Text = text;
             StatesTextbox2.Text = found.getStates().ToString();
             TabItemWindow2.Content = "";
-            ErrorTextBox.Text = found.getError().ToString();
+            ErrorTestSetTextbox.Text = found.getError().ToString();
             for (int i = 0; i < found.getAlphabet().Count(); i++)
             {
                 if (i == 0)
@@ -278,10 +282,11 @@ namespace AC_Project
             {
                 Word[] TestSet = WordGenerator.GenerateWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo);
                 Word[] TrainingSet = WordGenerator.GenerateTrainingWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo,TestSet);
-                solved = PSOAlgorithm.ComputePSO(tool, automatas, tool.getAlphabet(), n, TrainingSet, Neighbours, rand, MaxIterations);
+                solved = PSOAlgorithm.ComputePSO(tool, automatas, tool.getAlphabet(), n, TrainingSet, Neighbours, rand, MaxIterations, aError);
                 //Place for comparsion between test and training set
                 if (solved != null)
                 {
+                    ErrorTextBox.Text = solved.getError().ToString();
                     tool.ComputeAutomata(TestSet);
                     solved.ComputeAutomata(TestSet);
                     PSOAlgorithm.CalculateRelations(tool, solved);
@@ -422,6 +427,24 @@ namespace AC_Project
             tmp = Clamp(tmp, 100, 10000);
             MaxIterations = tmp;
             MaxIterationsTextBox.Text = MaxIterations.ToString();
+        }
+
+        private void nParticles_LostFocus(object sender, RoutedEventArgs e)
+        {
+            int tmp;
+            Int32.TryParse(nParticlesTextBox.Text, out tmp);
+        //    tmp = Clamp(tmp, 100, 10000);
+            n = tmp;
+            nParticlesTextBox.Text = n.ToString();
+        }
+
+        private void aErrorTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            double tmp;
+            Double.TryParse(aErrorTextBox.Text, out tmp);
+            //    tmp = Clamp(tmp, 100, 10000);
+            aError = tmp;
+           aErrorTextBox.Text = aError.ToString();
         }
        
     }
