@@ -131,29 +131,7 @@ namespace AC_Project.Classes
                     }
 
                 }
-                /*
-                for (int i = 0; i < table.getSize(); i++)
-                    for (int j = 0; j < table.getSize(); j++)
-                        if (tmp[j, i] == 1)
-                        {
-                            countones = 1;
-                            for (int k = i + 1; k < table.getSize(); k++)
-                                countones++;
-                            r = rand.Next(countones);
-                            int iteration = 0;
-                            for (int k = i + 1; k < table.getSize(); k++, iteration++)
-                                if (iteration == r && tmp[k, j] == 1)
-                                {
-                                    tmp[k, j] = 1;
-                                    iteration++;
-                                }
-                                else if( tmp[k,j] == 1 && iteration !=r)
-                                {
-                                    tmp[k, j] = 0;
-                                    iteration++;
-                                }
-                        }
-                            */
+
 
             }
         }
@@ -197,55 +175,15 @@ namespace AC_Project.Classes
 
          for (int i = 0; i < size; i++ )
          {
-        //     if (this != Globalbest)
+
                  tmpV[i] = this.getError() * Velocity[i] + gx[i] + px[i];
-     //        else
-      //           tmpV[i] = r.Next(2);
+
 
          }
          Velocity = tmpV;
           
      }
-        public Automata CalculateGlobalBestTotallyRandomShit(Random rand, List<Automata> automatas, History history, Automata GlobalBest)
-        {
-            List<TransitionTable> list = new List<TransitionTable>();
-            bool isdifferent = false;
 
-            while (!isdifferent)
-            {
-                foreach (var item in this.Alphabet)
-                {
-                    TransitionTable tmp = new TransitionTable(this.getStates(), rand);
-                    list.Add(tmp);
-                }
-                GlobalBest.TransitionTables = list;
-                GlobalBest.Dyskretyzacja(rand);
-                GlobalBest.calculateposition();
-                
-
-                foreach(var aut in automatas)
-                {
-                    isdifferent = false;
-                    foreach( var item in aut.GetTransitionTables())
-                    {
-                        if (!GlobalBest.TransitionTables.Contains(item))
-                            isdifferent = true;
-                    }
-
-                    if (isdifferent)
-                        break;
-
-                }
-            }
-            //Automata TmpAut = history.ReturnLowestErrorAutomata(GlobalBest.getError(),GlobalBest.getStates(), GlobalBest );
-          //  if (GlobalBest != TmpAut)
-           //     GlobalBest = TmpAut;
-
-       //     Automata TmpAut = history.ReturnBestAutomata(GlobalBest);
-      //      if (GlobalBest != TmpAut)
-       //         return TmpAut;
-            return GlobalBest;
-        }
 
        
         

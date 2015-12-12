@@ -54,7 +54,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Matrices">
+            <TabItem Header="Matrices" HorizontalAlignment="Left" Width="112">
                 <Grid Margin="0,0,83,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="253*"/>

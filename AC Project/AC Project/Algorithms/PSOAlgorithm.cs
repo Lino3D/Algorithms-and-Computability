@@ -98,15 +98,6 @@ namespace AC_Project.Algorithms
 
                }
 
-               //      foreach (var item in automatas)
-               //            item.CalculateGlobalBestTotallyRandomShit(rand, automatas);
-
-               //       GlobalBest =  GlobalBest.CalculateGlobalBestTotallyRandomShit(rand, automatas, history,GlobalBest);
-
-               //       automatas[GlobalBest.GetId()] = GlobalBest;
-               //  Automata firstautomata = automatas[0];
-
-               //        automatas[GlobalBest.GetId()] = GlobalBest;
 
                iterations++;
 
