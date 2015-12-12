@@ -145,6 +145,13 @@ namespace AC_Project.Algorithms
             }
             return automatas.ElementAt(id);
         }
+               /*Function choosese localbest in each neighbourhood based on error of each automata in every neighbourhood. 
+         * Automata with the smallest error is the new localbest.
+         * All other automatas will try to move towards in in next iteration.
+         * 
+         * 
+  **/
+
         public static List<Neighbours> ChooseLocalBests(List<Automata> automatas, List<Neighbours> Neighbours, int n)
         {
             Neighbours.Clear();
@@ -167,8 +174,13 @@ namespace AC_Project.Algorithms
 
            return Neighbours;
         }
-   
 
+        /* This function groups automatas closest to each other
+         * It checks position of each automata.
+         * It creats a neighbourhood -> 4 automatas with most similar position.
+         * 
+        * 
+        * */
 
         public static List<Neighbours> GroupAutomatas(List<Automata> automatas, List<Neighbours> Neighbours, int n)
         {
@@ -238,6 +250,15 @@ namespace AC_Project.Algorithms
             }
             return Neighbours;
         }
+
+
+
+       /*This function calculates the error based on word relation.
+        * It uses Humming distance to calculate the difference in relations between ideal and particle automatons
+        * Error itself is the number differencets divided by overall number of pairs of words.
+        * 
+        * */
+
        public static double CalculateRelations(Automata ideal, Automata particle)
        {
            int error = 0;
@@ -252,6 +273,8 @@ namespace AC_Project.Algorithms
 
            return ((double)error / (double) RelIdeal.Count());
        }
+
+
 
        public static void CalculateError(Automata ideal, List<Automata> automatas)
        {

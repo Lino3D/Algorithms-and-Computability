@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace AC_Project.Classes
 {
+    /* This class is responsible for storing Automata
+     * it saves the number of states, alphabet, Transition tables,
+     * the position (generation of which is based on transition tables),
+     * the automata's id, relations vector and the velocity vector
+     * */
     public class Automata
     {
         int States {get; set;}
@@ -17,7 +22,13 @@ namespace AC_Project.Classes
         int[] Relations;
         double[] Velocity;
 
-
+        /* Constructor of this class. It takes as the parameters:
+         * int s - the number of states 
+         * int[] alphabet - the actual alphabet
+         * List<TransitionTable> _transitiontables - List of transition tables
+         * int _id - the id of the automata
+         * It simply constructs the Automata based on given input.
+         * */
        public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables, int _id)
         {
             States = s;
@@ -29,8 +40,16 @@ namespace AC_Project.Classes
             Array.Copy(Position, Velocity, Position.Count());
             
         }
-
-        public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables, int _id, double error, int[] rel)
+       /* Constructor of this class. It takes as the parameters:
+        * int s - the number of states 
+        * int[] alphabet - the actual alphabet
+        * List<TransitionTable> _transitiontables - List of transition tables
+        * int _id - the id of the automata
+        * double error - error of the automata
+        * int[] rel - relations vector of the automata
+        * It simply constructs the Automata based on given input.
+        * */
+       public Automata(int s, int[] alphabet, List<TransitionTable> _transitiontables, int _id, double error, int[] rel)
        {
            States = s;
            Alphabet = alphabet;
@@ -43,11 +62,18 @@ namespace AC_Project.Classes
            Relations = rel;
 
        }
+        /* Returns the Relations Vector of the Automata */
         public int[] GetRelations()
         {
             return Relations;
         }
-
+        /* Sets the position of the automata. It invokes the method
+         * of velocity and composing it - creates a new position.
+         * Then it updates the transition tables of the Automata
+         * and it sets the position into the variable of the class.
+         * As the parameter it takes the Random variable - it is 
+         * need when passing into Dyskretyzacja method.
+         * */
         public void SetPosition( Random rand)
         {
             List<TransitionTable> _transitiontables = new List<TransitionTable>();
@@ -85,7 +111,12 @@ namespace AC_Project.Classes
                 
 
         }
-
+        /* Funciton that takes care of the position vector/transition
+         * tables to be proper discrete values. It deletes
+         * any additional 1's if there are more than 1 in a row.
+         * And the deletion is made by random. Also it places a rando
+         * 1 if there are no 1's in the row
+         * */
          public void Dyskretyzacja(Random rand)
         {
 
@@ -124,7 +155,10 @@ namespace AC_Project.Classes
 
             }
         }
-
+        /* Function Adds state to the Automaton.
+         * To do that, a new transition tables need to
+         * be chosen and set into the Automata.
+         * */
         public void AddState(Random rand)
         {
             States++;
@@ -141,19 +175,33 @@ namespace AC_Project.Classes
             
 
         }
+
+        /* Sets the error into the object. The function takes
+         * single double value
+         */
         public void SetError(double _error)
         {
             this.Error = _error;
         }
+        /* Returns the error of the Automata */
         public double getError()
         {
             return Error;
         }
+        /* Returns the Id of the Automata */
      public int GetId()
      {
          return id;
      }
-        //ostatni to global best 
+        /* Calculate the Current Velocity for the Automaton. It takes into
+         * consideration the previous velocity, position of the global best
+         * and it's local best. Then using proper uniform distribution it
+         * computes the current velocity.
+         * Neighbours N - Neighbourhood of the particle object
+         * List<Automata> automatas - List of all automatas in PSO
+         * Random r - Random variable
+         * Automata Globalbest - Global best object
+         * */
         public void calculatevelocity(Neighbours N, List<Automata> automatas, Random r, Automata Globalbest)
      {
          int size = States * States * Alphabet.Length;
@@ -175,7 +223,13 @@ namespace AC_Project.Classes
 
 
        
-        
+        /* Calculates the difference between the position of the current Automata
+         * and the Global Best Automata. Then it multiplies each value by some unifrom
+         * distribution and returns the result as a vector.
+         * Neighbours N - Neighbours object
+         * List<Automata> automatas - List of Automatas
+         * Random r - Random Variable
+         * */
        public double[] calculategx(Neighbours N, List<Automata> automatas, Random r)
         {
             double[] a= new double[Position.Count()];
@@ -197,6 +251,12 @@ namespace AC_Project.Classes
             }
                 return a;
         }
+        /* Calculates the difference between the position of the current Automata
+         * and the Local Best Automata. Then it multiplies each value by some unifrom
+         * distribution and returns the result as a vector.
+         * int[] position - current position of the Automata
+         * Random r - Random Variable
+         * */
        public double[] calculatepx(int[] position, Random r)
        {
            double[] a = new double[Position.Count()];
@@ -216,7 +276,10 @@ namespace AC_Project.Classes
            }
            return a;
        }
-
+        /* Function calculates the position of the Automaton.
+         * It traverses the Transistion Tables of the Automaton
+         * and sets them in to the Position vector.
+         * */
         public void calculateposition()
         {
             List<TransitionTable>_transitiontables = TransitionTables;
@@ -247,24 +310,36 @@ namespace AC_Project.Classes
         {
             return TransitionTables.ElementAt(i);
         }
+        /* The function returns the List of Transition Tables
+         * of the Automaton
+         * */
         public List<TransitionTable> GetTransitionTables()
        {
            return this.TransitionTables;
        }
+        /* Returns the number of states */
        public int getStates()
         { 
             return States;
         }
+        /* Returns the Alphabet size */
        public int getAlphabetSize()
        {
            return Alphabet.Count();
        }
+        /* Returns the Position Vector of the Automaton */
         public int[] getPosition()
        {
            return Position;
        }
 
-     
+        /* Generates the Automata as a particle assigning it a unique id and returning
+         * it to the function caller.
+         * int s - the number of states
+         * int[] alphabet - the alphabet
+         * int _id - the unique id
+         * Random rand - random variable
+         * */
         public static Automata GenerateParticle(int s, int[] alphabet, int _id, Random rand)
         {
             TransitionTable tmp;
@@ -331,6 +406,7 @@ namespace AC_Project.Classes
             return;
 
         }
+        /* Returns the Alphabet as an array */
         public int[] getAlphabet()
         {
             return Alphabet;
