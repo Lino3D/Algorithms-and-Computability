@@ -65,6 +65,7 @@ namespace AC_Project.Classes
         {
             Word[] words = new Word[NumOfWords];
 
+            List<Word> WordsList = TestSet.ToList();
             int StepSize = (LengthTo - LengthFrom) / 9;
             int[] tmpWord;
             int c;
@@ -83,7 +84,7 @@ namespace AC_Project.Classes
                         tmpWord[j] = alphabet[c];
                     }
                     var temporary = new Word(0, MaxLetters, tmpWord);
-                    if (!TestSet.Contains(temporary))
+                    if ( !IsThereThisWord( WordsList,tmpWord) )
                         Contains = false;
                 }
                 Contains = true;
@@ -113,7 +114,8 @@ namespace AC_Project.Classes
             int[] tmpWord;
             Word[] words = new Word[NumberOfWords];
             int count = 0;
-
+            List<int[]> WordsList = new List<int[]>();
+            
             int c;
             int MaxLetters = 1;
             int k = 1;
@@ -124,6 +126,9 @@ namespace AC_Project.Classes
             {
                 tmpWord = new int[MaxLetters];
 
+
+
+
                 while (Contains)
                 {
                     for (int j = 0; j < MaxLetters; j++)
@@ -131,11 +136,21 @@ namespace AC_Project.Classes
                         c = rand.Next(lettercount);
                         tmpWord[j] = alphabet[c];
                     }
-                    var temporary = new Word(0, MaxLetters, tmpWord);
-                    if (!words.Contains(temporary))
+                    Word temporary = new Word(0, MaxLetters, tmpWord);
+
+                    if (IsThereThisWord(WordsList,tmpWord))
+                        Contains = true;
+                    else
                         Contains = false;
                 }
                 Contains = true;
+
+
+
+
+
+
+                WordsList.Add(tmpWord);
                 words[i] = new Word(0, MaxLetters, tmpWord);
                 count++;
                 if ( count == (int) Math.Pow( (double) lettercount, (double)(k))+ previous  )
@@ -149,7 +164,52 @@ namespace AC_Project.Classes
 
         }
 
-      
+        public static bool IsThereThisWord(List<int[]> Arr, int[] word)
+        {
+            bool difference = false;
+            foreach( var item in Arr)
+            {
+                if (item.Length == word.Length)
+                {
+                    for (int i = 0; i < item.Length; i++)
+                        if (item[i] != word[i])
+                            difference = true;
+
+                    if (difference == false)
+                        return true;
+                }
+                difference = false;
+               
+
+
+            }
+            return false;
+
+        }
+
+        public static bool IsThereThisWord(List<Word> Arr, int[] word)
+        {
+            bool difference = false;
+            foreach (var item in Arr)
+            {
+                if( item != null)
+                if (item.getWord().Length == word.Length)
+                {
+                    for (int i = 0; i < item.getWord().Length; i++)
+                        if (item.getWord()[i] != word[i])
+                            difference = true;
+
+                    if (difference == false)
+                        return true;
+                }
+                difference = false;
+
+
+
+            }
+            return false;
+
+        }
 
     }
 }
