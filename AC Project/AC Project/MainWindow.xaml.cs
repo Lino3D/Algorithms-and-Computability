@@ -68,48 +68,10 @@ namespace AC_Project
               //This is a Test function, we do not need it
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            int[] alphabet = {0,1,2,3,4};
             Random rand = new Random();
-
-            int[] _alphabet = { 0, 1 };
-            alphabet = _alphabet;
-            for (int i = 0; i < n; i++)
-            {
-                //Generate 2-states random Automatons
-                automatas.Add(Automata.GenerateParticle(2, alphabet, i, rand));
-            }
-
-            int _size = 0;
-            for (int i = 0; i < 500; i++)
-            {
-                for (int j = i + 1; j < 500; j++)
-                {
-                    _size++;
-                }
-            }
-
-            //Hardcoded for easy testing, a sample from first AC classes 
-            List<TransitionTable> SampleTable = new List<TransitionTable>();
-            double[,] tmp1 = new double[4, 4] { { 0, 0, 0, 0 }, { 1, 0, 0, 0 }, { 0, 0, 1, 0 }, { 0, 1, 0, 1 } };
-            double[,] tmp2 = new double[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 1, 0, 1, 0 }, { 0, 1, 0, 1 } };
-       //     double[,] tmp3 = new double[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 1, 0, 1, 0 }, { 0, 1, 0, 1 } };
-
-            SampleTable.Add(new TransitionTable(4, tmp1));
-            SampleTable.Add(new TransitionTable(4, tmp2));
-       //     SampleTable.Add(new TransitionTable(4, tmp3));
-
-          //  Random rand = new Random();
-            Automata ideal = new Automata(4,_alphabet,SampleTable, -1);
-            Automata Particle = Automata.GenerateParticle(4, _alphabet, 1,rand);
-
-            Word[] words = WordGenerator.GenerateWords(_alphabet, _alphabet.Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo);
-
-            SetAutomataIntoWindow(ideal);
-         Automata solved = PSOAlgorithm.ComputePSO(ideal, automatas, alphabet, n, words, Neighbours, rand, MaxIterations, aError);
-         if (solved != null)
-             SetFoundAutomataIntoWindow(solved);
-
-            
+            Word[] words = WordGenerator.GenerateWordsWithConstant(alphabet, 5, rand, 4);
+            int abc = 2;
         }
 
         public void SetAutomataIntoWindow(Automata ideal )
