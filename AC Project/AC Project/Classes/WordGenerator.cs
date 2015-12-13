@@ -7,8 +7,18 @@ using System.Threading.Tasks;
 
 namespace AC_Project.Classes
 {
+
     public class WordGenerator
     {
+        /* The function generates words and returns them as a form of array of Word object.
+         * The parameters:
+         * int[] alphabet - alphabet of the words
+         * int lettercount - number of letters in the alphabet
+         * Random rand - random variable
+         * int NumOfWords - Number of words to be generated
+         * int LengthFrom - Shortest words length
+         * int LengthTo - Longest words length
+         * */
         public static Word[] GenerateWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo)
         {
             Word[] words = new Word[NumOfWords];
@@ -27,7 +37,7 @@ namespace AC_Project.Classes
                     c = rand.Next(lettercount);
                     tmpWord[j] = alphabet[c];
                 }
-                words[i] = new Word(i, MaxLetters, tmpWord);
+                words[i] = new Word(0, MaxLetters, tmpWord);
                 count++;
                 if (StepSize == count)
                 {
@@ -39,7 +49,18 @@ namespace AC_Project.Classes
             }
             return words;
         }
-
+        /* The function generates words and returns them as a form of array of Word object.
+         * It takes into consideration another set of words - in order to create
+         * an another disjoint set.
+         * The parameters:
+         * int[] alphabet - alphabet of the words
+         * int lettercount - number of letters in the alphabet
+         * Random rand - random variable
+         * int NumOfWords - Number of words to be generated
+         * int LengthFrom - Shortest words length
+         * int LengthTo - Longest words length
+         * Word[] TestSet - The set to be disjoint
+         * */
         public static Word[] GenerateTrainingWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo, Word[] TestSet)
         {
             Word[] words = new Word[NumOfWords];
@@ -61,7 +82,7 @@ namespace AC_Project.Classes
                         c = rand.Next(lettercount);
                         tmpWord[j] = alphabet[c];
                     }
-                    var temporary = new Word(i, MaxLetters, tmpWord);
+                    var temporary = new Word(0, MaxLetters, tmpWord);
                     if (!TestSet.Contains(temporary))
                         Contains = false;
                 }
@@ -77,6 +98,63 @@ namespace AC_Project.Classes
                 }
             }
             return words;
+        }
+
+
+
+
+        public static Word[] GenerateWordsWithConstant(int[] alphabet, int lettercount, Random rand, int constant)
+        {
+            int NumberOfWords = 0;
+            for ( int i = 0; i < constant; i++)
+                NumberOfWords += (int) Math.Pow( (double) lettercount, (double)(i+1.0) );
+            int[] tmpWord;
+            Word[] words = new Word[NumberOfWords];
+            int count = 0;
+
+            int c;
+            int MaxLetters = 1;
+            int k = 1;
+            int previous = 0;
+            bool Contains = true;
+      
+            List<List<int>> temps = new List<List<int>>();
+
+
+            for (int i = 0; i < words.Count(); i++)
+            {
+                tmpWord = new int[MaxLetters];
+                while (Contains==true)
+                {
+                    for (int j = 0; j < MaxLetters; j++)
+                    {
+                        c = rand.Next(lettercount);
+                        tmpWord[j] = alphabet[c];
+                    }
+
+                  //  temps.Add(tmpWord.ToList());
+
+                 //   Word temporary = new Word(0, MaxLetters, tmpWord);
+                  //  if (words.Contains(temporary)==false)
+                  //      Contains = false;
+                    if (temps.Contains(tmpWord.ToList()) == false)
+                        Contains = false;
+                }
+                temps.Add(tmpWord.ToList());
+           
+                words[i] = new Word(0, MaxLetters, tmpWord);
+                count++;
+                if ( count == (int) Math.Pow( (double) lettercount, (double)(k))+ previous  )
+                {
+                    MaxLetters++;
+                    previous = count;
+                    k++;
+                }
+
+                Contains = true;
+            }
+            return words;
+
         }
 
       
