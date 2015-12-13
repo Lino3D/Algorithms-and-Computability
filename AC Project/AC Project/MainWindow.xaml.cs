@@ -62,6 +62,7 @@ namespace AC_Project
             LengthFromTextBox.Text = LengthOfWordsFrom.ToString();
             LengthToTextBox.Text = LengthOfWordsTo.ToString();
             MaxIterationsTextBox.Text = MaxIterations.ToString();
+            ConstantTextBox.Text = constant.ToString();
             
         }
 
@@ -395,7 +396,7 @@ namespace AC_Project
         {
             int tmp;
             Int32.TryParse(nParticlesTextBox.Text, out tmp);
-        //    tmp = Clamp(tmp, 100, 10000);
+
             n = tmp;
             nParticlesTextBox.Text = n.ToString();
         }
@@ -404,9 +405,18 @@ namespace AC_Project
         {
             double tmp;
             Double.TryParse(aErrorTextBox.Text, out tmp);
-            //    tmp = Clamp(tmp, 100, 10000);
+         
             aError = tmp;
            aErrorTextBox.Text = aError.ToString();
+        }
+
+        private void ConstantTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            int tmp;
+            Int32.TryParse(nParticlesTextBox.Text, out tmp);
+    
+            constant= tmp;
+            ConstantTextBox.Text = constant.ToString();
         }
        
     }

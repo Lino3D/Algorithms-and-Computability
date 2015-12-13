@@ -21,12 +21,13 @@ using System.Threading.Tasks;
             int[] alphabet = {0,1};
             int nrLetters = 2;
             Random rand = new Random();
+            int constant = 2;
 
         [TestMethod]
         public void WordsGenerationMethod1()
         {
            
-            Word[] testWords = WordGenerator.GenerateWords(alphabet, nrLetters, rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo);
+            Word[] testWords = WordGenerator.GenerateWords(alphabet, nrLetters, rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo,constant);
             int actualCount = testWords.Count();
 
             //checking if number of words is good.

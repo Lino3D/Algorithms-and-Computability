@@ -33,7 +33,7 @@ namespace AC_Project.Classes
               words[i] = wordsOld[i];
 
           }
-
+            LengthFrom = constant;
             int StepSize = (LengthTo-LengthFrom)/9;
             int [] tmpWord;
             int c;
