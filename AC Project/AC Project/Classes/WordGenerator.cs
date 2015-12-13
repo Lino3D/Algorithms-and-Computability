@@ -19,9 +19,20 @@ namespace AC_Project.Classes
          * int LengthFrom - Shortest words length
          * int LengthTo - Longest words length
          * */
-        public static Word[] GenerateWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo)
+        public static Word[] GenerateWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo, int constant)
         {
-            Word[] words = new Word[NumOfWords];
+
+
+             Word[] words = new Word[NumOfWords];
+            Word[] wordsOld = GenerateWordsWithConstant(alphabet, lettercount, rand, constant);
+            if (wordsOld.Count() > words.Count())
+                words = new Word[wordsOld.Count()];
+
+          for(int i=0; i<wordsOld.Count(); i++)
+          {
+              words[i] = wordsOld[i];
+
+          }
 
             int StepSize = (LengthTo-LengthFrom)/9;
             int [] tmpWord;
@@ -29,7 +40,7 @@ namespace AC_Project.Classes
             int MaxLetters = LengthFrom;
             int count = 0;
 
-            for (int i = 0; i < words.Count(); i++ )
+            for (int i = wordsOld.Count(); i < NumOfWords; i++ )
             {
                 tmpWord = new int[MaxLetters];
                 for (int j = 0; j < MaxLetters; j++)
@@ -61,16 +72,25 @@ namespace AC_Project.Classes
          * int LengthTo - Longest words length
          * Word[] TestSet - The set to be disjoint
          * */
-        public static Word[] GenerateTrainingWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo, Word[] TestSet)
+        public static Word[] GenerateTestWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo, Word[] TestSet)
         {
             Word[] words = new Word[NumOfWords];
-
+            if (LengthFrom > LengthTo)
+                LengthTo = LengthTo + LengthFrom;
+            List<Word> WordsList = TestSet.ToList();
             int StepSize = (LengthTo - LengthFrom) / 9;
             int[] tmpWord;
             int c;
             int MaxLetters = LengthFrom;
             int count = 0;
             bool Contains = true;
+
+
+
+
+
+
+
             for (int i = 0; i < words.Count(); i++)
             {
                 tmpWord = new int[MaxLetters];
@@ -83,7 +103,7 @@ namespace AC_Project.Classes
                         tmpWord[j] = alphabet[c];
                     }
                     var temporary = new Word(0, MaxLetters, tmpWord);
-                    if (!TestSet.Contains(temporary))
+                    if ( !IsThereThisWord( WordsList,tmpWord) )
                         Contains = false;
                 }
                 Contains = true;
@@ -103,6 +123,8 @@ namespace AC_Project.Classes
 
 
 
+
+
         public static Word[] GenerateWordsWithConstant(int[] alphabet, int lettercount, Random rand, int constant)
         {
             int NumberOfWords = 0;
@@ -111,37 +133,38 @@ namespace AC_Project.Classes
             int[] tmpWord;
             Word[] words = new Word[NumberOfWords];
             int count = 0;
-
+            List<int[]> WordsList = new List<int[]>();
+            
             int c;
             int MaxLetters = 1;
             int k = 1;
             int previous = 0;
             bool Contains = true;
-      
-            List<List<int>> temps = new List<List<int>>();
-
 
             for (int i = 0; i < words.Count(); i++)
             {
                 tmpWord = new int[MaxLetters];
-                while (Contains==true)
+
+
+
+
+                while (Contains)
                 {
                     for (int j = 0; j < MaxLetters; j++)
                     {
                         c = rand.Next(lettercount);
                         tmpWord[j] = alphabet[c];
                     }
+                    Word temporary = new Word(0, MaxLetters, tmpWord);
 
-                  //  temps.Add(tmpWord.ToList());
-
-                 //   Word temporary = new Word(0, MaxLetters, tmpWord);
-                  //  if (words.Contains(temporary)==false)
-                  //      Contains = false;
-                    if (temps.Contains(tmpWord.ToList()) == false)
+                    if (IsThereThisWord(WordsList,tmpWord))
+                        Contains = true;
+                    else
                         Contains = false;
                 }
-                temps.Add(tmpWord.ToList());
-           
+                Contains = true;
+
+                WordsList.Add(tmpWord);
                 words[i] = new Word(0, MaxLetters, tmpWord);
                 count++;
                 if ( count == (int) Math.Pow( (double) lettercount, (double)(k))+ previous  )
@@ -150,14 +173,57 @@ namespace AC_Project.Classes
                     previous = count;
                     k++;
                 }
-
-                Contains = true;
             }
             return words;
 
         }
 
-      
+        public static bool IsThereThisWord(List<int[]> Arr, int[] word)
+        {
+            bool difference = false;
+            foreach( var item in Arr)
+            {
+                if (item.Length == word.Length)
+                {
+                    for (int i = 0; i < item.Length; i++)
+                        if (item[i] != word[i])
+                            difference = true;
+
+                    if (difference == false)
+                        return true;
+                }
+                difference = false;
+               
+
+
+            }
+            return false;
+
+        }
+
+        public static bool IsThereThisWord(List<Word> Arr, int[] word)
+        {
+            bool difference = false;
+            foreach (var item in Arr)
+            {
+                if( item != null)
+                if (item.getWord().Length == word.Length)
+                {
+                    for (int i = 0; i < item.getWord().Length; i++)
+                        if (item.getWord()[i] != word[i])
+                            difference = true;
+
+                    if (difference == false)
+                        return true;
+                }
+                difference = false;
+
+
+
+            }
+            return false;
+
+        }
 
     }
 }
