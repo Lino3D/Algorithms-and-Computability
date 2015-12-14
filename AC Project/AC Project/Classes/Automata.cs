@@ -242,7 +242,7 @@ namespace AC_Project.Classes
             }
             for (int i = 0; i < Position.Count(); i++ )
             {
-                wektorlosowy[i] = r.Next(9) - 4;
+                wektorlosowy[i] = r.Next(5) - 2;
             }
 
             for (int i = 0; i < a.Count(); i++)
@@ -267,7 +267,7 @@ namespace AC_Project.Classes
            }
            for (int i = 0; i < Position.Count(); i++)
            {
-               wektorlosowy[i] = r.Next(9) - 4;
+               wektorlosowy[i] = r.Next(5) - 2;
            }
 
            for (int i = 0; i < a.Count(); i++)

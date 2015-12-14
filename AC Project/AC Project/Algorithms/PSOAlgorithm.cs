@@ -19,7 +19,6 @@ namespace AC_Project.Algorithms
          * between them
          */
         
-
         /*
          * Where Automata ideal - searched problem
          * alphabet - alphabet of the automaton
@@ -34,82 +33,78 @@ namespace AC_Project.Algorithms
             * 4. Aplly velocity with previous step
             * 
             */
-           History history = new History();
            Automata GlobalBest = automatas[0];
+           Automata BestFound = automatas[0]; 
 
-
-           int stepsize = (MaxIterations - ( MaxIterations/10)) / 10;
-           int iterations = 0;
-           while (iterations < MaxIterations)
+           for (int states = 0; states < 10; states++)
            {
+               GlobalBest = automatas[0];
 
-               if (iterations % stepsize == 0 && iterations != 0 && automatas[0].getStates() < 12)
+               History history = new History();
+            
+
+               int iterations = 0;
+               while (iterations < MaxIterations)
                {
+                   ideal.ComputeAutomata(words);
+
+                   foreach (Automata AT in automatas)
+                       AT.ComputeAutomata(words);
+                   int id2;
+                   PSOAlgorithm.CalculateError(ideal, automatas);
+                   List<double> abc = new List<double>();
                    foreach (var c in automatas)
-                       c.AddState(rand);
-               }
+                       if (!abc.Contains(c.getError())){
+                           abc.Add(c.getError());
+                           if (c.getError() == 0.0)
+                               id2 = c.GetId();
+                       }
+                   Neighbours = PSOAlgorithm.ChooseLocalBests(automatas, Neighbours, n);
+                   GlobalBest = PSOAlgorithm.FindGlobalBest(Neighbours, automatas);
+                   history.AddGlobalBest(GlobalBest);
+                   GlobalBest = history.ReturnBestAutomata(GlobalBest, automatas[0].getStates());
+                   automatas[GlobalBest.GetId()] = GlobalBest;
 
-
-
-               ideal.ComputeAutomata(words);
-
-               foreach (Automata AT in automatas)
-               {
-
-                   AT.ComputeAutomata(words);
-
-               }
-
-               int id2;
-               PSOAlgorithm.CalculateError(ideal, automatas);
-               ///    history.AddToHistory(automatas);
-
-
-               List<double> abc = new List<double>();
-               foreach (var c in automatas)
-                   if (!abc.Contains(c.getError()))
-                   {
-                       abc.Add(c.getError());
-                       if (c.getError() == 0.0)
-                           id2 = c.GetId();
+                   foreach (var item in Neighbours){
+                           List<int> Group;
+                           Group = item.GetGroup();
+                           foreach (var item2 in Group)
+                               if (item2 != GlobalBest.GetId()) //not Global
+                                   automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest);
                    }
 
-               //     PSOAlgorithm.CalculateRelations(ideal, automatas[0]);
-               Neighbours = PSOAlgorithm.ChooseLocalBests(automatas, Neighbours, n);
-               GlobalBest = PSOAlgorithm.FindGlobalBest(Neighbours, automatas);
-               history.AddGlobalBest(GlobalBest);
-               GlobalBest = history.ReturnBestAutomata(GlobalBest, automatas[0].getStates());
-               automatas[GlobalBest.GetId()] = GlobalBest;
-
-               foreach (var item in Neighbours)
-               {
-                   List<int> Group;
-                   Group = item.GetGroup();
-                   foreach (var item2 in Group)
-                   {
-                       if (item2 != GlobalBest.GetId()) //not Global
-                           automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest);
-                   }
-               }
-               foreach (var automata in automatas)
-               {
-                   if (automata != GlobalBest) //Not global
-                       automata.SetPosition(rand);
-
+                   foreach (var automata in automatas)
+                       if (automata != GlobalBest) //Not global
+                           automata.SetPosition(rand);
+                 
+                   iterations++;
+                   if (GlobalBest.getError() < acceptedError)
+                       break;
                }
 
 
-               iterations++;
 
-               if (GlobalBest.getError() < 0.005)
+
+               if (states == 0)
+                   BestFound = GlobalBest;
+               else
+                   if (BestFound.getError() > GlobalBest.getError())
+                       BestFound = GlobalBest;
+
+               if (BestFound.getError() < acceptedError)
                    break;
+               foreach (var c in automatas)
+                   c.AddState(rand);
 
            }
-           double error = CalculateRelations(ideal, GlobalBest);
 
 
-           GlobalBest = history.ReturnBestAutomata(GlobalBest);
-           return GlobalBest;
+
+           double error = CalculateRelations(ideal, BestFound);
+
+
+        //   GlobalBest = history.ReturnBestAutomata(GlobalBest);
+           return BestFound;
        }
         public static int CalculateDistance(Automata a, Automata b)
         {
