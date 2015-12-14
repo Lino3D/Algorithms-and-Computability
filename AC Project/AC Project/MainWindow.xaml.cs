@@ -35,7 +35,7 @@ namespace AC_Project
         List<Automata> automatas = new List<Automata>();
         List<Neighbours> Neighbours = new List<Neighbours>();
         Automata solved;
-
+        int constant =4;
     
         List<Neighbours> LocalBests = new List<Neighbours>();
         int[] alphabet; 
@@ -68,9 +68,9 @@ namespace AC_Project
               //This is a Test function, we do not need it
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            int[] alphabet = {0,1,2,3,4};
+            int[] alphabet = {0,1};
             Random rand = new Random();
-            Word[] words = WordGenerator.GenerateWordsWithConstant(alphabet, 5, rand, 4);
+            Word[] words = WordGenerator.GenerateWordsWithConstant(alphabet, alphabet.Count(), rand, 4);
             int abc = 2;
         }
 
@@ -242,8 +242,8 @@ namespace AC_Project
             }
             if (tool != null)
             {
-                Word[] TestSet = WordGenerator.GenerateWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo);
-                Word[] TrainingSet = WordGenerator.GenerateTrainingWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo,TestSet);
+                Word[] TestSet = WordGenerator.GenerateWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo, constant);
+                Word[] TrainingSet = WordGenerator.GenerateTestWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, constant+1, LengthOfWordsTo,TestSet);
                 solved = PSOAlgorithm.ComputePSO(tool, automatas, tool.getAlphabet(), n, TrainingSet, Neighbours, rand, MaxIterations, aError);
                 //Place for comparsion between test and training set
                 if (solved != null)
