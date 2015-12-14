@@ -27,7 +27,7 @@ namespace AC_Project.Classes
             Word[] wordsConstant = GenerateWordsWithConstant(alphabet, lettercount, rand, constant);
             if (wordsConstant.Count() > wordsAll.Count())
             {
-                wordsAll = new Word[wordsConstant.Count() + 100]; //at least 100 words more than constant created words, for practical reasons.
+                wordsAll = new Word[wordsConstant.Count()*2]; //at least 100 words more than constant created words, for practical reasons.
                 NumOfWords = wordsAll.Count();
             }
             Word[] wordsgreaterthanC = new Word[wordsAll.Count()-wordsConstant.Count()];

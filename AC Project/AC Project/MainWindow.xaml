@@ -109,10 +109,10 @@
                         <ColumnDefinition Width="110*"/>
                         <ColumnDefinition Width="119*"/>
                     </Grid.ColumnDefinitions>
-                    <Image x:Name="toolAutomatonImage" Height="411" Margin="-5,57,0,0" Width="348"/>
-                    <Label Style="{StaticResource biglabelStyle}" Content="Original Automata" HorizontalAlignment="Left" Margin="89,25,0,0" VerticalAlignment="Top" Width="157"/>
-                    <Label Style="{StaticResource biglabelStyle}" Content="Found Automata" HorizontalAlignment="Left" Margin="106,25,0,0" VerticalAlignment="Top" Width="157" Grid.Column="1"/>
-                    <Image x:Name="foundAutomatonImage" Height="411" Margin="10,62,23,5" Width="348" Grid.Column="1"/>
+                    <Image x:Name="toolAutomatonImage" Margin="0,47,5,5" Width="348"/>
+                    <Label Style="{StaticResource biglabelStyle}" Content="Original Automata" HorizontalAlignment="Left" Margin="93,10,0,0" VerticalAlignment="Top" Width="157"/>
+                    <Label Style="{StaticResource biglabelStyle}" Content="Found Automata" HorizontalAlignment="Left" Margin="112,10,0,0" VerticalAlignment="Top" Width="157" Grid.Column="1"/>
+                    <Image x:Name="foundAutomatonImage" Margin="10,47,10,5" Grid.Column="1"/>
                 </Grid>
             </TabItem>
         </TabControl>
