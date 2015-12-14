@@ -26,8 +26,8 @@ using System.Threading.Tasks;
         [TestMethod]
         public void WordsGenerationMethod1()
         {
-           
-            Word[] testWords = WordGenerator.GenerateWords(alphabet, nrLetters, rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo,constant);
+           List<Word[]> samplelist = WordGenerator.GenerateWords(alphabet, nrLetters, rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo,constant);
+           Word[] testWords = samplelist[0];
             int actualCount = testWords.Count();
 
             //checking if number of words is good.
