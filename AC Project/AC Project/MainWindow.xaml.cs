@@ -62,6 +62,7 @@ namespace AC_Project
             LengthFromTextBox.Text = LengthOfWordsFrom.ToString();
             LengthToTextBox.Text = LengthOfWordsTo.ToString();
             MaxIterationsTextBox.Text = MaxIterations.ToString();
+            ConstantTextBox.Text = constant.ToString();
             
         }
 
@@ -242,8 +243,15 @@ namespace AC_Project
             }
             if (tool != null)
             {
-                Word[] TestSet = WordGenerator.GenerateWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo, constant);
-                Word[] TrainingSet = WordGenerator.GenerateTestWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, constant+1, LengthOfWordsTo,TestSet);
+                
+                List<Word[]> subsets = WordGenerator.GenerateWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo, constant);
+
+                Word[] TrainingSet = subsets[0]; //0 contains whole testset
+                Word[] lesserthanConstant = subsets[1];
+                Word[] greaterthanConstant = subsets[2];
+                Word[] TestSet = WordGenerator.GenerateTestWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, constant+1, LengthOfWordsTo,TrainingSet); 
+
+                //main solution
                 solved = PSOAlgorithm.ComputePSO(tool, automatas, tool.getAlphabet(), n, TrainingSet, Neighbours, rand, MaxIterations, aError);
                 //Place for comparsion between test and training set
                 if (solved != null)
@@ -254,6 +262,16 @@ namespace AC_Project
                    ErrorTestSetTextbox.Text = PSOAlgorithm.CalculateRelations(tool, solved).ToString();
                     SetFoundAutomataIntoWindow(solved);
                     DrawAutomaton();
+
+                    //less than c
+                    tool.ComputeAutomata(lesserthanConstant);
+                    solved.ComputeAutomata(lesserthanConstant);
+                    ErrorCTextBox.Text = PSOAlgorithm.CalculateRelations(tool, solved).ToString();
+                    //greater than c
+                    tool.ComputeAutomata(greaterthanConstant);
+                    solved.ComputeAutomata(greaterthanConstant);
+                    ErrorgCTextBox.Text = PSOAlgorithm.CalculateRelations(tool, solved).ToString();
+
                 }
             }
         }
@@ -395,7 +413,7 @@ namespace AC_Project
         {
             int tmp;
             Int32.TryParse(nParticlesTextBox.Text, out tmp);
-        //    tmp = Clamp(tmp, 100, 10000);
+
             n = tmp;
             nParticlesTextBox.Text = n.ToString();
         }
@@ -404,9 +422,18 @@ namespace AC_Project
         {
             double tmp;
             Double.TryParse(aErrorTextBox.Text, out tmp);
-            //    tmp = Clamp(tmp, 100, 10000);
+         
             aError = tmp;
            aErrorTextBox.Text = aError.ToString();
+        }
+
+        private void ConstantTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            int tmp;
+            Int32.TryParse(ConstantTextBox.Text, out tmp);
+    
+            constant= tmp;
+            ConstantTextBox.Text = constant.ToString();
         }
        
     }

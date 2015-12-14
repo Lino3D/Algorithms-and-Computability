@@ -19,28 +19,32 @@ namespace AC_Project.Classes
          * int LengthFrom - Shortest words length
          * int LengthTo - Longest words length
          * */
-        public static Word[] GenerateWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo, int constant)
+        public static List<Word[]> GenerateWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo, int constant)
         {
 
 
-             Word[] words = new Word[NumOfWords];
-            Word[] wordsOld = GenerateWordsWithConstant(alphabet, lettercount, rand, constant);
-            if (wordsOld.Count() > words.Count())
-                words = new Word[wordsOld.Count()];
+             Word[] wordsAll = new Word[NumOfWords];
+            Word[] wordsConstant = GenerateWordsWithConstant(alphabet, lettercount, rand, constant);
+            if (wordsConstant.Count() > wordsAll.Count())
+            {
+                wordsAll = new Word[wordsConstant.Count()*2]; //at least 100 words more than constant created words, for practical reasons.
+                NumOfWords = wordsAll.Count();
+            }
+            Word[] wordsgreaterthanC = new Word[wordsAll.Count()-wordsConstant.Count()];
 
-          for(int i=0; i<wordsOld.Count(); i++)
+          for(int i=0; i<wordsConstant.Count(); i++)
           {
-              words[i] = wordsOld[i];
+              wordsAll[i] = wordsConstant[i];
 
           }
-
+            LengthFrom = constant;
             int StepSize = (LengthTo-LengthFrom)/9;
             int [] tmpWord;
             int c;
             int MaxLetters = LengthFrom;
             int count = 0;
 
-            for (int i = wordsOld.Count(); i < NumOfWords; i++ )
+            for (int i = wordsConstant.Count(), z=0; i < NumOfWords; i++, z++ )
             {
                 tmpWord = new int[MaxLetters];
                 for (int j = 0; j < MaxLetters; j++)
@@ -48,8 +52,9 @@ namespace AC_Project.Classes
                     c = rand.Next(lettercount);
                     tmpWord[j] = alphabet[c];
                 }
-                words[i] = new Word(0, MaxLetters, tmpWord);
-                count++;
+                wordsAll[i] = new Word(0, MaxLetters, tmpWord);
+                wordsgreaterthanC[z] =  new Word(0, MaxLetters, tmpWord);
+                      count++;
                 if (StepSize == count)
                 {
                     MaxLetters += StepSize;
@@ -58,7 +63,11 @@ namespace AC_Project.Classes
                         MaxLetters = LengthTo;
                 }
             }
-            return words;
+            List<Word[]> subsets = new List<Word[]>();
+            subsets.Add(wordsAll);
+            subsets.Add(wordsConstant);
+            subsets.Add(wordsgreaterthanC);
+            return subsets;
         }
         /* The function generates words and returns them as a form of array of Word object.
          * It takes into consideration another set of words - in order to create
@@ -72,24 +81,21 @@ namespace AC_Project.Classes
          * int LengthTo - Longest words length
          * Word[] TestSet - The set to be disjoint
          * */
-        public static Word[] GenerateTestWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo, Word[] TestSet)
+        public static Word[] GenerateTestWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int constant, int LengthTo, Word[] TrainingSet)
         {
-            Word[] words = new Word[NumOfWords];
-            if (LengthFrom > LengthTo)
-                LengthTo = LengthTo + LengthFrom;
-            List<Word> WordsList = TestSet.ToList();
-            int StepSize = (LengthTo - LengthFrom) / 9;
+            //Lenghtfrom is replaced with constant to match the reconstruction requirements
+            if (constant > LengthTo)
+                LengthTo = LengthTo + constant;
+            List<Word> WordsList = TrainingSet.ToList();
+
+            Word[] words = new Word[WordsList.Count()];
+
+            int StepSize = (LengthTo - constant) / 9;
             int[] tmpWord;
             int c;
-            int MaxLetters = LengthFrom;
+            int MaxLetters = constant;
             int count = 0;
             bool Contains = true;
-
-
-
-
-
-
 
             for (int i = 0; i < words.Count(); i++)
             {
