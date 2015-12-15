@@ -18,12 +18,11 @@ namespace AC_Project.Classes
          * int NumOfWords - Number of words to be generated
          * int LengthFrom - Shortest words length
          * int LengthTo - Longest words length
+         * int constant - Constant value
          * */
         public static List<Word[]> GenerateWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo, int constant)
         {
-
-
-             Word[] wordsAll = new Word[NumOfWords];
+            Word[] wordsAll = new Word[NumOfWords];
             Word[] wordsConstant = GenerateWordsWithConstant(alphabet, lettercount, rand, constant);
             if (wordsConstant.Count() > wordsAll.Count())
             {
@@ -31,38 +30,35 @@ namespace AC_Project.Classes
                 NumOfWords = wordsAll.Count();
             }
             Word[] wordsgreaterthanC = new Word[wordsAll.Count()-wordsConstant.Count()];
-
-          for(int i=0; i<wordsConstant.Count(); i++)
-          {
-              wordsAll[i] = wordsConstant[i];
-
-          }
+                for(int i=0; i<wordsConstant.Count(); i++)
+                {
+                 wordsAll[i] = wordsConstant[i];
+                }
             LengthFrom = constant;
             int StepSize = (LengthTo-LengthFrom)/9;
             int [] tmpWord;
             int c;
             int MaxLetters = LengthFrom;
             int count = 0;
-
-            for (int i = wordsConstant.Count(), z=0; i < NumOfWords; i++, z++ )
-            {
-                tmpWord = new int[MaxLetters];
-                for (int j = 0; j < MaxLetters; j++)
+                for (int i = wordsConstant.Count(), z=0; i < NumOfWords; i++, z++ )
                 {
+                    tmpWord = new int[MaxLetters];
+                    for (int j = 0; j < MaxLetters; j++)
+                    {
                     c = rand.Next(lettercount);
                     tmpWord[j] = alphabet[c];
-                }
-                wordsAll[i] = new Word(0, MaxLetters, tmpWord);
-                wordsgreaterthanC[z] =  new Word(0, MaxLetters, tmpWord);
-                      count++;
-                if (StepSize == count)
-                {
+                    }
+                    wordsAll[i] = new Word(0, MaxLetters, tmpWord);
+                    wordsgreaterthanC[z] =  new Word(0, MaxLetters, tmpWord);
+                    count++;
+                    if (StepSize == count)
+                    {
                     MaxLetters += StepSize;
                     count = 0;
                     if (LengthTo - MaxLetters < StepSize)
                         MaxLetters = LengthTo;
-                }
-            }
+                     }
+             }
             List<Word[]> subsets = new List<Word[]>();
             subsets.Add(wordsAll);
             subsets.Add(wordsConstant);
@@ -79,7 +75,7 @@ namespace AC_Project.Classes
          * int NumOfWords - Number of words to be generated
          * int LengthFrom - Shortest words length
          * int LengthTo - Longest words length
-         * Word[] TestSet - The set to be disjoint
+         * Word[] TrainingSet - The set to be disjoint
          * */
         public static Word[] GenerateTestWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int constant, int LengthTo, Word[] TrainingSet)
         {
@@ -87,20 +83,16 @@ namespace AC_Project.Classes
             if (constant > LengthTo)
                 LengthTo = LengthTo + constant;
             List<Word> WordsList = TrainingSet.ToList();
-
             Word[] words = new Word[WordsList.Count()];
-
             int StepSize = (LengthTo - constant) / 9;
             int[] tmpWord;
             int c;
             int MaxLetters = constant;
             int count = 0;
             bool Contains = true;
-
             for (int i = 0; i < words.Count(); i++)
             {
                 tmpWord = new int[MaxLetters];
-
                 while (Contains)
                 {
                     for (int j = 0; j < MaxLetters; j++)
@@ -127,10 +119,16 @@ namespace AC_Project.Classes
         }
 
 
-
-
-
-
+        /* The function generates words and returns them as a form of array of Word object.
+        * Function based on the passed int constant value - this value indicates
+        * upon which length of words it should generate every possible combination of letters
+        * as a word.
+        * The parameters:
+        * int[] alphabet - alphabet of the words
+        * int lettercount - number of letters in the alphabet
+        * Random rand - random variable
+        * int constant - the constant value
+        * */
         public static Word[] GenerateWordsWithConstant(int[] alphabet, int lettercount, Random rand, int constant)
         {
             int NumberOfWords = 0;
@@ -150,10 +148,6 @@ namespace AC_Project.Classes
             for (int i = 0; i < words.Count(); i++)
             {
                 tmpWord = new int[MaxLetters];
-
-
-
-
                 while (Contains)
                 {
                     for (int j = 0; j < MaxLetters; j++)
@@ -169,7 +163,6 @@ namespace AC_Project.Classes
                         Contains = false;
                 }
                 Contains = true;
-
                 WordsList.Add(tmpWord);
                 words[i] = new Word(0, MaxLetters, tmpWord);
                 count++;
@@ -181,9 +174,12 @@ namespace AC_Project.Classes
                 }
             }
             return words;
-
         }
-
+        // Custom function that check if list of words alreacy contains given word.
+        // As the input, funtion takes the list of int[] which is the list of words
+        // and the word that we look for if it is contained by the mentioned list.
+        // Function returns true if the passed word is contained by the list
+        // and false otherwise.
         public static bool IsThereThisWord(List<int[]> Arr, int[] word)
         {
             bool difference = false;
@@ -199,14 +195,15 @@ namespace AC_Project.Classes
                         return true;
                 }
                 difference = false;
-               
-
-
             }
             return false;
-
         }
 
+        // Custom function that check if list of words alreacy contains given word.
+        // As the input, funtion takes the list of objects of the class Word
+        // and the word that we look for if it is contained by the mentioned list.
+        // Function returns true if the passed word is contained by the list
+        // and false otherwise.
         public static bool IsThereThisWord(List<Word> Arr, int[] word)
         {
             bool difference = false;
@@ -223,9 +220,6 @@ namespace AC_Project.Classes
                         return true;
                 }
                 difference = false;
-
-
-
             }
             return false;
 

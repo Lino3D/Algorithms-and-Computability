@@ -41,7 +41,6 @@ namespace AC_Project
         int[] alphabet; 
         int[] EndingState;
 
-
         double aError = 0.005;
         int NumOfWords = 100;
         int LengthOfWordsFrom = 9;
@@ -52,10 +51,6 @@ namespace AC_Project
         public MainWindow()
         {
             InitializeComponent();
-
-          //  string path = AppDomain.CurrentDomain.BaseDirectory + "\\graphviz\\bin";
-        //    string file1 = ConfigurationManager.AppSettings["graphVizLocation"];
-
             NumberOfWordsTextBox.Text = NumOfWords.ToString();
             nParticlesTextBox.Text = n.ToString();
             aErrorTextBox.Text = aError.ToString();
@@ -233,7 +228,6 @@ namespace AC_Project
         private void Start_Click(object sender, RoutedEventArgs e)
         {
             Random rand = new Random();
-
             int[] _alphabet = tool.getAlphabet();
             alphabet = _alphabet;
             for (int i = 0; i < n; i++)
@@ -243,9 +237,7 @@ namespace AC_Project
             }
             if (tool != null)
             {
-                
                 List<Word[]> subsets = WordGenerator.GenerateWords(tool.getAlphabet(), tool.getAlphabet().Count(), rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo, constant);
-
                 Word[] TrainingSet = subsets[0]; //0 contains whole testset
                 Word[] lesserthanConstant = subsets[1];
                 Word[] greaterthanConstant = subsets[2];
@@ -271,7 +263,6 @@ namespace AC_Project
                     tool.ComputeAutomata(greaterthanConstant);
                     solved.ComputeAutomata(greaterthanConstant);
                     ErrorgCTextBox.Text = PSOAlgorithm.CalculateRelations(tool, solved).ToString();
-
                 }
             }
         }
@@ -283,8 +274,6 @@ namespace AC_Project
             var wrapper = new GraphGeneration(getStartProcessQuery,
                                               getProcessStartInfoQuery,
                                               registerLayoutPluginCommand);
-
-
             byte[] original = wrapper.GenerateGraph(Generatedot(tool.GetTransitionTables()), Enums.GraphReturnType.Png);
             BitmapImage bm = LoadImage(original);
             toolAutomatonImage.Source = bm;
@@ -296,7 +285,6 @@ namespace AC_Project
         public string Generatedot(List<TransitionTable>automaton)
         {
             string dotString = "digraph{";
-
             for (int i = 0; i < automaton.Count(); i++)
             {
                 double[,] Table = automaton[i].GetTransitionMatrix();
@@ -313,9 +301,8 @@ namespace AC_Project
                             dotString += stateToState;
                         }
                     }
-                    }
+                }
             }
-
             dotString += "}";
             return dotString;
         }
@@ -374,14 +361,12 @@ namespace AC_Project
             NumOfWords = tmp;
             NumberOfWordsTextBox.Text = NumOfWords.ToString();
         }
-
         private int Clamp(int  val, int min, int  max) 
         {
             if (val.CompareTo(min) < 0) return min;
             else if (val.CompareTo(max) > 0) return max;
             else return val;
         }
-
         private void LengthToTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             int tmp;

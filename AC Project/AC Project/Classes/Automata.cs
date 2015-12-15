@@ -38,7 +38,6 @@ namespace AC_Project.Classes
             calculateposition();
             Velocity = new double[Position.Count()];
             Array.Copy(Position, Velocity, Position.Count());
-            
         }
        /* Constructor of this class. It takes as the parameters:
         * int s - the number of states 
@@ -109,7 +108,6 @@ namespace AC_Project.Classes
                 Dyskretyzacja( rand);
                 calculateposition();
                 
-
         }
         /* Funciton that takes care of the position vector/transition
          * tables to be proper discrete values. It deletes
@@ -119,8 +117,6 @@ namespace AC_Project.Classes
          * */
          public void Dyskretyzacja(Random rand)
         {
-
-
             foreach( var table in TransitionTables)
             {
                 int countones = 1;
@@ -140,7 +136,6 @@ namespace AC_Project.Classes
                     {
                         r = rand.Next(table.getSize());
                         tmp[r, i] = 1;
-
                     }
                     else if (countones > 1)
                     {
@@ -149,10 +144,7 @@ namespace AC_Project.Classes
                         r = rand.Next(table.getSize());
                         tmp[r, i] = 1;
                     }
-
                 }
-
-
             }
         }
         /* Function Adds state to the Automaton.
@@ -172,8 +164,6 @@ namespace AC_Project.Classes
             calculateposition();
             Velocity = new double[Position.Count()];
             Array.Copy(Position, Velocity, Position.Count());
-            
-
         }
 
         /* Sets the error into the object. The function takes
@@ -214,8 +204,6 @@ namespace AC_Project.Classes
          {
 
                  tmpV[i] = this.getError() * Velocity[i] + gx[i] + px[i];
-
-
          }
          Velocity = tmpV;
           
@@ -390,8 +378,8 @@ namespace AC_Project.Classes
         public void CalculateRelationsVector(int[] final, int NumberOfWords)
         {
             int count = 0;
-            int tmp = ((NumberOfWords - 1) * NumberOfWords / 2);
-            Relations = new int[tmp];
+           // int tmp = (();
+            Relations = new int[(NumberOfWords - 1) * NumberOfWords / 2];
             for (int i = 0; i < NumberOfWords; i++)
             {
                 for (int j = i + 1; j < NumberOfWords; j++)
@@ -404,7 +392,6 @@ namespace AC_Project.Classes
                 }
             }
             return;
-
         }
         /* Returns the Alphabet as an array */
         public int[] getAlphabet()
