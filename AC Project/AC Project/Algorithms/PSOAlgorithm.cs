@@ -86,10 +86,10 @@ namespace AC_Project.Algorithms
 
 
                if (states == 0)
-                   BestFound = GlobalBest;
+                   BestFound = new Automata(GlobalBest.getStates(), alphabet, GlobalBest.GetTransitionTables(), GlobalBest.GetId(), GlobalBest.getError(), GlobalBest.GetRelations());
                else
                    if (BestFound.getError() > GlobalBest.getError())
-                       BestFound = GlobalBest;
+                       BestFound = new Automata(GlobalBest.getStates(), alphabet, GlobalBest.GetTransitionTables(), GlobalBest.GetId(), GlobalBest.getError(), GlobalBest.GetRelations());
 
                if (BestFound.getError() < acceptedError)
                    break;
