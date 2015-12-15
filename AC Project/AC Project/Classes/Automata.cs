@@ -202,14 +202,19 @@ namespace AC_Project.Classes
 
          for (int i = 0; i < size; i++ )
          {
-
                  tmpV[i] = this.getError() * Velocity[i] + gx[i] + px[i];
          }
          Velocity = tmpV;
           
      }
 
-
+        /* Returns the velocity of the Automata
+         * in a form of a vector
+         * */
+        public double[] getVelocity()
+        {
+            return Velocity;
+        }
        
         /* Calculates the difference between the position of the current Automata
          * and the Global Best Automata. Then it multiplies each value by some unifrom

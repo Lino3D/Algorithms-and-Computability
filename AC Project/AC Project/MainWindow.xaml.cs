@@ -79,11 +79,9 @@ namespace AC_Project
             foreach( var item in ideal.getAlphabet())
                 if( item != ideal.getAlphabet()[0])
                     text += ", " + item;
-
+            AlphabetTextbox.Text = text;
+            StatesTextbox.Text = ideal.getStates().ToString();
             TabItem TabItemWindow = new TabItem { DataContext = TabControlWindow.DataContext };
-
-
-
             for( int i = 0; i < ideal.getAlphabet().Count(); i++)
             {
                     TabItem NewTab = new TabItem { DataContext = TabControlWindow.DataContext };

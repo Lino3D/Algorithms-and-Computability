@@ -104,9 +104,64 @@ using System.Threading.Tasks;
             TestAutomata.ComputeAutomata(testWords);
             int[] relations = TestAutomata.GetRelations();
             Assert.AreEqual(relations.Count(), 435);
-
+            int[] PositionBefore = TestAutomata.getPosition();
+            TestAutomata.SetPosition(rand);
+            Assert.AreNotEqual(PositionBefore, TestAutomata.getPosition());
+            TestAutomata.AddState(rand);
+            Assert.AreEqual(5, TestAutomata.getStates());
+            Assert.AreEqual(5,TestAutomata.GetTransitionTable(0).getSize());
+            Assert.AreEqual(5, TestAutomata.GetTransitionTable(1).getSize());
+            double error = 0.12;
+            double targeterror;
+            TestAutomata.SetError(error);
+            targeterror = TestAutomata.getError();
+            Assert.AreEqual(error, targeterror);
+        }
+        [TestMethod]
+        public void TransitionTableTest()
+        {
+            Random rand = new Random();
+            TransitionTable target = new TransitionTable(4, rand);
+            int count = 0;
+            double[,] arr = target.GetTransitionMatrix();
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    if (arr[i, j] == 1)
+                        count++;
+            Assert.AreEqual(4, count);
         }
 
+        [TestMethod]
+        public void AutomataVelocityTest()
+        {
+            double[,] tmp1 = new double[4, 4] { { 0, 0, 0, 0 }, { 1, 0, 0, 0 }, { 0, 0, 1, 0 }, { 0, 1, 0, 1 } };
+            double[,] tmp2 = new double[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 1, 0, 1, 0 }, { 0, 1, 0, 1 } };
+            List<TransitionTable> SampleTable = new List<TransitionTable>();
+            SampleTable.Add(new TransitionTable(4, tmp1));
+            SampleTable.Add(new TransitionTable(4, tmp2));
+            Random rand = new Random();
+            int[] alphabet = { 0, 1 };
+            Automata TestAutomata = new Automata(4, alphabet, SampleTable, -1);
+            List<Word[]> samplelist = WordGenerator.GenerateWords(alphabet, nrLetters, rand, 30, LengthOfWordsFrom, LengthOfWordsTo, constant);
+
+            double[] VelocityBefore = TestAutomata.getVelocity();
+            Neighbours N = new Neighbours(-1, 2, 3, 4);
+            Automata TestAutomata1 = new Automata(4, alphabet, SampleTable, 2);
+            Automata TestAutomata2 = new Automata(4, alphabet, SampleTable, 3);
+            Automata TestAutomata3 = new Automata(4, alphabet, SampleTable, 4);
+            List<Automata> list = new List<Automata>();
+            list.Add(TestAutomata);
+            list.Add(TestAutomata1);
+            list.Add(TestAutomata2);
+            list.Add(TestAutomata3);
+
+            TestAutomata.ComputeAutomata(samplelist[0]);
+            TestAutomata1.ComputeAutomata(samplelist[0]);
+            TestAutomata2.ComputeAutomata(samplelist[0]);
+            TestAutomata3.ComputeAutomata(samplelist[0]);
+            TestAutomata.calculatevelocity(N, list, rand, TestAutomata3);
+            Assert.AreNotEqual(TestAutomata.getVelocity(), VelocityBefore);
+        }
 
     }
 }
