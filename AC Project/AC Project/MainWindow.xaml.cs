@@ -179,15 +179,11 @@ namespace AC_Project
                 if (tool.TransitionTables != null)
                     tool.TransitionTables.Clear(); }
             catch (Exception EX) { }
-            for (int i = 1; i < TabControlWindow.Items.Count; i++)
-            {
-                if (TabControlWindow.Items.GetItemAt(i) != null)
-                    TabControlWindow.Items.RemoveAt(i);
-            }
-            for (int i = 1; i < TabControlWindow2.Items.Count; i++)
-            {
-                if (TabControlWindow2.Items.GetItemAt(i) != null)
-                    TabControlWindow2.Items.RemoveAt(i);  }
+       
+            TabControlWindow.Items.Clear();
+            TabControlWindow2.Items.Clear();
+
+
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.DefaultExt = ".txt";
             Nullable<bool> result = dlg.ShowDialog();
@@ -272,9 +268,7 @@ namespace AC_Project
                     tool.ComputeAutomata(greaterthanConstant);
                     solved.ComputeAutomata(greaterthanConstant);
                     ErrorgCTextBox.Text = PSOAlgorithm.CalculateRelations(tool, solved).ToString();
-                    automatas.Clear();
-                    subsets.Clear();
-                    tool.TransitionTables.Clear();
+     
                 }
             }
         }

@@ -23,12 +23,12 @@
 
 
 
-        <TabControl Height="523" Margin="10,10,0,0" Width="740">
+        <TabControl Margin="15,27,5,4" Width="740">
             <TabItem Header="Settings">
                 <Grid Margin="0,12,6,-20">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition Height="194"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Label Style="{StaticResource biglabelStyle}"  Content="Found Solution:" HorizontalAlignment="Left" Height="30" Margin="482,19,0,0" VerticalAlignment="Top" Width="158" />
                     <Button x:Name="Start" Content="Start" HorizontalAlignment="Left" Height="25" Margin="10,33,0,0" VerticalAlignment="Top" Width="75" Click="Start_Click" IsEnabled="False" Grid.Row="1"/>
@@ -60,28 +60,25 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Matrices" HorizontalAlignment="Left" Width="112">
-                <Grid Margin="0,0,83,0">
+            <TabItem Header="Matrices" Width="112">
+                <Grid Margin="10,-2,47,-15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="253*"/>
                         <RowDefinition Height="225*"/>
                     </Grid.RowDefinitions>
-                    <TabControl x:Name="TabControlWindow" Height="216" Margin="151,10,0,0" Width="371">
-                        <TabItem x:Name="TabItemWindow" Header="" HorizontalAlignment="Left" Width="31">
-                            <Grid Background="#FFE5E5E5" Margin="0,-38,-6,0">
+                    <TabControl x:Name="TabControlWindow" Margin="222,10,83,10" Width="371" Height="Auto">
+                        <TabItem x:Name="TabItemWindow" Header="" Width="31">
+                            <Grid Background="#FFE5E5E5" Margin="0,-44,-6,6">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="3*"/>
                                     <ColumnDefinition Width="4*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Height="199" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="360" Margin="1,0,0,0"/>
-
                             </Grid>
                         </TabItem>
-
                     </TabControl>
-                    <Label Content="Alphabet:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,20,0,0" RenderTransformOrigin="0.737,2.308" Height="26" Width="61"/>
-                    <TextBox x:Name="AlphabetTextbox" HorizontalAlignment="Left" Height="26" Margin="76,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" IsEnabled="False" BorderThickness="0"/>
-                    <Label Content="States:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,51,0,0" RenderTransformOrigin="0.737,2.308" Height="26" Width="44"/>
+                    <Label Content="Alphabet:" Margin="15,25,601,223" RenderTransformOrigin="0.737,2.308" Height="26" Width="61"/>
+                    <TextBox x:Name="AlphabetTextbox" HorizontalAlignment="Left" Height="26" Margin="76,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" IsEnabled="False" BorderThickness="0"/>
+                    <Label Content="States:" Margin="17,56,616,192" RenderTransformOrigin="0.737,2.308" Height="26" Width="44"/>
                     <TextBox x:Name="StatesTextbox" HorizontalAlignment="Left" Height="26" Margin="59,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="41" IsEnabled="False" BorderThickness="0" RenderTransformOrigin="0.083,0.615"/>
 
                     <Label Content="States:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,61,0,0" RenderTransformOrigin="0.737,2.308" Height="26" Width="44" Grid.Row="1"/>
@@ -89,14 +86,13 @@
                     <TextBox x:Name="AlphabetTextbox2" HorizontalAlignment="Left" Height="26" Margin="66,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" IsEnabled="False" Grid.Row="1" BorderThickness="0"/>
                     <Label Content="Alphabet:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,26,0,0" RenderTransformOrigin="0.737,2.308" Height="26" Width="61" Grid.Row="1"/>
                     <TextBox x:Name="StatesTextbox2" HorizontalAlignment="Left" Height="26" Margin="49,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" IsEnabled="False" Grid.Row="1" BorderThickness="0"/>
-                    <TabControl x:Name="TabControlWindow2" Height="236" Margin="145,10,0,-21" Width="377" Grid.Row="1">
+                    <TabControl x:Name="TabControlWindow2" Margin="222,17,77,0" Width="377" Grid.Row="1">
                         <TabItem x:Name="TabItemWindow2" Header="" HorizontalAlignment="Left" Width="31">
-                            <Grid Background="#FFE5E5E5" Margin="0,-24,-12,-13">
+                            <Grid Background="#FFE5E5E5" Margin="0,-63,-12,11">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="178*"/>
                                     <ColumnDefinition Width="205*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Height="225" TextWrapping="Wrap" VerticalAlignment="Top" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="350" Margin="23,-23,0,0"/>
                             </Grid>
                         </TabItem>
                     </TabControl>
