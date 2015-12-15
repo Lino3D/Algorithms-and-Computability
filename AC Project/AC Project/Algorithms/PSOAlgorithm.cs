@@ -34,13 +34,14 @@ namespace AC_Project.Algorithms
        public static Automata ComputePSO(Automata ideal, List<Automata> automatas, int[] alphabet, int n, Word[] words,
            List<Neighbours> Neighbours, Random rand, int MaxIterations, double acceptedError)
        {
-       
+           History history = new History();
+           List<double> abc = new List<double>();
            Automata GlobalBest = automatas[0];
            Automata BestFound = automatas[0]; 
            for (int states = 0; states < 10; states++)
            {
                GlobalBest = automatas[0];
-               History history = new History();
+               history.Clear();
                int iterations = 0;
                while (iterations < MaxIterations)
                {
@@ -49,7 +50,7 @@ namespace AC_Project.Algorithms
                        AT.ComputeAutomata(words);
                    int id2;
                    PSOAlgorithm.CalculateError(ideal, automatas);
-                   List<double> abc = new List<double>();
+                   abc.Clear();
                    foreach (var c in automatas)
                        if (!abc.Contains(c.getError())){
                            abc.Add(c.getError());

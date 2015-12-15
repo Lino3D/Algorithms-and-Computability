@@ -13,17 +13,8 @@ namespace AC_Project.Classes
      * */
     public class History
     {
-        List<List<Automata>> AutomataHistory = new List<List<Automata>>();
-        List<int> StateHistory= new List<int>();
-
-
         List<Automata> BestAutomatas = new List<Automata>();
-        /* Adds a given Automata into the hisotry */
-        public void AddToHistory(List<Automata> history)
-        {
-            AutomataHistory.Add(history);
-            StateHistory.Add(history.First().getStates());
-        }
+
         /* Add Global Best to the history 
          * The function takes as a parameter an Automata with GlobalBest
          */
@@ -55,48 +46,11 @@ namespace AC_Project.Classes
             
             return Best;
         }
-        /* Function returns the best automata. It takes into consideration
-        * the current Global Best
-        * Automata (Automata CurrentBest)
-        * */
-        public Automata ReturnBestAutomata(Automata CurrentBest)
-        {
-            Automata Best = CurrentBest;
-            if (BestAutomatas.Count == 0)
-                return Best;
 
-            for (int i = 0; i < BestAutomatas.Count; i++)
-                if (BestAutomatas[i].getError() < Best.getError())
-                    Best = BestAutomatas[i];
-
-            return Best;
-        }
-        /* Function returns the Automata with a lowest error in History.
-         * It takes as parameters the CurrentError, CurrentStates number
-         * and the so far Global Best Automata
-         * */
-        public Automata ReturnLowestErrorAutomata(double CurrentError, int CurrentStates, Automata CurrentLowest)
+        public void Clear()
         {
-            //double MinEror = Double.MaxValue;
-            double MinError = CurrentError;
-            Automata MinimumAutomata = CurrentLowest;
-            if (AutomataHistory == null)
-                return MinimumAutomata;
-            for( int i = 0 ; i < AutomataHistory.Count(); i++)
-            {
-                foreach (var item in AutomataHistory[i])
-                {
-                    if (item.getStates() == CurrentStates)
-                    {
-                        if (item.getError() < MinError)
-                        {
-                            MinError = item.getError();
-                            MinimumAutomata = item;
-                        }
-                    }
-                }
-            }
-            return MinimumAutomata;
+            BestAutomatas.Clear();
         }
+
     }
 }

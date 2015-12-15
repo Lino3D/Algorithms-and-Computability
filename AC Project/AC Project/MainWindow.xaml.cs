@@ -77,7 +77,11 @@ namespace AC_Project
             foreach( var item in ideal.getAlphabet())
                 if( item != ideal.getAlphabet()[0])
                     text += ", " + item;
-
+            while(true)
+                if( TabControlWindow.Items.Count != 0)
+                    TabControlWindow.Items.RemoveAt(0);
+                else
+                    break;
             AlphabetTextbox.Text = text;
             StatesTextbox.Text = ideal.getStates().ToString();
             TabItemWindow.Content = "";
@@ -128,7 +132,11 @@ namespace AC_Project
             AlphabetTextbox2.Text = text;
             StatesTextbox2.Text = found.getStates().ToString();
             TabItemWindow2.Content = "";
-
+            while (true)
+                if (TabControlWindow2.Items.Count != 0)
+                    TabControlWindow2.Items.RemoveAt(0);
+                else
+                    break;
             for (int i = 0; i < found.getAlphabet().Count(); i++)
             {
                 if (i == 0)

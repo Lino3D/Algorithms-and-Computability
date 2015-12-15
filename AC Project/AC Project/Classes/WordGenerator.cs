@@ -75,6 +75,7 @@ namespace AC_Project.Classes
          * int NumOfWords - Number of words to be generated
          * int LengthFrom - Shortest words length
          * int LengthTo - Longest words length
+         * int constant - the constant specified in the test parameters.
          * Word[] TrainingSet - The set to be disjoint
          * */
         public static Word[] GenerateTestWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int constant, int LengthTo, Word[] TrainingSet)
