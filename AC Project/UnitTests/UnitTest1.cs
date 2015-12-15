@@ -70,6 +70,8 @@ using System.Threading.Tasks;
             int[] alphabet = { 0, 1 };
             Automata target = new Automata(4, alphabet, SampleTable, -1);
             int[] ActualAlphabet = target.getAlphabet();
+            Assert.AreEqual(4, target.GetTransitionTable(0).getSize());
+            Assert.AreEqual(4, target.GetTransitionTable(1).getSize());
             Assert.AreEqual(alphabet, ActualAlphabet);
             List<TransitionTable> ActualList = target.GetTransitionTables();
             Assert.AreEqual(ActualList, SampleTable);
@@ -83,6 +85,8 @@ using System.Threading.Tasks;
             int[] expectedposition =  {0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1	};
             for (int i = 0; i < 32; i++ )
                 Assert.AreEqual(expectedposition[i], target.getPosition()[i]);
+
+
         }
            [TestMethod]
         public void AutomataCompute()

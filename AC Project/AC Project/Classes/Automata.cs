@@ -115,7 +115,7 @@ namespace AC_Project.Classes
          * And the deletion is made by random. Also it places a rando
          * 1 if there are no 1's in the row
          * */
-         public void Dyskretyzacja(Random rand)
+         private void Dyskretyzacja(Random rand)
         {
             foreach( var table in TransitionTables)
             {
@@ -218,7 +218,7 @@ namespace AC_Project.Classes
          * List<Automata> automatas - List of Automatas
          * Random r - Random Variable
          * */
-       public double[] calculategx(Neighbours N, List<Automata> automatas, Random r)
+        private double[] calculategx(Neighbours N, List<Automata> automatas, Random r)
         {
             double[] a= new double[Position.Count()];
             int[] b = new int[Position.Count()];
@@ -245,7 +245,7 @@ namespace AC_Project.Classes
          * int[] position - current position of the Automata
          * Random r - Random Variable
          * */
-       public double[] calculatepx(int[] position, Random r)
+       private double[] calculatepx(int[] position, Random r)
        {
            double[] a = new double[Position.Count()];
            int[] wektorlosowy = new int[Position.Count()];
@@ -375,7 +375,7 @@ namespace AC_Project.Classes
 
 
         //calculating Relations object in automata class.
-        public void CalculateRelationsVector(int[] final, int NumberOfWords)
+        private void CalculateRelationsVector(int[] final, int NumberOfWords)
         {
             int count = 0;
            // int tmp = (();
