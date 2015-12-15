@@ -70,6 +70,8 @@ namespace AC_Project
             int abc = 2;
         }
 
+
+        //Show transition matrices of ideal automata on screen
         public void SetAutomataIntoWindow(Automata ideal )
         {
             string text;
@@ -116,7 +118,7 @@ namespace AC_Project
             
         }
 
-
+        //show transition matrices of found automata onto screen.
         public void SetFoundAutomataIntoWindow(Automata found)
         {
             string text;
@@ -161,19 +163,22 @@ namespace AC_Project
                     TabControlWindow2.Items.Add(NewTab);
                 }
             }
-
         }
+/*Function that will load the automata file presented on website
+ * It splits it into multiple strings based on comas
+ * Then it proceeds to create transition tables that are
+ * readable by our automata class i.e 0s and 1s. 
+ * 0 -> there is no transition, 1-> there's transition.
+ * */
+
         private void LoaderComma_Click(object sender, RoutedEventArgs e)
         {
-
             automatas.Clear();
             try
             {
                 if (tool.TransitionTables != null)
-                    tool.TransitionTables.Clear();
-            }
+                    tool.TransitionTables.Clear(); }
             catch (Exception EX) { }
-
             for (int i = 1; i < TabControlWindow.Items.Count; i++)
             {
                 if (TabControlWindow.Items.GetItemAt(i) != null)
@@ -182,39 +187,25 @@ namespace AC_Project
             for (int i = 1; i < TabControlWindow2.Items.Count; i++)
             {
                 if (TabControlWindow2.Items.GetItemAt(i) != null)
-                    TabControlWindow2.Items.RemoveAt(i);
-            }
-      
-
+                    TabControlWindow2.Items.RemoveAt(i);  }
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.DefaultExt = ".txt";
             Nullable<bool> result = dlg.ShowDialog();
             if (result == true)
             {
-                // Open document 
-                string filename = dlg.FileName;
-                string line;
+                string filename = dlg.FileName, line;
                 int states = 0;
                 int[] _alphabet = new int[0];
                 System.IO.StreamReader file = new System.IO.StreamReader(filename);
                  line= file.ReadToEnd();
-
                  List<string> stringautomata = line.Split(',').ToList();
-                
-                //Number of states
                         states = Int32.Parse(stringautomata[0]);
-                //Initializing Alphabet
                         _alphabet = new int[int.Parse(stringautomata[1])];
                         for (int i = 0; i < _alphabet.Count(); i++)
                         {
-                            _alphabet[i] = i;
-                        }
-           
-                //initializing transition tables.
+                            _alphabet[i] = i; }
                         int nrofRows = states * states * _alphabet.Count();
-
                         double[,] onetable = new double[states,states];
-
                         for (int j = 0; j < _alphabet.Count(); j++)
                         {
                             onetable = new double[states, states];
@@ -222,30 +213,27 @@ namespace AC_Project
                             for (int i = 2 + j; i < stringautomata.Count; i = i + _alphabet.Count())
                             {
                                 int transition = int.Parse(stringautomata[i]);
-
-                                //       for (int y = 0; y < states; y++)
                                 for (int x = 0; x < states; x++)
                                 {
                                     if (x == transition)
                                         onetable[x, counter] = 1;
                                     else
-                                        onetable[x, counter] = 0;
-                                }
-                                counter++;
-                            }
+                                        onetable[x, counter] = 0;  }
+                                counter++; }
                             TransitionTable t = new TransitionTable(states, onetable);
-                            transitiontables.Add(t);
-                        }
+                            transitiontables.Add(t); }
                 tool = new Automata(states, _alphabet, transitiontables, -1);
                 alphabet = _alphabet;
                 SetAutomataIntoWindow(tool);
                 Start.IsEnabled = true;
-
             }
             else
-                MessageBox.Show("Something went very, very wrong");
-        }
+                MessageBox.Show("Something went very, very wrong"); }
 
+        /*
+        Start click starts computing PSO for loaded automata.
+         * 
+         * */
         private void Start_Click(object sender, RoutedEventArgs e)
         {
             Random rand = new Random();
@@ -290,6 +278,10 @@ namespace AC_Project
                 }
             }
         }
+
+        /*Based on GraphViz extension. Used to create images of the automaton.
+         * We change dots into byte array and byte arary into png image.
+         * */
         void DrawAutomaton()
         {
             var getStartProcessQuery = new GetStartProcessQuery();
@@ -306,6 +298,7 @@ namespace AC_Project
 
 
         }
+        //This function reads our transition tables and creates a dot string for GraphViz to read.
         public string Generatedot(List<TransitionTable>automaton)
         {
             string dotString = "digraph{";
@@ -330,7 +323,7 @@ namespace AC_Project
             dotString += "}";
             return dotString;
         }
-
+        //This function reads byte array and transfers it into image for WPF display.
         private static BitmapImage LoadImage(byte[] imageData)
         {
             if (imageData == null || imageData.Length == 0) return null;
