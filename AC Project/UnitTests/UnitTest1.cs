@@ -40,8 +40,6 @@ using System.Threading.Tasks;
             Assert.AreEqual(2, actualID);
         }
 
-
-
         [TestMethod]
         public void AutomataTest()
         {
