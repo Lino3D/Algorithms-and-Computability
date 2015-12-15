@@ -18,6 +18,7 @@ namespace AC_Project.Classes
          * int NumOfWords - Number of words to be generated
          * int LengthFrom - Shortest words length
          * int LengthTo - Longest words length
+         * int constant - Constant value
          * */
         public static List<Word[]> GenerateWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int LengthFrom, int LengthTo, int constant)
         {
@@ -74,7 +75,7 @@ namespace AC_Project.Classes
          * int NumOfWords - Number of words to be generated
          * int LengthFrom - Shortest words length
          * int LengthTo - Longest words length
-         * Word[] TestSet - The set to be disjoint
+         * Word[] TrainingSet - The set to be disjoint
          * */
         public static Word[] GenerateTestWords(int[] alphabet, int lettercount, Random rand, int NumOfWords, int constant, int LengthTo, Word[] TrainingSet)
         {
@@ -118,10 +119,16 @@ namespace AC_Project.Classes
         }
 
 
-
-
-
-
+        /* The function generates words and returns them as a form of array of Word object.
+        * Function based on the passed int constant value - this value indicates
+        * upon which length of words it should generate every possible combination of letters
+        * as a word.
+        * The parameters:
+        * int[] alphabet - alphabet of the words
+        * int lettercount - number of letters in the alphabet
+        * Random rand - random variable
+        * int constant - the constant value
+        * */
         public static Word[] GenerateWordsWithConstant(int[] alphabet, int lettercount, Random rand, int constant)
         {
             int NumberOfWords = 0;
@@ -168,7 +175,11 @@ namespace AC_Project.Classes
             }
             return words;
         }
-
+        // Custom function that check if list of words alreacy contains given word.
+        // As the input, funtion takes the list of int[] which is the list of words
+        // and the word that we look for if it is contained by the mentioned list.
+        // Function returns true if the passed word is contained by the list
+        // and false otherwise.
         public static bool IsThereThisWord(List<int[]> Arr, int[] word)
         {
             bool difference = false;
@@ -188,7 +199,11 @@ namespace AC_Project.Classes
             return false;
         }
 
-        //custom function that check if list of words alreacy contains given word.
+        // Custom function that check if list of words alreacy contains given word.
+        // As the input, funtion takes the list of objects of the class Word
+        // and the word that we look for if it is contained by the mentioned list.
+        // Function returns true if the passed word is contained by the list
+        // and false otherwise.
         public static bool IsThereThisWord(List<Word> Arr, int[] word)
         {
             bool difference = false;
