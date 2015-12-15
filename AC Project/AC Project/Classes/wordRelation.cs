@@ -20,16 +20,5 @@ namespace AC_Project.Classes
          * */
         List<Word> relatedWords { get; set; }
 
-        /* Not used really */
-        public wordRelation(int estate, List<Word> words)
-    {
-        EndingState = estate;
-        relatedWords = words;
-
-    }
-        public int getEndingState()
-        { return this.EndingState; }
-        public List<Word> getRelatedWords()
-        { return this.relatedWords; }
     }
 }

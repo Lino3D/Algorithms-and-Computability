@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AC_Project.Classes;
+using AC_Project.Algorithms;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,12 +13,9 @@ using System.Threading.Tasks;
     [TestClass]
     public class UnitTest1
     {
-            double aError = 0.005;
             int NumOfWords = 100;
             int LengthOfWordsFrom = 9;
             int LengthOfWordsTo = 100;
-            int MaxIterations = 500;
-            int n = 100; 
             int[] alphabet = {0,1};
             int nrLetters = 2;
             Random rand = new Random();
@@ -46,15 +44,18 @@ using System.Threading.Tasks;
         [TestMethod]
         public void GenerateTestWordsTest()
     {
-             List<Word[]> samplelist = WordGenerator.GenerateWords(alphabet, nrLetters, rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo,constant);
-           Word[] testWords = samplelist[0];
-            int actualCount = testWords.Count();
-            //checking if number of words is good.
-            Assert.AreEqual(100, actualCount);
-            int index = 2;
-            //checking if word index is correct;
-            int actualID = testWords[index].getId();
-            Assert.AreEqual(0, actualID);
+        List<Word[]> test = WordGenerator.GenerateWords(alphabet, nrLetters, rand, NumOfWords, LengthOfWordsFrom, LengthOfWordsTo, constant);
+        Word[] testWords = WordGenerator.GenerateTestWords(alphabet, nrLetters, rand, 200, 4, LengthOfWordsTo, test[0]);
+
+        int actualCount = testWords.Count();
+        //checking if number of words is good.
+        Assert.AreEqual(100, actualCount);
+        int index = 2;
+        //checking if word index is correct;
+        int actualID = testWords[index].getId();
+        Assert.AreEqual(2, actualID);
+        testWords = WordGenerator.GenerateWordsWithConstant(alphabet, nrLetters, rand, 4);
+        Assert.AreEqual(30, testWords.Count());
     }
 
         [TestMethod]
@@ -154,14 +155,35 @@ using System.Threading.Tasks;
             list.Add(TestAutomata1);
             list.Add(TestAutomata2);
             list.Add(TestAutomata3);
-
             TestAutomata.ComputeAutomata(samplelist[0]);
             TestAutomata1.ComputeAutomata(samplelist[0]);
             TestAutomata2.ComputeAutomata(samplelist[0]);
             TestAutomata3.ComputeAutomata(samplelist[0]);
             TestAutomata.calculatevelocity(N, list, rand, TestAutomata3);
+            Assert.AreNotEqual(null, Automata.GenerateParticle(4, alphabet, -1, rand));
             Assert.AreNotEqual(TestAutomata.getVelocity(), VelocityBefore);
+            int[] PositionBefore = TestAutomata.getPosition();
+            TestAutomata.AddState(rand);
+            Assert.AreNotEqual(PositionBefore, TestAutomata.getPosition());
         }
 
+          [TestMethod]
+        public void RelationsTest()
+        {
+            double[,] tmp1 = new double[4, 4] { { 0, 0, 0, 0 }, { 1, 0, 0, 0 }, { 0, 0, 1, 0 }, { 0, 1, 0, 1 } };
+            double[,] tmp2 = new double[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 1, 0, 1, 0 }, { 0, 1, 0, 1 } };
+            List<TransitionTable> SampleTable = new List<TransitionTable>();
+            SampleTable.Add(new TransitionTable(4, tmp1));
+            SampleTable.Add(new TransitionTable(4, tmp2));
+            Random rand = new Random();
+            int[] alphabet = { 0, 1 };
+            Automata target = new Automata(4, alphabet, SampleTable, -1);
+            List<Word[]> samplelist = WordGenerator.GenerateWords(alphabet, nrLetters, rand, 30, LengthOfWordsFrom, LengthOfWordsTo, constant);
+            Automata tmp = Automata.GenerateParticle(4, alphabet, 1, rand);
+            tmp.ComputeAutomata(samplelist[0]);
+            target.ComputeAutomata(samplelist[0]);
+            Assert.AreEqual(0.0, PSOAlgorithm.CalculateRelations(target,target));
+            Assert.AreNotEqual(0.0, PSOAlgorithm.CalculateRelations(target, tmp));
+        }
     }
 }

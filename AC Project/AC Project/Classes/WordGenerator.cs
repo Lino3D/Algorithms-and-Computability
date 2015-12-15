@@ -181,7 +181,7 @@ namespace AC_Project.Classes
         // and the word that we look for if it is contained by the mentioned list.
         // Function returns true if the passed word is contained by the list
         // and false otherwise.
-        public static bool IsThereThisWord(List<int[]> Arr, int[] word)
+        private static bool IsThereThisWord(List<int[]> Arr, int[] word)
         {
             bool difference = false;
             foreach( var item in Arr)
@@ -205,7 +205,7 @@ namespace AC_Project.Classes
         // and the word that we look for if it is contained by the mentioned list.
         // Function returns true if the passed word is contained by the list
         // and false otherwise.
-        public static bool IsThereThisWord(List<Word> Arr, int[] word)
+        private static bool IsThereThisWord(List<Word> Arr, int[] word)
         {
             bool difference = false;
             foreach (var item in Arr)

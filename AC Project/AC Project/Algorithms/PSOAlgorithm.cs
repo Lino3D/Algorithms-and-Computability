@@ -86,7 +86,7 @@ namespace AC_Project.Algorithms
         //   GlobalBest = history.ReturnBestAutomata(GlobalBest);
            return BestFound;
        }
-        public static int CalculateDistance(Automata a, Automata b)
+        private static int CalculateDistance(Automata a, Automata b)
         {
             int distance = 0;
             int dimensions = a.getStates() * a.getStates() * a.getAlphabetSize();
@@ -105,7 +105,7 @@ namespace AC_Project.Algorithms
                 return distance;
         }
 
-        public static Automata FindGlobalBest(List<Neighbours> N, List<Automata> automatas)
+        private static Automata FindGlobalBest(List<Neighbours> N, List<Automata> automatas)
         {
             double MinValue = double.MaxValue;
             int id= 0;
@@ -126,7 +126,7 @@ namespace AC_Project.Algorithms
          * 
   **/
 
-        public static List<Neighbours> ChooseLocalBests(List<Automata> automatas, List<Neighbours> Neighbours, int n)
+        private static List<Neighbours> ChooseLocalBests(List<Automata> automatas, List<Neighbours> Neighbours, int n)
         {
             Neighbours.Clear();
            Neighbours= GroupAutomatas(automatas, Neighbours, n);
@@ -155,7 +155,7 @@ namespace AC_Project.Algorithms
         * 
         * */
 
-        public static List<Neighbours> GroupAutomatas(List<Automata> automatas, List<Neighbours> Neighbours, int n)
+        private static List<Neighbours> GroupAutomatas(List<Automata> automatas, List<Neighbours> Neighbours, int n)
         {
             int MinDistance = Int32.MaxValue;
             int x = -1, y = -1, z = -1, distance, groupcount = 0;
@@ -229,7 +229,7 @@ namespace AC_Project.Algorithms
 
 
 
-       public static void CalculateError(Automata ideal, List<Automata> automatas)
+       private static void CalculateError(Automata ideal, List<Automata> automatas)
        {
            double error;
            foreach( var tmp in automatas)

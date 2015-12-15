@@ -75,9 +75,6 @@ namespace UnitTests
         [TestMethod]
         public void CalculateRelationsVectorTest()
         {
-            int[] expected;
-            int NumberOfWords = 100;
-
 
             double[,] tmp1 = new double[4, 4] { { 0, 0, 0, 0 }, { 1, 0, 0, 0 }, { 0, 0, 1, 0 }, { 0, 1, 0, 1 } };
             double[,] tmp2 = new double[4, 4] { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 1, 0, 1, 0 }, { 0, 1, 0, 1 } };
@@ -92,10 +89,16 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void TransitionTablesTest()
+        public void WordTest()
         {
-
+            int[] word = {1,2,3,4};
+            Word test = new Word(1,4, word);
+            Assert.AreEqual(1, test.getId());
+            Assert.AreEqual(4, test.getLength());
+            Assert.AreEqual(word, test.getWord());
         }
+
+      
         
     }
 }
