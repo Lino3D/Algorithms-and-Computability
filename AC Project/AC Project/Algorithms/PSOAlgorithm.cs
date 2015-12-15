@@ -24,30 +24,27 @@ namespace AC_Project.Algorithms
          * alphabet - alphabet of the automaton
          * n - number of particles
          * */
+
+        /* 1. Generate Particles, Velocity
+         * 2. Compute Error and Choose Local Bests
+         * 3. Choose Global Best
+         * 4. Aplly velocity with previous step
+         * 
+         */
        public static Automata ComputePSO(Automata ideal, List<Automata> automatas, int[] alphabet, int n, Word[] words,
            List<Neighbours> Neighbours, Random rand, int MaxIterations, double acceptedError)
        {
-           /* 1. Generate Particles, Velocity
-            * 2. Compute Error and Choose Local Bests
-            * 3. Choose Global Best
-            * 4. Aplly velocity with previous step
-            * 
-            */
+       
            Automata GlobalBest = automatas[0];
            Automata BestFound = automatas[0]; 
-
            for (int states = 0; states < 10; states++)
            {
                GlobalBest = automatas[0];
-
                History history = new History();
-            
-
                int iterations = 0;
                while (iterations < MaxIterations)
                {
                    ideal.ComputeAutomata(words);
-
                    foreach (Automata AT in automatas)
                        AT.ComputeAutomata(words);
                    int id2;
@@ -57,52 +54,34 @@ namespace AC_Project.Algorithms
                        if (!abc.Contains(c.getError())){
                            abc.Add(c.getError());
                            if (c.getError() == 0.0)
-                               id2 = c.GetId();
-                       }
+                               id2 = c.GetId(); }
                    Neighbours = PSOAlgorithm.ChooseLocalBests(automatas, Neighbours, n);
                    GlobalBest = PSOAlgorithm.FindGlobalBest(Neighbours, automatas);
                    history.AddGlobalBest(GlobalBest);
                    GlobalBest = history.ReturnBestAutomata(GlobalBest, automatas[0].getStates());
                    automatas[GlobalBest.GetId()] = GlobalBest;
-
                    foreach (var item in Neighbours){
                            List<int> Group;
                            Group = item.GetGroup();
                            foreach (var item2 in Group)
                                if (item2 != GlobalBest.GetId()) //not Global
-                                   automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest);
-                   }
-
+                                   automatas[item2].calculatevelocity(item, automatas, rand, GlobalBest); }
                    foreach (var automata in automatas)
                        if (automata != GlobalBest) //Not global
                            automata.SetPosition(rand);
-                 
                    iterations++;
                    if (GlobalBest.getError() < acceptedError)
-                       break;
-               }
-
-
-
-
+                       break; }
                if (states == 0)
                    BestFound = GlobalBest;
                else
                    if (BestFound.getError() > GlobalBest.getError())
                        BestFound = GlobalBest;
-
                if (BestFound.getError() < acceptedError)
                    break;
                foreach (var c in automatas)
-                   c.AddState(rand);
-
-           }
-
-
-
+                   c.AddState(rand); }
            double error = CalculateRelations(ideal, BestFound);
-
-
         //   GlobalBest = history.ReturnBestAutomata(GlobalBest);
            return BestFound;
        }
@@ -122,7 +101,6 @@ namespace AC_Project.Algorithms
                 if (x[i] != y[i])
                     distance++;
             }
-
                 return distance;
         }
 
@@ -154,7 +132,6 @@ namespace AC_Project.Algorithms
                 
            foreach(Neighbours N in Neighbours )
            {
-               
                List<int> Neighbourhood = N.GetGroup(); //This list collects indexes of automatas
                int _localbest = Neighbourhood[0];
 
@@ -180,16 +157,10 @@ namespace AC_Project.Algorithms
         public static List<Neighbours> GroupAutomatas(List<Automata> automatas, List<Neighbours> Neighbours, int n)
         {
             int MinDistance = Int32.MaxValue;
-            int x = -1;
-            int y = -1;
-            int z = -1;
-            int distance;
-            int groupcount = 0;
+            int x = -1, y = -1, z = -1, distance, groupcount = 0;
             int[] Taken = new int[n];
             for (int i = 0; i < n ; i++)
                 Taken[i] = 0;
-
-
             for (int i = 0; i < n && groupcount < 25; i++)
             {
                 if (Taken[i] != 1)
@@ -204,10 +175,7 @@ namespace AC_Project.Algorithms
                             if (distance < MinDistance)
                             {
                                 MinDistance = distance;
-                                x = j;
-                            }
-                        }
-                    }
+                                x = j; } } }
                     Taken[x] = 1;
                     MinDistance = Int32.MaxValue;
                     for (int j = i; j < n; j++)
@@ -218,12 +186,8 @@ namespace AC_Project.Algorithms
                             if (distance < MinDistance)
                             {
                                 MinDistance = distance;
-                                y = j;
-                            }
-                        }
-                    }
+                                y = j; } } }
                     Taken[y] = 1;
-
                     MinDistance = Int32.MaxValue;
                     for (int j = i; j < n; j++)
                     {
@@ -233,16 +197,11 @@ namespace AC_Project.Algorithms
                             if (distance < MinDistance)
                             {
                                 MinDistance = distance;
-                                z = j;
-                            }
-                        }
-                    }
+                                z = j; } } }
                     Taken[z] = 1;
                     Neighbours tmp = new Neighbours(i, x, y, z);
                     Neighbours.Add(tmp);
-                    groupcount++;
-                }
-            }
+                    groupcount++;}}
             return Neighbours;
         }
 
@@ -256,8 +215,7 @@ namespace AC_Project.Algorithms
 
        public static double CalculateRelations(Automata ideal, Automata particle)
        {
-           int error = 0;
-       
+           int error = 0;   
            int[] RelIdeal = ideal.GetRelations();
            int[] RelPart = particle.GetRelations();
            for (int i = 0; i < RelIdeal.Count(); i++)
@@ -265,7 +223,6 @@ namespace AC_Project.Algorithms
                if (RelIdeal[i] != RelPart[i])
                    error++;
            }
-
            return ((double)error / (double) RelIdeal.Count());
        }
 

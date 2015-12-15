@@ -33,9 +33,6 @@ namespace AC_Project.Classes
          * */
        public TransitionTable(int Size, Random rand)
         {
-      //      TransitionTable trans = new TransitionTable();
-       //     trans.size = size;
-           // rand = new Random(DateTime.Now.Millisecond);
             size = Size;
             Table = new double[size, size];
             for( int i = 0; i < size; i++)
@@ -47,9 +44,6 @@ namespace AC_Project.Classes
                     else
                         Table[j, i] = 1;
             }
-      //      trans.Table = Table;
-    
-           // return trans;
         }
         /* Copy constructor - it takes the size and the table */
         public TransitionTable(int _size, double[,] _table)
