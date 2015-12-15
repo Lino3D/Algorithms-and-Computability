@@ -79,29 +79,14 @@ namespace AC_Project
             foreach( var item in ideal.getAlphabet())
                 if( item != ideal.getAlphabet()[0])
                     text += ", " + item;
-     
-            AlphabetTextbox.Text = text;
-            StatesTextbox.Text = ideal.getStates().ToString();
-            TabItemWindow.Content = "";
+
+            TabItem TabItemWindow = new TabItem { DataContext = TabControlWindow.DataContext };
+
+
+
             for( int i = 0; i < ideal.getAlphabet().Count(); i++)
             {
-                if (i == 0)
-                {
-                    text = "";
-                    double[,] table = ideal.GetTransitionTable(i).GetTransitionMatrix();
-                    for (int j = 0; j < ideal.GetTransitionTable(i).getSize(); j++)
-                    {
-                        for (int j2 = 0; j2 < ideal.GetTransitionTable(i).getSize(); j2++)
-                            text += table[j2, j] + "  ";
-                        TabItemWindow.Content += text;
-                        text = "\n";
-                    }
-                    TabItemWindow.Header = ideal.getAlphabet()[i];
-
-                }
-                else
-                {
-                    TabItem NewTab = new TabItem { DataContext = TabItemWindow.DataContext };
+                    TabItem NewTab = new TabItem { DataContext = TabControlWindow.DataContext };
                     text = "";
                     double[,] table = ideal.GetTransitionTable(i).GetTransitionMatrix();
                     for (int j = 0; j < ideal.GetTransitionTable(i).getSize(); j++)
@@ -113,7 +98,7 @@ namespace AC_Project
                     }
                     NewTab.Header = ideal.getAlphabet()[i];
                     TabControlWindow.Items.Add(NewTab);
-                }
+           
             }
             
         }
@@ -129,27 +114,11 @@ namespace AC_Project
 
             AlphabetTextbox2.Text = text;
             StatesTextbox2.Text = found.getStates().ToString();
-            TabItemWindow2.Content = "";
+
       
             for (int i = 0; i < found.getAlphabet().Count(); i++)
             {
-                if (i == 0)
-                {
-                    text = "";
-                    double[,] table = found.GetTransitionTable(i).GetTransitionMatrix();
-                    for (int j = 0; j < found.GetTransitionTable(i).getSize(); j++)
-                    {
-                        for (int j2 = 0; j2 < found.GetTransitionTable(i).getSize(); j2++)
-                            text += table[j2, j] + "  ";
-                        TabItemWindow2.Content += text;
-                        text = "\n";
-                    }
-                    TabItemWindow2.Header = found.getAlphabet()[i];
-
-                }
-                else
-                {
-                    TabItem NewTab = new TabItem { DataContext = TabItemWindow2.DataContext };
+                    TabItem NewTab = new TabItem { DataContext = TabControlWindow2.DataContext };
                     text = "";
                     double[,] table = found.GetTransitionTable(i).GetTransitionMatrix();
                     for (int j = 0; j < found.GetTransitionTable(i).getSize(); j++)
@@ -161,7 +130,7 @@ namespace AC_Project
                     }
                     NewTab.Header = found.getAlphabet()[i];
                     TabControlWindow2.Items.Add(NewTab);
-                }
+                
             }
         }
 /*Function that will load the automata file presented on website
@@ -179,11 +148,8 @@ namespace AC_Project
                 if (tool.TransitionTables != null)
                     tool.TransitionTables.Clear(); }
             catch (Exception EX) { }
-       
             TabControlWindow.Items.Clear();
             TabControlWindow2.Items.Clear();
-
-
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.DefaultExt = ".txt";
             Nullable<bool> result = dlg.ShowDialog();
@@ -257,6 +223,7 @@ namespace AC_Project
                     tool.ComputeAutomata(TestSet);
                     solved.ComputeAutomata(TestSet);
                    ErrorTestSetTextbox.Text = PSOAlgorithm.CalculateRelations(tool, solved).ToString();
+                   TabControlWindow2.Items.Clear();
                     SetFoundAutomataIntoWindow(solved);
                     DrawAutomaton();
 
@@ -268,7 +235,7 @@ namespace AC_Project
                     tool.ComputeAutomata(greaterthanConstant);
                     solved.ComputeAutomata(greaterthanConstant);
                     ErrorgCTextBox.Text = PSOAlgorithm.CalculateRelations(tool, solved).ToString();
-     
+
                 }
             }
         }
